@@ -151,7 +151,8 @@ const Home = () => {
               Slow Morning
             </div>
             <div className="font-dmsans text-center text-[rgba(140,136,128,1)]">
-              A corner table reserved for no one. Stay as long as you need. The light here moves slowly too.
+              A corner table reserved for no one. Stay as long as you need. The
+              light here moves slowly too.
             </div>
           </div>
           <div className="h-60 w-80 flex gap-3 flex-col items-center relative   ">
@@ -176,7 +177,8 @@ const Home = () => {
               Deep Conversation
             </div>
             <div className="font-dmsans text-center text-[rgba(140,136,128,1)]">
-              Some tables face each other for a reason. This is where friendships deepen and ideas take shape.
+              Some tables face each other for a reason. This is where
+              friendships deepen and ideas take shape.
             </div>
           </div>
           <div className="h-60 w-80 flex gap-3 flex-col items-center relative   ">
@@ -201,92 +203,161 @@ const Home = () => {
               Quick Focus
             </div>
             <div className="font-dmsans text-center text-[rgba(140,136,128,1)]">
-              Plug in, tune out. A quiet corner with power outlets and no interruptions. Just you and the work.
+              Plug in, tune out. A quiet corner with power outlets and no
+              interruptions. Just you and the work.
             </div>
           </div>
         </div>
-      <CoffeeDivider />
+        <CoffeeDivider />
       </div>
 
       {/* section 3 */}
-        <div className="w-full flex items-center relative flex-col gap-5 mt-10">
-          <h6 className="font-dmsans  text-[rgba(140,136,128,1)] font-light text-1xl">
-            DAILY RITUAL
-          </h6>
-          <h1 className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-5xl">
-            The Rhythm of the Day
-          </h1>
-          <div className="w-[70%] h-80 flex items-center justify-between p-3">
-            <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
-              🌅
-              <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">Golden Hour</h2>
-              <h6 className="">Morning specialty brews paired with fresh pastries. The city hasn't woken up yet — but you have.</h6>
-              <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]"/>
-              <h6 className="text-end text-[rgba(200,169,110,1)]">7-10 AM</h6>
+      <div className="w-full flex items-center relative flex-col gap-5 mt-10">
+        <h6 className="font-dmsans  text-[rgba(140,136,128,1)] font-light text-1xl">
+          DAILY RITUAL
+        </h6>
+        <h1 className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-5xl">
+          The Rhythm of the Day
+        </h1>
+        <div className="w-[70%] h-80 flex items-center justify-between p-3">
+          <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
+            🌅
+            <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">
+              Golden Hour
+            </h2>
+            <h6 className="">
+              Morning specialty brews paired with fresh pastries. The city
+              hasn't woken up yet — but you have.
+            </h6>
+            <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]" />
+            <h6 className="text-end text-[rgba(200,169,110,1)]">7-10 AM</h6>
+          </div>
+          <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
+            ☕
+            <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">
+              Conversation Hour
+            </h2>
+            <h6 className="">
+              Afternoon gatherings over long blacks and chai. Pull up a chair.
+              Stay a while.
+            </h6>
+            <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]" />
+            <h6 className="text-end text-[rgba(200,169,110,1)]">12–4 PM</h6>
+          </div>
+          <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
+            🌙
+            <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">
+              Quiet Hour
+            </h2>
+            <h6 className="">
+              Work-friendly evenings with dim lights and deep focus. Laptops
+              welcome. Silence respected.
+            </h6>
+            <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]" />
+            <h6 className="text-end text-[rgba(200,169,110,1)]">6–9 PM</h6>
+          </div>
+        </div>
+      </div>
+      <CoffeeDivider />
+      <div className="w-[80%] flex items-center relative flex-col gap-5 mt-10">
+        <div className="font-dmsans  text-[rgba(140,136,128,1)] font-light text-1xl">
+          SIGNATURE OFFERING
+        </div>
+        <div className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-5xl ">
+          What We Serve
+        </div>
+        <div className="w-full h-fit flex flex-row items-center justify-center gap-5 p-5">
+          <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
+            <div
+              className="w-full h-70 bg-black rounded-2xl"
+              style={{
+                background:
+                  "linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)",
+              }}
+            ></div>
+            <div className="flex flex-col justify-around gap-3">
+              <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">
+                coffee
+              </h1>
+              <h6 className="text-[rgba(140,136,128,1)] text-1xl">
+                Single-origin pour-overs, velvety lattes, and bold espressos.
+                Crafted with care, served with love.
+              </h6>
+              <h4 className="text-end text-2xl">₹320</h4>
             </div>
-            <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
-              ☕
-              <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">Conversation Hour</h2>
-              <h6 className="">Afternoon gatherings over long blacks and chai. Pull up a chair. Stay a while.</h6>
-              <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]"/>
-              <h6 className="text-end text-[rgba(200,169,110,1)]">12–4 PM</h6>
+          </div>
+          <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
+            <div
+              className="w-full h-70 bg-black rounded-2xl"
+              style={{
+                background:
+                  "linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)",
+              }}
+            ></div>
+            <div className="flex flex-col justify-around gap-3">
+              <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">
+                coffee
+              </h1>
+              <h6 className="text-[rgba(140,136,128,1)] text-1xl">
+                Single-origin pour-overs, velvety lattes, and bold espressos.
+                Crafted with care, served with love.
+              </h6>
+              <h4 className="text-end text-2xl">₹320</h4>
             </div>
-            <div className="w-100 h-full rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-10 text-start">
-              🌙
-              <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">Quiet Hour</h2>
-              <h6 className="">Work-friendly evenings with dim lights and deep focus. Laptops welcome. Silence respected.</h6>
-              <div className="h-0.5 w-[90%] bg-[rgba(226,221,213,1)]"/>
-              <h6 className="text-end text-[rgba(200,169,110,1)]">6–9 PM</h6>
+          </div>
+          <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
+            <div
+              className="w-full h-70 bg-black rounded-2xl"
+              style={{
+                background:
+                  "linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)",
+              }}
+            ></div>
+            <div className="flex flex-col justify-around gap-3">
+              <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">
+                coffee
+              </h1>
+              <h6 className="text-[rgba(140,136,128,1)] text-1xl">
+                Single-origin pour-overs, velvety lattes, and bold espressos.
+                Crafted with care, served with love.
+              </h6>
+              <h4 className="text-end text-2xl">₹320</h4>
+            </div>
+          </div>
+          <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
+            <div
+              className="w-full h-70 bg-black rounded-2xl"
+              style={{
+                background:
+                  "linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)",
+              }}
+            ></div>
+            <div className="flex flex-col justify-around gap-3">
+              <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">
+                coffee
+              </h1>
+              <h6 className="text-[rgba(140,136,128,1)] text-1xl">
+                Single-origin pour-overs, velvety lattes, and bold espressos.
+                Crafted with care, served with love.
+              </h6>
+              <h4 className="text-end text-2xl">₹320</h4>
             </div>
           </div>
         </div>
-        <CoffeeDivider />
-        <div className="w-[80%] flex items-center relative flex-col gap-5 mt-10">
-          <div className="font-dmsans  text-[rgba(140,136,128,1)] font-light text-1xl">
-            SIGNATURE OFFERING
-          </div>
-          <div className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-5xl ">
-            What We Serve
-          </div>
-          <div className="w-full h-fit flex flex-row items-center justify-center gap-5 p-5">
-            <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
-              <div className="w-full h-70 bg-black rounded-2xl" style={{background:'linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)'}}></div>
-              <div className="flex flex-col justify-around gap-3">
-                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">coffee</h1>
-                <h6 className="text-[rgba(140,136,128,1)] text-1xl">Single-origin pour-overs, velvety lattes, and bold espressos. Crafted with care, served with love.</h6>
-                <h4 className="text-end text-2xl">₹320</h4>
-              </div>
-            </div>
-            <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
-              <div className="w-full h-70 bg-black rounded-2xl" style={{background:'linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)'}}></div>
-              <div className="flex flex-col justify-around gap-3">
-                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">coffee</h1>
-                <h6 className="text-[rgba(140,136,128,1)] text-1xl">Single-origin pour-overs, velvety lattes, and bold espressos. Crafted with care, served with love.</h6>
-                <h4 className="text-end text-2xl">₹320</h4>
-              </div>
-            </div>
-            <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
-              <div className="w-full h-70 bg-black rounded-2xl" style={{background:'linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)'}}></div>
-              <div className="flex flex-col justify-around gap-3">
-                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">coffee</h1>
-                <h6 className="text-[rgba(140,136,128,1)] text-1xl">Single-origin pour-overs, velvety lattes, and bold espressos. Crafted with care, served with love.</h6>
-                <h4 className="text-end text-2xl">₹320</h4>
-              </div>
-            </div>
-            <div className="w-1/4 h-full flex justify-around items-center flex-col gap-4 p-5">
-              <div className="w-full h-70 bg-black rounded-2xl" style={{background:'linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)'}}></div>
-              <div className="flex flex-col justify-around gap-3">
-                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-5xl">coffee</h1>
-                <h6 className="text-[rgba(140,136,128,1)] text-1xl">Single-origin pour-overs, velvety lattes, and bold espressos. Crafted with care, served with love.</h6>
-                <h4 className="text-end text-2xl">₹320</h4>
-              </div>
-            </div>
-          </div>
-          <div className="text-[rgba(28,28,26,1)] flex flex-row items-center justify-center gap-2 bg-black text-white p-3 px-5 rounded-4xl">See Full Menu <FaArrowRight /></div>
+        <div className="flex flex-row items-center justify-center gap-2 bg-black text-white p-3 px-5 rounded-4xl cursor-pointer">
+          See Full Menu <FaArrowRight />
         </div>
-        <CoffeeDivider />
-        
-      
+      </div>
+      <CoffeeDivider />
+      <div className="w-full h-150 bg-black/50">
+        <div className="flex flex-row justify-between px-20">
+          <div className="flex flex-col ">
+            <div className="font-dmsans text-[10px] text-[rgba(140,136,128,1)]">OUR SPACE</div>
+            <div className="text-3xl font-['Cormorant_Garamond'] italic font-medium"> Modern Local Kitchen</div>
+          </div>
+          <div className="max-w-120 text-[rgba(140,136,128,1)]">We operate at the intersection of tradition and innovation. Using heritage techniques to celebrate local Gujarat produce, we craft visions that nourish both the palate and the spirit.</div>
+        </div>
+      </div>
     </div>
   );
 };
