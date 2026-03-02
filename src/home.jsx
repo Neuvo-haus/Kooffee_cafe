@@ -349,13 +349,13 @@ const Home = () => {
         </div>
       </div>
       <CoffeeDivider />
-      <div className="w-full h-150 bg-black/50">
+      <div className="w-full h-150">
         <div className="flex flex-row justify-between px-20">
           <div className="flex flex-col ">
-            <div className="font-dmsans text-[10px] text-[rgba(140,136,128,1)]">OUR SPACE</div>
-            <div className="text-3xl font-['Cormorant_Garamond'] italic font-medium"> Modern Local Kitchen</div>
+            <div className="font-dmsans text-1xl text-[rgba(140,136,128,1)]">OUR SPACE</div>
+            <div className="text-7xl font-['Cormorant_Garamond'] italic font-medium"> Modern Local Kitchen</div>
           </div>
-          <div className="max-w-120 text-[rgba(140,136,128,1)]">We operate at the intersection of tradition and innovation. Using heritage techniques to celebrate local Gujarat produce, we craft visions that nourish both the palate and the spirit.</div>
+          <div className="max-w-140 text-[rgba(140,136,128,1)] text-2xl">We operate at the intersection of tradition and innovation. Using heritage techniques to celebrate local Gujarat produce, we craft visions that nourish both the palate and the spirit.</div>
         </div>
       </div>
     </div>
