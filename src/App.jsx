@@ -1,11 +1,12 @@
 
-import Navbar from "./navbar";
+import Navbar from "./components/navbar";
 import Home from "./home";
 import Menu from "./menu";
 import TheCafe from "./the_cafe";
 import Visits from "./visits";
 import Moments from "./moments";
 import { Routes, Route } from "react-router-dom";
+import Footer from "./components/fotter";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/visits" element={<Visits />} />
         </Routes>
       </div>
+      <Footer />
     </div>
   );
 }

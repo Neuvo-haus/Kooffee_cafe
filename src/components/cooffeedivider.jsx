@@ -2,7 +2,7 @@ import { FaMugHot } from "react-icons/fa";
 
 const CoffeeDivider = () => {
   return (
-    <div className="w-full flex items-center justify-center py-16">
+    <div className="w-full flex items-center justify-center py-8">
       <div className="flex items-center w-[90%] gap-6">
 
         {/* Left Line */}
