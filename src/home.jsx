@@ -7,7 +7,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
 // Animation library  
 import { motion, useScroll, useTransform } from "framer-motion";  
-// Image assets
+// Image assets 
 import background from "./assets/image.jpg";
 import first from "./assets/first.jpg";
 import second from "./assets/second.jpg";
