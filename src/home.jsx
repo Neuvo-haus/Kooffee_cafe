@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { CiLocationOn } from "react-icons/ci";
 import { IoTimeOutline } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
-// Animation library
+// Animation library  
 import { motion, useScroll, useTransform } from "framer-motion";  
 // Image assets
 import background from "./assets/image.jpg";
