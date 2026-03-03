@@ -8,7 +8,7 @@ import { FiMusic, FiSun, FiVolume2, FiSunrise, FiCoffee, FiMoon, FiWifi, FiZap, 
 const Visits = () => {
     return (
         <div className="w-full relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
-            
+             
             {/* SECTION 1: Editorial Hero / First Time Here */}
             <div className="w-full flex justify-center px-6 md:px-0 mb-16 md:mb-24">
                 <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col items-center relative gap-10">
