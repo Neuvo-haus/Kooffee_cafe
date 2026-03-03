@@ -1,228 +1,266 @@
 import React from "react";
 import CoffeeDivider from "./components/cooffeedivider";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaWhatsapp } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { IoTimeOutline } from "react-icons/io5";
+import { IoTimeOutline, IoCarOutline, IoPawOutline } from "react-icons/io5";
+import { FiMusic, FiSun, FiVolume2, FiSunrise, FiCoffee, FiMoon, FiWifi, FiZap, FiPhoneCall } from "react-icons/fi";
 
 const Visits = () => {
     return (
-        <div className="w-full relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
+        <div className="w-full relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
             
-            {/* SECTION 1: First Time Here */}
-            <div className="w-full flex flex-col items-center justify-center pt-6 md:pt-10 pb-12 md:pb-16 px-6 md:px-0">
-                <div className="w-full md:w-[80%] flex flex-col items-start gap-6 md:gap-10">
-                    <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Welcome</h6>
-                    
-                    <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-6xl italic">
-                        First Time Here?
-                    </h1>
-
-                    <p className="w-full md:w-[45%] font-dmsans text-[rgba(140,136,128,1)] text-[14px] md:text-[15px] leading-loose mb-6 md:mb-10">
-                        Here's everything you need to know before you walk in. No surprises — just comfort.
-                    </p>
-
-                    <div className="flex flex-col md:flex-row gap-10 md:gap-20 w-full">
-                        {/* Left Side: What to Expect */}
-                        <div className="w-full md:w-1/2 flex flex-col gap-6 md:gap-8">
-                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-2xl md:text-3xl">What to Expect</h3>
-                             
-                             <ul className="flex flex-col gap-4 md:gap-6 font-dmsans text-[rgba(140,136,128,1)] text-[13px] md:text-[14px] leading-relaxed pl-4 list-disc marker:text-[#C4A882]">
-                                 <li>Walk in, find a table you like, and settle in. No host stand, no rush. Order at the counter or flag us down.</li>
-                                 <li>Everything on the menu is made fresh. Some things take a few extra minutes — that's the point.</li>
-                                 <li>Stay as long as you want. Read, work, talk, or just sit. No time limits, no judgement.</li>
-                             </ul>
-                        </div>
-
-                        {/* Right Side: Where to Sit */}
-                        <div className="w-full md:w-1/2 flex flex-col gap-6 md:gap-8">
-                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-2xl md:text-3xl">Where to Sit (Based on Mood)</h3>
-                             
-                             <div className="flex flex-col gap-4">
-                                 <div className="w-full md:w-[90%] p-5 md:p-6 rounded-xl border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.5)]">
-                                     <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-medium text-[14px] md:text-[15px] mb-2">Want focus?</h4>
-                                     <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">Corner table near the east window. Morning light, no foot traffic, power outlet nearby.</p>
-                                 </div>
-                                 <div className="w-full md:w-[90%] p-5 md:p-6 rounded-xl border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.5)]">
-                                     <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-medium text-[14px] md:text-[15px] mb-2">Want to talk?</h4>
-                                     <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">Central communal bench. This is where strangers become friends over shared tables.</p>
-                                 </div>
-                                 <div className="w-full md:w-[90%] p-5 md:p-6 rounded-xl border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.5)]">
-                                     <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-medium text-[14px] md:text-[15px] mb-2">Want quiet?</h4>
-                                     <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">Back alcove behind the bookshelf. Dim, cozy, and tucked away from the world.</p>
-                                 </div>
-                             </div>
-                        </div>
+            {/* SECTION 1: Editorial Hero / First Time Here */}
+            <div className="w-full flex justify-center px-6 md:px-0 mb-16 md:mb-24">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col items-center relative gap-10">
+                    <div className="w-full flex flex-col items-center text-center gap-4">
+                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Welcome to Kooffe</h6>
+                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-5xl md:text-7xl italic">
+                            First Time Here?
+                        </h1>
+                        <p className="w-full md:w-[50%] font-dmsans text-[rgba(140,136,128,1)] text-[14px] md:text-[15px] leading-loose mt-2">
+                            Here's everything you need to know before you walk in. No surprises — just comfort and good coffee.
+                        </p>
                     </div>
 
-                    {/* Atmosphere Cues */}
-                    <div className="w-full mt-6 md:mt-10 p-6 md:p-8 rounded-xl border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.5)] flex flex-col gap-4 md:gap-6">
-                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase">Atmosphere Cues</h6>
-                        <div className="flex flex-col md:flex-row gap-4 md:gap-12 font-dmsans text-[rgba(28,28,26,0.8)] text-[12px] md:text-[13px] font-medium">
-                            <span className="flex items-center gap-2">🎵 Lo-fi jazz & ambient</span>
-                            <span className="flex items-center gap-2">💡 Warm, natural lighting</span>
-                            <span className="flex items-center gap-2">🔉 Soft conversation-level noise</span>
+                    <div className="w-full flex flex-col md:flex-row items-center gap-10 mt-6">
+                        {/* Left: Atmospheric Image */}
+                        <div className="w-full md:w-[50%] h-[400px] md:h-[600px] relative rounded-2xl overflow-hidden shadow-lg group">
+                            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop')" }}></div>
+                            <div className="absolute inset-0 bg-black/10 transition-colors duration-1000"></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <CoffeeDivider />
-
-            {/* SECTION 2: Location */}
-            <div className="w-full flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-0">
-                <div className="w-full md:w-[80%] flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-10">
-                    <div className="w-full md:w-[45%] flex flex-col gap-4 md:gap-6">
-                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Location</h6>
-                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl mb-4 md:mb-6">Find Us</h1>
                         
-                        <div className="font-dmsans text-[rgba(28,28,26,0.8)] leading-snug text-[14px] md:text-[15px] mb-4 md:mb-6 font-medium">
-                            Kooffe Cafe<br />
-                            Ground Floor, Heritage House<br />
-                            Near Law Garden, Navrangpura<br />
-                            Ahmedabad, Gujarat 380001
-                        </div>
+                        {/* Right: What to Expect & Where to Sit */}
+                        <div className="w-full md:w-[50%] flex flex-col gap-10 md:pl-8">
+                            <div className="flex flex-col gap-6 font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[15px] leading-loose">
+                                <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">The Flow</h3>
+                                <p>Walk in, find a table you like, and settle in. No host stand, no rush. Order at the counter or flag us down when you're ready. Everything on the menu is made fresh, so some things take a few extra minutes — that's the point.</p>
+                                <p>Stay as long as you want. Read, work, talk, or just sit. We built this space to hold time, not count it.</p>
+                            </div>
 
-                        <div className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px]">
-                            <span className="font-bold text-[rgba(28,28,26,0.8)]">Landmark:</span> Opposite Crossword Bookstore, near Law Garden night market entrance
+                            <div className="flex flex-col gap-6">
+                                <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Find Your Corner</h3>
+                                <div className="flex flex-col gap-4">
+                                    <div className="group border-b border-[rgba(226,221,213,0.8)] pb-4">
+                                        <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-bold text-[13px] uppercase tracking-wider mb-2 group-hover:text-[#C4A882] transition-colors">For Deep Focus</h4>
+                                        <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed">East window tables. Morning light, minimal foot traffic, accessible power outlets.</p>
+                                    </div>
+                                    <div className="group border-b border-[rgba(226,221,213,0.8)] pb-4">
+                                        <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-bold text-[13px] uppercase tracking-wider mb-2 group-hover:text-[#C4A882] transition-colors">For Conversation</h4>
+                                        <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed">The central teak communal bench. Where strangers share space and occasionally, stories.</p>
+                                    </div>
+                                    <div className="group pb-2">
+                                        <h4 className="font-dmsans text-[rgba(28,28,26,1)] font-bold text-[13px] uppercase tracking-wider mb-2 group-hover:text-[#C4A882] transition-colors">For Quiet Solitude</h4>
+                                        <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed">The back alcove behind the bookshelf. Dim, cozy, tucked away from the world.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    {/* Map Placeholder */}
-                    <div className="w-full md:w-[50%] h-[250px] md:h-[350px] bg-[rgba(226,221,213,0.5)] rounded-2xl flex flex-col items-center justify-center text-[rgba(200,169,110,1)] border border-[rgba(226,221,213,0.8)] shadow-sm">
-                        <svg className="w-8 h-8 md:w-10 md:h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span className="font-dmsans text-sm font-medium text-[rgba(140,136,128,1)]">Google Maps</span>
-                        <span className="font-dmsans text-xs mt-1 text-[rgba(140,136,128,1)]">Navrangpura, Ahmedabad</span>
                     </div>
                 </div>
             </div>
 
             <CoffeeDivider />
 
-            {/* SECTION 3: Our Hours */}
-            <div className="w-full flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-0">
-                <div className="w-full md:w-[80%] flex flex-col items-center gap-8 md:gap-12">
-                    <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">When To Come</h6>
-                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl text-center">Our Hours</h1>
+            {/* SECTION 2: Location & Atmosphere (Split Card Design) */}
+            <div className="w-full flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-0">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row gap-6 md:gap-8">
+                    
+                    {/* Location Card */}
+                    <div className="w-full md:w-3/5 p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.6)] shadow-sm flex flex-col md:flex-row justify-between gap-8 md:gap-4 hover:shadow-md transition-shadow">
+                        <div className="flex flex-col gap-6 md:w-1/2">
+                            <div className="flex flex-col gap-2">
+                                <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Location</h6>
+                                <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl italic">Find Us</h1>
+                            </div>
+                            
+                            <div className="font-dmsans text-[rgba(28,28,26,0.9)] leading-loose text-[14px]">
+                                Kooffe Cafe<br />
+                                Ground Floor, Heritage House<br />
+                                Near Law Garden, Navrangpura<br />
+                                Ahmedabad, Gujarat 380001
+                            </div>
+
+                            <div className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] p-4 bg-[rgba(245,240,232,0.8)] rounded-xl border border-[rgba(226,221,213,0.5)]">
+                                <span className="font-bold text-[rgba(28,28,26,0.9)] uppercase tracking-wider text-[10px]">Landmark</span><br/>
+                                Opposite Crossword Bookstore, near Law Garden night market entrance.
+                            </div>
+                        </div>
+                        
+                        {/* Minimal Map Aesthetic Placeholder */}
+                        <div className="w-full md:w-[45%] h-[200px] md:h-auto rounded-xl overflow-hidden relative group select-none cursor-pointer border border-[rgba(226,221,213,0.8)]">
+                            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop')" }}></div>
+                            <div className="absolute inset-0 bg-[#A68F6E]/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-white drop-shadow-md">
+                                <svg className="w-10 h-10 mb-2 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span className="font-dmsans text-xs tracking-[0.2em] font-bold uppercase">View Map</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-6 w-full">
+                    {/* Atmosphere Cues Card */}
+                    <div className="w-full md:w-2/5 p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[#2C2A28] shadow-sm flex flex-col justify-center text-center items-center gap-8 relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-700" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600&auto=format&fit=crop')" }}></div>
+                        
+                        <div className="relative z-10 flex flex-col gap-2 w-full">
+                            <h6 className="font-dmsans tracking-[0.2em] text-[#C4A882] text-xs uppercase">The Vibe</h6>
+                            <h1 className="font-['Cormorant_Garamond'] text-white text-4xl italic">Atmosphere</h1>
+                        </div>
+
+                        <div className="relative z-10 flex flex-col gap-6 w-full mt-4">
+                            <div className="flex flex-col items-center gap-2 border-b border-white/10 pb-4">
+                                <span className="text-xl text-[rgba(245,240,232,0.7)]"><FiMusic /></span>
+                                <span className="font-dmsans text-[rgba(245,240,232,0.9)] text-[13px] tracking-wide mt-1">Lo-fi jazz & acoustic ambient</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-2 border-b border-white/10 pb-4">
+                                <span className="text-xl text-[rgba(245,240,232,0.7)]"><FiSun /></span>
+                                <span className="font-dmsans text-[rgba(245,240,232,0.9)] text-[13px] tracking-wide mt-1">Warm, natural & diffused lighting</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-2">
+                                <span className="text-xl text-[rgba(245,240,232,0.7)]"><FiVolume2 /></span>
+                                <span className="font-dmsans text-[rgba(245,240,232,0.9)] text-[13px] tracking-wide mt-1">Soft conversation-level murmur</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <CoffeeDivider />
+
+            {/* SECTION 3: Our Hours (Elevated Glass Cards) */}
+            <div className="w-full flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-0 bg-[#f8f6f2] border-y border-[rgba(226,221,213,0.5)] relative overflow-hidden">
+                {/* Subtle Background Pattern/Texture */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=')]"></div>
+                
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col items-center gap-12 md:gap-16 relative z-10">
+                    <div className="flex flex-col items-center gap-3 text-center">
+                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">When To Come</h6>
+                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic">The Daily Rhythm</h1>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8 w-full">
                         {/* Hour Card 1 */}
-                        <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col items-center text-center gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-2xl">🌅</span>
-                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-xl md:text-2xl">Golden Hour</h3>
-                            <span className="font-dmsans tracking-[0.1em] text-[rgba(200,169,110,1)] text-[10px] uppercase font-bold">7-10 AM</span>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed mt-1 md:mt-2">
-                                The café at its quietest. Fresh brews, morning pastries, and the first light of day.
+                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
+                            <div className="w-16 h-16 rounded-full bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 text-[rgba(140,136,128,1)]"><FiSunrise /></div>
+                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Golden Hour</h3>
+                            <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">7 AM – 10 AM</span>
+                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed mt-2">
+                                The café at its quietest. Fresh brews, morning pastries, and the beautiful first light of day.
                             </p>
                         </div>
                         {/* Hour Card 2 */}
-                        <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col items-center text-center gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-2xl">☕</span>
-                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-xl md:text-2xl">Conversation Hour</h3>
-                            <span className="font-dmsans tracking-[0.1em] text-[rgba(200,169,110,1)] text-[10px] uppercase font-bold">12-4 PM</span>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed mt-1 md:mt-2">
-                                The social hours. Lunch, long blacks, and the kind of talk that goes somewhere.
+                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(200,169,110,0.4)] bg-[rgba(250,247,242,1)] shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group relative md:-translate-y-4">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#C4A882] text-white text-[9px] font-dmsans uppercase tracking-widest px-3 py-1 font-bold rounded-b-md">Peak Time</div>
+                            <div className="w-16 h-16 rounded-full bg-white border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 mt-2 text-[#C4A882]"><FiCoffee /></div>
+                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">The Midday Buzz</h3>
+                            <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">12 PM – 4 PM</span>
+                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed mt-2">
+                                The social hours. Light lunch, long blacks, and the kind of vibrant talk that goes somewhere.
                             </p>
                         </div>
                         {/* Hour Card 3 */}
-                        <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col items-center text-center gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-2xl">🌙</span>
-                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-xl md:text-2xl">Quiet Hour</h3>
-                            <span className="font-dmsans tracking-[0.1em] text-[rgba(200,169,110,1)] text-[10px] uppercase font-bold">6-9 PM</span>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed mt-1 md:mt-2">
-                                Laptops open, lights dimmed. The café transforms into a work-friendly retreat.
+                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
+                            <div className="w-16 h-16 rounded-full bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 text-[rgba(140,136,128,1)]"><FiMoon /></div>
+                            <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Quiet Evening</h3>
+                            <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">6 PM – 9 PM</span>
+                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed mt-2">
+                                Laptops open, lights dimmed low. The café transforms into a calm, work-friendly retreat.
                             </p>
                         </div>
                     </div>
 
-                    <div className="font-dmsans text-[rgba(140,136,128,1)] text-[11px] md:text-[12px] flex items-center gap-2 border border-[rgba(226,221,213,0.8)] rounded-full px-4 md:px-6 py-2 text-center">
-                        <IoTimeOutline className="text-sm flex-shrink-0" /> 
-                        Standard hours: Monday–Sunday, 7 AM – 9 PM
+                    <div className="font-dmsans text-[rgba(100,96,88,1)] text-[12px] flex items-center gap-2 border border-[rgba(226,221,213,1)] bg-white rounded-full px-6 py-3 text-center shadow-sm">
+                        <IoTimeOutline className="text-sm flex-shrink-0 text-[#C4A882]" /> 
+                        Standard hours: Monday–Sunday, <strong className="font-bold text-[rgba(28,28,26,0.9)]">7:00 AM – 9:00 PM</strong>
                     </div>
                 </div>
             </div>
 
-            <CoffeeDivider />
-
-            {/* SECTION 4: Practical Info */}
-            <div className="w-full flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-0">
-                <div className="w-full md:w-[80%] flex flex-col items-start gap-8 md:gap-12">
-                     <div className="flex flex-col items-start gap-3 md:gap-4">
-                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Good To Know</h6>
-                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl">Practical Info</h1>
+            {/* SECTION 4: Practical Info Menu Style Layout */}
+            <div className="w-full flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-0">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row gap-12 md:gap-20">
+                    
+                    {/* Left: Title & Intro */}
+                    <div className="w-full md:w-1/3 flex flex-col gap-6">
+                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">The Details</h6>
+                        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic leading-tight">Practical Information</h1>
+                        <p className="font-dmsans text-[rgba(140,136,128,1)] text-[14px] leading-relaxed mt-2">
+                            A quick reference guide for your visit. If there's anything else you need to know, just ask when you arrive.
+                        </p>
+                        
+                        <div className="hidden md:flex flex-col gap-4 mt-8 p-6 rounded-2xl bg-[rgba(250,247,242,0.8)] border border-[rgba(226,221,213,0.8)]">
+                            <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-2xl italic">Have a specific question?</h4>
+                            <a href="mailto:hello@kooffe.in" className="font-dmsans text-[12px] uppercase tracking-widest font-bold text-[#C4A882] hover:text-[rgba(28,28,26,1)] transition-colors">
+                                Drop us an email
+                            </a>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 w-full">
+                    {/* Right: Info List */}
+                    <div className="w-full md:w-2/3 flex flex-col">
                         {/* Info 1 */}
-                        <div className="p-6 md:p-8 flex flex-col gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-[#C4A882] text-xl">🚘</span>
-                            <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-lg md:text-xl">Parking</h4>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">
-                                Street parking available along the road. Paid parking lot 200m north.
-                            </p>
+                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                            <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><IoCarOutline className="text-[18px]" /></div>
+                            <div className="flex flex-col gap-2 w-[85%]">
+                                <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Parking</h4>
+                                <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] leading-relaxed">
+                                    Street parking is available along the main road. Alternatively, there is a paid municipal parking lot located exactly 200m north of the café entrance.
+                                </p>
+                            </div>
                         </div>
                         {/* Info 2 */}
-                        <div className="p-6 md:p-8 flex flex-col gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-[#C4A882] text-xl">📶</span>
-                            <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-lg md:text-xl">WiFi</h4>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">
-                                Free high-speed WiFi. Ask at the counter for the password.
-                            </p>
+                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                            <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><FiWifi className="text-[16px]" /></div>
+                            <div className="flex flex-col gap-2 w-[85%]">
+                                <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Internet Connection</h4>
+                                <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] leading-relaxed">
+                                    We provide complimentary, unmetered high-speed WiFi for all guests. The network name and current password are provided on a card at your table or the main counter.
+                                </p>
+                            </div>
                         </div>
                         {/* Info 3 */}
-                        <div className="p-6 md:p-8 flex flex-col gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-[#C4A882] text-xl">🔌</span>
-                            <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-lg md:text-xl">Power Outlets</h4>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">
-                                Available at window seats and the communal bench. Bring your charger.
-                            </p>
+                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                            <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><FiZap className="text-[16px]" /></div>
+                            <div className="flex flex-col gap-2 w-[85%]">
+                                <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Power & Charging</h4>
+                                <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] leading-relaxed">
+                                    Power outlets are generously distributed along the window bar seating and beneath the central communal table. Please bring your own charging adapters.
+                                </p>
+                            </div>
                         </div>
                         {/* Info 4 */}
-                        <div className="p-6 md:p-8 flex flex-col gap-3 md:gap-4 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent shadow-sm">
-                            <span className="text-[#C4A882] text-xl">🐾</span>
-                            <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-lg md:text-xl">Pet Policy</h4>
-                            <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px] leading-relaxed">
-                                Pets are welcome in the outdoor seating area. Water bowls provided.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Contact Us Footer */}
-                    <div className="w-full mt-2 md:mt-4 p-6 md:p-8 rounded-xl border border-[rgba(226,221,213,0.8)] bg-transparent flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-4 shadow-sm">
-                        <div className="flex flex-col gap-2">
-                             <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-lg md:text-xl">Contact Us Directly</h4>
-                             <p className="font-dmsans text-[rgba(140,136,128,1)] text-[12px] md:text-[13px]">We're happy to answer any questions before you visit.</p>
-                        </div>
-                        <div className="flex gap-3 md:gap-4 flex-wrap">
-                            <button className="bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] tracking-[0.1em] py-3 px-6 md:px-8 rounded-full flex items-center gap-2 hover:bg-black transition-colors font-bold uppercase">
-                                📞 CALL NOW
-                            </button>
-                            <button className="bg-transparent border border-[rgba(226,221,213,0.8)] text-[rgba(28,28,26,0.8)] font-dmsans text-[10px] tracking-[0.1em] py-3 px-6 md:px-8 rounded-full flex items-center gap-2 hover:border-[rgba(28,28,26,0.5)] transition-colors font-bold uppercase">
-                                WHATSAPP
-                            </button>
+                        <div className="flex gap-6 p-6 hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                            <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><IoPawOutline className="text-[18px]" /></div>
+                            <div className="flex flex-col gap-2 w-[85%]">
+                                <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Pet Policy</h4>
+                                <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] leading-relaxed">
+                                    Well-behaved pets are wholeheartedly welcome in our shaded outdoor seating area under the neem trees. Fresh water bowls are provided upon request.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* SECTION 5: Footer Actions */}
-            <div className="w-full flex justify-center py-16 md:py-32 mb-6 md:mb-10 px-6 md:px-0">
+            <div className="w-full flex justify-center py-16 md:py-24 mb-6 md:mb-10 px-6 md:px-0 border-t border-[rgba(226,221,213,0.5)]">
                 <div className="w-full md:w-[60%] flex flex-col items-center gap-8 md:gap-10">
                     <h1 className="font-['Cormorant_Garamond'] text-[rgba(140,136,128,1)] text-3xl md:text-5xl italic text-center">
                         No rush. We'll be here.
                     </h1>
 
-                    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-2 md:mt-4">
-                        <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-5 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
-                            <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1 text-[rgba(28,28,26,1)] font-medium">VIEW ON MAP <FaArrowRight /></span>
-                            <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-5 md:left-6 right-5 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-                        </motion.div>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-4 w-full">
+                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold uppercase shadow-lg">
+                            <FiPhoneCall className="text-[14px]" /> CALL US NOW
+                        </motion.button>
                         
-                        <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-5 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
-                            <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1 text-[rgba(28,28,26,1)] font-medium">GET DIRECTIONS <FaArrowRight /></span>
-                            <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-5 md:left-6 right-5 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-                        </motion.div>
+                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,1)] text-[rgba(28,28,26,0.9)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:border-[rgba(28,28,26,0.5)] hover:bg-white transition-all duration-500 font-bold uppercase shadow-sm">
+                            <FaWhatsapp className="text-[14px]" /> Chat on WhatsApp
+                        </motion.button>
+                        
+                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-transparent border border-transparent text-[rgba(140,136,128,1)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-6 md:px-8 flex items-center justify-center gap-2 hover:text-[rgba(28,28,26,1)] transition-colors duration-500 font-bold uppercase underline underline-offset-4">
+                            GET DIRECTIONS <FaArrowRight className="text-[10px]" />
+                        </motion.button>
                     </div>
                 </div>
             </div>

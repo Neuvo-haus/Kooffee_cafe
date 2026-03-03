@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -15,12 +15,28 @@ const navItems = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+    const navigate = useNavigate();
+
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        navigate("/");
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        setMobileOpen(false);
+    };
+
   return (
     <>
-      <div className="fixed z-40 w-full h-20 flex items-center justify-between border-b border-black/10 px-6 md:px-16 lg:px-40 select-none backdrop-blur-2xl">
-        <div className='text-black font-["Cormorant_Garamond"] font-light italic text-2xl md:text-3xl'>
-          Kooffee
-        </div>
+      <div className="fixed z-40 w-full h-20 flex items-center justify-between border-b border-[rgba(226,221,213,0.5)] px-6 md:px-16 lg:px-40 select-none backdrop-blur-2xl">
+        <Link 
+            to="/" 
+            onClick={handleLogoClick}
+            className='text-[rgba(28,28,26,1)] hover:text-[#C4A882] transition-colors duration-300 font-["Cormorant_Garamond"] font-light italic text-2xl md:text-3xl'
+        >
+          Kooffe
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex gap-6 lg:gap-10">
@@ -81,8 +97,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-50 backdrop-blur-xl flex flex-col items-center justify-center"
-            style={{ background: "linear-gradient(180deg, rgba(245,240,232,0.98) 0%, rgba(232,213,176,0.98) 50%, rgba(220,200,170,0.98) 100%)" }}
+            className="fixed inset-0 z-50 bg-[rgba(245,240,232,1)] flex flex-col items-center justify-center"
           >
             <button
               className="absolute top-6 right-6 text-3xl text-[rgba(28,28,26,1)]"
@@ -91,9 +106,13 @@ const Navbar = () => {
               <IoCloseOutline />
             </button>
 
-            <div className='font-["Cormorant_Garamond"] italic text-3xl text-[rgba(28,28,26,1)] mb-16'>
-              Kooffee
-            </div>
+            <Link 
+                to="/"
+                onClick={handleLogoClick}
+                className='font-["Cormorant_Garamond"] italic text-3xl text-[rgba(28,28,26,1)] mb-16 hover:text-[#C4A882] transition-colors duration-300'
+            >
+              Kooffe
+            </Link>
 
             <nav className="flex flex-col items-center gap-8">
               {navItems.map((item, index) => (

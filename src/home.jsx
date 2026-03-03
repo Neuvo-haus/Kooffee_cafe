@@ -1,5 +1,6 @@
 // React and hooks
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 // Icon imports
 import { CiLocationOn } from "react-icons/ci";
 import { IoTimeOutline } from "react-icons/io5";
@@ -17,6 +18,7 @@ import CoffeeDivider from "./components/cooffeedivider";
 
 // Home page main component
 const Home = () => {
+  const navigate = useNavigate();
   // Ref for scroll container
   const containerRef = useRef(null);
 
@@ -88,11 +90,11 @@ const Home = () => {
             <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-2">|</span> <IoTimeOutline /> Opens 8AM – Closes 10:00 PM
           </h6>
           <div className="flex items-center gap-4 pt-4 mt-2 flex-wrap">
-            <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
+            <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
               <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
               <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
             </motion.div>
-            <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
+            <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
               <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
               <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
             </motion.div>
@@ -116,11 +118,11 @@ const Home = () => {
                   <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-4">|</span> <IoTimeOutline /> Opens 8AM – Closes 10:00 PM
                 </h6>
                 <div className="flex items-center gap-10 pt-4 mt-4">
-                  <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                  <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                     <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
                     <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
                   </motion.div>
-                  <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                  <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                     <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
                     <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
                   </motion.div>
@@ -188,7 +190,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer mt-5 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+        <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-5 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
           <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">SEE FULL MENU <FaArrowRight /></span>
           <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
         </motion.div>
@@ -213,7 +215,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer mt-12 md:mt-24 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+        <motion.div onClick={() => navigate('/the-cafe')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-12 md:mt-24 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
           <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] pb-1">EXPLORE THE SPACE <FaArrowRight /></span>
           <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
         </motion.div>
@@ -284,11 +286,11 @@ const Home = () => {
             </div>
 
             <div className="flex items-center gap-4 md:gap-8 mt-8 md:mt-10 flex-wrap">
-              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                 <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">CALL NOW <FaArrowRight /></span>
                 <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
               </motion.div>
-              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                 <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">WHATSAPP <FaArrowRight /></span>
                 <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
               </motion.div>

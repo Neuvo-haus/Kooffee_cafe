@@ -6,28 +6,29 @@ const Menu = () => {
     const [hoveredTea, setHoveredTea] = useState(null);
     const [hoveredFood, setHoveredFood] = useState(null);
 
-    const defaultCoffeeImg = "linear-gradient(180deg, rgba(82, 60, 48, 0.9) 0%, rgba(135, 107, 88, 0.9) 100%)";
-    const defaultTeaImg = "linear-gradient(135deg, rgba(179, 144, 118, 0.8) 0%, rgba(135, 107, 88, 0.8) 100%)";
-    const defaultFoodImg = "linear-gradient(180deg, rgba(206, 178, 146, 0.8) 0%, rgba(181, 149, 115, 0.8) 100%)";
+    const defaultCoffeeImg = "url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop')";
+    const defaultTeaImg = "url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop')";
+    const defaultFoodImg = "url('https://images.unsplash.com/photo-1495147466023-af5c19cbbfc1?q=80&w=800&auto=format&fit=crop')";
 
     const coffeeImages = {
-        "House Espresso": "linear-gradient(180deg, rgba(48, 30, 20, 0.9) 0%, rgba(82, 60, 48, 0.9) 100%)",
-        "Saffron Latte": "linear-gradient(180deg, rgba(200, 150, 80, 0.9) 0%, rgba(220, 180, 120, 0.9) 100%)",
-        "Pour Over": "linear-gradient(180deg, rgba(120, 80, 60, 0.9) 0%, rgba(160, 120, 90, 0.9) 100%)",
-        "Cold Brew": "linear-gradient(180deg, rgba(20, 10, 5, 0.9) 0%, rgba(60, 40, 30, 0.9) 100%)",
-        "Cortado": "linear-gradient(180deg, rgba(140, 100, 70, 0.9) 0%, rgba(180, 140, 110, 0.9) 100%)",
+        "House Espresso": "url('https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=800&auto=format&fit=crop')",
+        "Saffron Latte": "url('https://images.unsplash.com/photo-1534040385115-33dcb3ac8f0b?q=80&w=800&auto=format&fit=crop')",
+        "Pour Over": "url('https://images.unsplash.com/photo-1495474472207-464a4d965d56?q=80&w=800&auto=format&fit=crop')",
+        "Cold Brew": "url('https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=800&auto=format&fit=crop')",
+        "Cortado": "url('https://images.unsplash.com/photo-1516008126786-fb15535b91ce?q=80&w=800&auto=format&fit=crop')",
     };
     const teaImages = {
-        "Old City Chai": "linear-gradient(135deg, rgba(160, 110, 70, 0.8) 0%, rgba(200, 150, 110, 0.8) 100%)",
-        "Lemongrass Mint Green": "linear-gradient(135deg, rgba(140, 170, 110, 0.8) 0%, rgba(180, 210, 150, 0.8) 100%)",
-        "Hibiscus Iced Tea": "linear-gradient(135deg, rgba(180, 60, 80, 0.8) 0%, rgba(220, 100, 120, 0.8) 100%)",
-        "Classic Hot Chocolate": "linear-gradient(135deg, rgba(80, 50, 40, 0.8) 0%, rgba(120, 80, 70, 0.8) 100%)",
+        "Old City Chai": "url('https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?q=80&w=800&auto=format&fit=crop')",
+        "Lemongrass Mint Green": "url('https://images.unsplash.com/photo-1595981267035-7b04d84aa1fa?q=80&w=800&auto=format&fit=crop')",
+        "Hibiscus Iced Tea": "url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=800&auto=format&fit=crop')",
+        "Classic Hot Chocolate": "url('https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?q=80&w=800&auto=format&fit=crop')",
     };
     const foodImages = {
-        "Mawa Croissant": "linear-gradient(180deg, rgba(220, 180, 130, 0.8) 0%, rgba(240, 210, 160, 0.8) 100%)",
-        "Pistachio Rose Cake": "linear-gradient(180deg, rgba(180, 200, 160, 0.8) 0%, rgba(220, 160, 180, 0.8) 100%)",
-        "Sourdough Toast": "linear-gradient(180deg, rgba(240, 230, 210, 0.8) 0%, rgba(200, 180, 150, 0.8) 100%)",
-        "Spiced Hand Pie": "linear-gradient(180deg, rgba(190, 150, 110, 0.8) 0%, rgba(230, 190, 150, 0.8) 100%)",
+        "Mawa Croissant": "url('https://images.unsplash.com/photo-1555507036-ab1d4075c6f1?q=80&w=800&auto=format&fit=crop')",
+        "Pistachio Rose Cake": "url('https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop')",
+        "Sourdough Toast": "url('https://images.unsplash.com/photo-1484723091791-c0e7e14f9d0e?q=80&w=800&auto=format&fit=crop')",
+        "Spiced Hand Pie": "url('https://images.unsplash.com/photo-1601000938259-9e92002320b2?q=80&w=800&auto=format&fit=crop')",
+
         "Almond Biscotti": "linear-gradient(180deg, rgba(210, 180, 140, 0.8) 0%, rgba(240, 220, 180, 0.8) 100%)",
     };
 
@@ -81,7 +82,7 @@ const Menu = () => {
                             ].map((item) => (
                                 <div 
                                     key={item.name}
-                                    className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
+                                    className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
                                     onMouseEnter={() => setHoveredCoffee(item.name)}
                                 >
                                     <div className="flex flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
@@ -125,7 +126,7 @@ const Menu = () => {
                             ].map((item) => (
                                 <div 
                                     key={item.name}
-                                    className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
+                                    className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
                                     onMouseEnter={() => setHoveredTea(item.name)}
                                 >
                                     <div className="flex flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
@@ -170,7 +171,7 @@ const Menu = () => {
                             ].map((item) => (
                                 <div 
                                     key={item.name}
-                                    className="flex flex-col border-b border-[rgba(226,221,213,0.8)] pb-4 gap-1 md:gap-2 cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
+                                    className="flex flex-col border-b border-[rgba(226,221,213,0.8)] pb-4 gap-1 md:gap-2 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
                                     onMouseEnter={() => setHoveredFood(item.name)}
                                 >
                                     <div className="flex justify-between items-end">

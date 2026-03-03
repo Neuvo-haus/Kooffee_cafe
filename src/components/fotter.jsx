@@ -1,73 +1,112 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FiInstagram, FiPhone, FiMail } from "react-icons/fi";
+import { FiInstagram, FiMessageCircle, FiMapPin } from "react-icons/fi";
 
 const Footer = () => {
   return (
-    <footer className="w-full flex flex-col items-center bg-transparent pt-16 md:pt-20 pb-8 md:pb-10">
-      <div className="w-[90%] md:w-[80%] grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 mb-12 md:mb-16">
-        {/* Brand Column */}
-        <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
-          <h1 className="text-3xl md:text-4xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] mb-2">
-            Kooffe
-          </h1>
-          <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] md:text-[14px] leading-relaxed pr-4 md:pr-8">
-            Specialty coffee and slow mornings in Ahmedabad.
+    <footer className="w-full relative flex flex-col items-center pt-24 md:pt-32 pb-8 md:pb-12 border-t border-[rgba(226,221,213,0.5)] bg-[rgba(250,247,242,1)] overflow-hidden">
+      
+      {/* Decorative large background text */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 text-[15vw] font-['Cormorant_Garamond'] italic text-[rgba(226,221,213,0.3)] whitespace-nowrap pointer-events-none select-none z-0">
+        Slow down.
+      </div>
+
+      <div className="w-[90%] md:w-[85%] lg:w-[75%] grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16 md:mb-24 relative z-10">
+        
+        {/* Brand Column (Larger) */}
+        <div className="col-span-1 md:col-span-5 flex flex-col gap-6 md:gap-8 md:pr-10">
+          <Link to="/" className="flex flex-col gap-2 w-fit group">
+            <h1 className="text-5xl md:text-6xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] group-hover:text-[#C4A882] transition-colors duration-500">
+              Kooffe
+            </h1>
+            <div className="w-8 h-[1px] bg-[rgba(28,28,26,1)] group-hover:w-16 transition-all duration-500"></div>
+          </Link>
+          <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[15px] leading-relaxed max-w-[90%]">
+            Specialty coffee, slow mornings, and mindful spaces in the heart of Ahmedabad. We built a place for time to stand still.
           </p>
+          <div className="flex gap-4 mt-2">
+            <a href="#" className="select-none w-10 h-10 rounded-full border border-[rgba(226,221,213,1)] flex items-center justify-center text-[rgba(140,136,128,1)] hover:bg-[rgba(28,28,26,1)] hover:text-white hover:border-[rgba(28,28,26,1)] transition-all duration-300">
+              <FiInstagram className="text-[15px]" />
+            </a>
+            <a href="#" className="select-none w-10 h-10 rounded-full border border-[rgba(226,221,213,1)] flex items-center justify-center text-[rgba(140,136,128,1)] hover:bg-[rgba(28,28,26,1)] hover:text-white hover:border-[rgba(28,28,26,1)] transition-all duration-300">
+              <FiMessageCircle className="text-[15px]" />
+            </a>
+            <a href="#" className="select-none w-10 h-10 rounded-full border border-[rgba(226,221,213,1)] flex items-center justify-center text-[rgba(140,136,128,1)] hover:bg-[rgba(28,28,26,1)] hover:text-white hover:border-[rgba(28,28,26,1)] transition-all duration-300">
+              <FiMapPin className="text-[15px]" />
+            </a>
+          </div>
         </div>
 
         {/* Navigation Column */}
-        <div className="flex flex-col gap-4 md:gap-5">
-          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase mb-1 md:mb-2">
-            Navigate
+        <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
+          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
+            Explore
           </h6>
-          <nav className="flex flex-col gap-2 md:gap-3 font-dmsans text-[13px] md:text-[14px] text-[rgba(28,28,26,0.8)]">
-            <Link to="/" className="hover:text-[rgba(200,169,110,1)] transition-colors w-fit">Home</Link>
-            <Link to="/the-cafe" className="hover:text-[rgba(200,169,110,1)] transition-colors w-fit">The Café</Link>
-            <Link to="/menu" className="hover:text-[rgba(200,169,110,1)] transition-colors w-fit">Menu</Link>
-            <Link to="/moments" className="hover:text-[rgba(200,169,110,1)] transition-colors w-fit">Moments</Link>
-            <Link to="/visits" className="hover:text-[rgba(200,169,110,1)] transition-colors w-fit">Visit</Link>
+          <nav className="flex flex-col gap-4 font-dmsans text-[13px] md:text-[14px] text-[rgba(28,28,26,0.9)]">
+            <Link to="/" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">Home</span>
+            </Link>
+            <Link to="/the-cafe" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">The Café</span>
+            </Link>
+            <Link to="/menu" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">Menu</span>
+            </Link>
+            <Link to="/moments" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">Moments</span>
+            </Link>
+            <Link to="/visits" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">Visit Us</span>
+            </Link>
           </nav>
         </div>
 
-        {/* Contact Column */}
-        <div className="flex flex-col gap-4 md:gap-5">
-          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase mb-1 md:mb-2">
-            Contact
+        {/* Info Column */}
+        <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
+          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
+            Info
           </h6>
-          <div className="flex flex-col gap-2 md:gap-3 font-dmsans text-[13px] md:text-[14px] text-[rgba(28,28,26,0.8)]">
-            <span>Ahmedabad, Gujarat 380001</span>
-            <span>+91 98765 43210</span>
-            <span>hello@kooffe.in</span>
+          <div className="flex flex-col gap-4 font-dmsans text-[13px] md:text-[14px] text-[rgba(28,28,26,0.9)]">
+            <a href="#" className="hover:text-[#C4A882] transition-colors">Journal / Blog</a>
+            <a href="#" className="hover:text-[#C4A882] transition-colors">Press & Media</a>
+            <a href="#" className="hover:text-[#C4A882] transition-colors">Careers</a>
+            <a href="#" className="hover:text-[#C4A882] transition-colors">Contact Us</a>
           </div>
         </div>
 
-        {/* Connect Column */}
-        <div className="flex flex-col gap-4 md:gap-5">
-          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase mb-1 md:mb-2">
-            Connect
+        {/* Location & Hours Column */}
+        <div className="col-span-1 md:col-span-3 flex flex-col gap-6">
+          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
+            Visit
           </h6>
-          <div className="flex gap-4 text-[rgba(28,28,26,0.8)] text-xl">
-            <a href="#" className="hover:text-[rgba(200,169,110,1)] transition-colors">
-              <FiInstagram />
-            </a>
-            <a href="#" className="hover:text-[rgba(200,169,110,1)] transition-colors">
-              <FiPhone />
-            </a>
-            <a href="#" className="hover:text-[rgba(200,169,110,1)] transition-colors">
-              <FiMail />
-            </a>
+          <div className="flex flex-col gap-4 font-dmsans text-[13px] md:text-[14px] leading-relaxed text-[rgba(28,28,26,0.9)]">
+            <p>
+              Ground Floor, Heritage House<br/>
+              Near Law Garden, Navrangpura<br/>
+              Ahmedabad, Gujarat 380001
+            </p>
+            <div className="h-[1px] w-12 bg-[rgba(226,221,213,1)] my-1"></div>
+            <p className="flex flex-col gap-1">
+              <span className="text-[rgba(140,136,128,1)] text-[11px] uppercase tracking-wider font-bold">Open Daily</span>
+              7:00 AM — 9:00 PM
+            </p>
           </div>
         </div>
+
       </div>
 
       {/* Bottom Bar */}
-      <div className="w-[90%] md:w-[80%] pt-6 md:pt-8 border-t border-[rgba(226,221,213,1)] flex flex-col md:flex-row justify-between items-center gap-4 font-dmsans text-xs text-[rgba(140,136,128,1)]">
-        <p>© 2024 Kooffe Cafe, Ahmedabad. All rights reserved.</p>
-        <div className="flex gap-4 md:gap-6">
-          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors">Press</a>
-          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors">Terms of Service</a>
+      <div className="w-[90%] md:w-[85%] lg:w-[75%] pt-6 md:pt-8 border-t border-[rgba(226,221,213,1)] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 font-dmsans text-[11px] md:text-xs text-[rgba(140,136,128,1)] relative z-10">
+        <p className="tracking-wide">© {new Date().getFullYear()} Kooffe Cafe. All rights reserved.</p>
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8 tracking-wide">
+          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors uppercase">Privacy</a>
+          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors uppercase">Terms</a>
+          <a href="#" className="hover:text-[rgba(28,28,26,1)] transition-colors uppercase">Cookies</a>
         </div>
       </div>
     </footer>
