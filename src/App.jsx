@@ -10,7 +10,7 @@ import Footer from "./components/fotter";
 import ScrollToTop from "./components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "./components/PageTransition";
-
+ 
 
 function App() {
   const location = useLocation();
