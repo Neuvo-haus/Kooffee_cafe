@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
+import Logo from "./logo.jsx"
 
 const navItems = [
   { label: "HOME", path: "/" },
@@ -33,9 +34,8 @@ const Navbar = () => {
         <Link 
             to="/" 
             onClick={handleLogoClick}
-            className='text-[rgba(28,28,26,1)] hover:text-[#C4A882] transition-colors duration-300 font-["Cormorant_Garamond"] font-light italic text-2xl md:text-3xl'
         >
-          Kooffe
+          <Logo className="w-28 h-28 md:w-32 md:h-32 " color="currentColor" />
         </Link>
 
         {/* Desktop Nav */}
@@ -111,7 +111,7 @@ const Navbar = () => {
                 onClick={handleLogoClick}
                 className='font-["Cormorant_Garamond"] italic text-3xl text-[rgba(28,28,26,1)] mb-16 hover:text-[#C4A882] transition-colors duration-300'
             >
-              Kooffe
+              <Logo className="w-24 h-24" color="currentColor" />
             </Link>
 
             <nav className="flex flex-col items-center gap-8">
