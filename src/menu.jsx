@@ -32,6 +32,19 @@ const Menu = () => {
         "Almond Biscotti": "linear-gradient(180deg, rgba(210, 180, 140, 0.8) 0%, rgba(240, 220, 180, 0.8) 100%)",
     };
 
+    const bindPreviewHandlers = (setHoveredItem, itemName) => ({
+        onMouseEnter: () => setHoveredItem(itemName),
+        onFocus: () => setHoveredItem(itemName),
+        onClick: () => setHoveredItem(itemName),
+        onTouchStart: () => setHoveredItem(itemName),
+        onKeyDown: (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setHoveredItem(itemName);
+            }
+        },
+    });
+
     return (
         <div className="w-full relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
             
@@ -83,7 +96,9 @@ const Menu = () => {
                                 <div 
                                     key={item.name}
                                     className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
-                                    onMouseEnter={() => setHoveredCoffee(item.name)}
+                                    role="button"
+                                    tabIndex={0}
+                                    {...bindPreviewHandlers(setHoveredCoffee, item.name)}
                                 >
                                     <div className="flex flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
                                         <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
@@ -127,7 +142,9 @@ const Menu = () => {
                                 <div 
                                     key={item.name}
                                     className="flex justify-between items-end border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
-                                    onMouseEnter={() => setHoveredTea(item.name)}
+                                    role="button"
+                                    tabIndex={0}
+                                    {...bindPreviewHandlers(setHoveredTea, item.name)}
                                 >
                                     <div className="flex flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
                                         <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
@@ -172,7 +189,9 @@ const Menu = () => {
                                 <div 
                                     key={item.name}
                                     className="flex flex-col border-b border-[rgba(226,221,213,0.8)] pb-4 gap-1 md:gap-2 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group"
-                                    onMouseEnter={() => setHoveredFood(item.name)}
+                                    role="button"
+                                    tabIndex={0}
+                                    {...bindPreviewHandlers(setHoveredFood, item.name)}
                                 >
                                     <div className="flex justify-between items-end">
                                         <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>

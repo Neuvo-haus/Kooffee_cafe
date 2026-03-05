@@ -4,6 +4,7 @@ import { FaArrowRight, FaWhatsapp } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { IoTimeOutline, IoCarOutline, IoPawOutline } from "react-icons/io5";
 import { FiMusic, FiSun, FiVolume2, FiSunrise, FiCoffee, FiMoon, FiWifi, FiZap, FiPhoneCall } from "react-icons/fi";
+import { CONTACT, CONTACT_LINKS, SITE_HOURS } from "./config/site";
 
 const Visits = () => {
     return (
@@ -87,14 +88,19 @@ const Visits = () => {
                         </div>
                         
                         {/* Minimal Map Aesthetic Placeholder */}
-                        <div className="w-full md:w-[45%] h-[200px] md:h-auto rounded-xl overflow-hidden relative group select-none cursor-pointer border border-[rgba(226,221,213,0.8)]">
+                        <a
+                            href={CONTACT_LINKS.map}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-full md:w-[45%] h-[200px] md:h-auto rounded-xl overflow-hidden relative group select-none cursor-pointer border border-[rgba(226,221,213,0.8)] block"
+                        >
                             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop')" }}></div>
                             <div className="absolute inset-0 bg-[#A68F6E]/20 group-hover:bg-transparent transition-colors duration-500"></div>
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white drop-shadow-md">
                                 <svg className="w-10 h-10 mb-2 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <span className="font-dmsans text-xs tracking-[0.2em] font-bold uppercase">View Map</span>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     {/* Atmosphere Cues Card */}
@@ -143,7 +149,7 @@ const Visits = () => {
                         <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 text-[rgba(140,136,128,1)]"><FiSunrise /></div>
                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Golden Hour</h3>
-                            <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">7 AM – 10 AM</span>
+                            <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">{SITE_HOURS.goldenHour}</span>
                             <p className="font-dmsans text-[rgba(140,136,128,1)] text-[13px] leading-relaxed mt-2">
                                 The café at its quietest. Fresh brews, morning pastries, and the beautiful first light of day.
                             </p>
@@ -171,7 +177,7 @@ const Visits = () => {
 
                     <div className="font-dmsans text-[rgba(100,96,88,1)] text-[12px] flex items-center gap-2 border border-[rgba(226,221,213,1)] bg-white rounded-full px-6 py-3 text-center shadow-sm">
                         <IoTimeOutline className="text-sm flex-shrink-0 text-[#C4A882]" /> 
-                        Standard hours: Monday–Sunday, <strong className="font-bold text-[rgba(28,28,26,0.9)]">7:00 AM – 9:00 PM</strong>
+                        Standard hours: Monday-Sunday, <strong className="font-bold text-[rgba(28,28,26,0.9)]">{SITE_HOURS.standard}</strong>
                     </div>
                 </div>
             </div>
@@ -250,17 +256,36 @@ const Visits = () => {
                     </h1>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-4 w-full">
-                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold uppercase shadow-lg">
+                        <motion.a
+                            href={`tel:${CONTACT.phoneRaw}`}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="select-none w-full md:w-auto bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold uppercase shadow-lg"
+                        >
                             <FiPhoneCall className="text-[14px]" /> CALL US NOW
-                        </motion.button>
+                        </motion.a>
                         
-                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,1)] text-[rgba(28,28,26,0.9)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:border-[rgba(28,28,26,0.5)] hover:bg-white transition-all duration-500 font-bold uppercase shadow-sm">
+                        <motion.a
+                            href={CONTACT_LINKS.whatsapp}
+                            target="_blank"
+                            rel="noreferrer"
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="select-none w-full md:w-auto bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,1)] text-[rgba(28,28,26,0.9)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:border-[rgba(28,28,26,0.5)] hover:bg-white transition-all duration-500 font-bold uppercase shadow-sm"
+                        >
                             <FaWhatsapp className="text-[14px]" /> Chat on WhatsApp
-                        </motion.button>
+                        </motion.a>
                         
-                        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none w-full md:w-auto bg-transparent border border-transparent text-[rgba(140,136,128,1)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-6 md:px-8 flex items-center justify-center gap-2 hover:text-[rgba(28,28,26,1)] transition-colors duration-500 font-bold uppercase underline underline-offset-4">
+                        <motion.a
+                            href={CONTACT_LINKS.directions}
+                            target="_blank"
+                            rel="noreferrer"
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="select-none w-full md:w-auto bg-transparent border border-transparent text-[rgba(140,136,128,1)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-6 md:px-8 flex items-center justify-center gap-2 hover:text-[rgba(28,28,26,1)] transition-colors duration-500 font-bold uppercase underline underline-offset-4"
+                        >
                             GET DIRECTIONS <FaArrowRight className="text-[10px]" />
-                        </motion.button>
+                        </motion.a>
                     </div>
                 </div>
             </div>

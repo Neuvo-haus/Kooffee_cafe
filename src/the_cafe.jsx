@@ -4,6 +4,7 @@ import { FiDownload } from "react-icons/fi";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { motion } from "framer-motion";
+import { CONTACT, CONTACT_LINKS } from "./config/site";
 
 const TheCafe = () => {
     return (
@@ -175,18 +176,24 @@ const TheCafe = () => {
                         Kooffe is a specialty café in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection.
                     </p>
 
-                    <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="select-none mt-6 bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-8 md:px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold w-full md:w-auto shadow-xl">
+                    <motion.a
+                        href={CONTACT_LINKS.mediaKit}
+                        download
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="select-none mt-6 bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-8 md:px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold w-full md:w-auto shadow-xl"
+                    >
                         <FiDownload className="text-base" />
                         DOWNLOAD MEDIA KIT
-                    </motion.button>
+                    </motion.a>
 
                     <div className="flex items-center justify-center gap-6 mt-8 w-[80%] pt-8 border-t border-[rgba(226,221,213,0.6)]">
-                        <a href="#" className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">
+                        <a href={CONTACT_LINKS.brandAssets} className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">
                             <FaExternalLinkAlt className="text-[10px] mb-[1px]" /> Brand Assets
                         </a>
                         <span className="text-[rgba(226,221,213,1)]">|</span>
-                        <a href="mailto:press@kooffe.in" className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">
-                            <MdOutlineMailOutline className="text-[14px] mb-[1px]" /> press@kooffe.in
+                        <a href={`mailto:${CONTACT.pressEmail}`} className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">
+                            <MdOutlineMailOutline className="text-[14px] mb-[1px]" /> {CONTACT.pressEmail}
                         </a>
                     </div>
                 </div>
