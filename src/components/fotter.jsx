@@ -5,7 +5,7 @@ import { CONTACT, CONTACT_LINKS, SITE_HOURS } from "../config/site";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative flex flex-col items-center pt-24 md:pt-32 pb-8 md:pb-12 border-t border-[rgba(226,221,213,0.5)] bg-[rgba(250,247,242,1)] overflow-hidden">
+    <footer className="w-full relative flex flex-col items-center pt-24 md:pt-32 pb-8 md:pb-12 border-t border-[rgba(226,221,213,0.5)] overflow-hidden">
       
       {/* Decorative large background text */}
       <div className="hidden md:block absolute top-10 left-1/2 -translate-x-1/2 text-[15vw] font-['Cormorant_Garamond'] italic text-[rgba(226,221,213,0.3)] whitespace-nowrap pointer-events-none select-none z-0">
