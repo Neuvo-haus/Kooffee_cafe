@@ -1,35 +1,53 @@
 import React, { useState } from "react";
 import CoffeeDivider from "./components/cooffeedivider";
 
+// Coffee images
+import menuCoffeeDefault from "./assets/menu/menu-coffee-default.jpeg";
+import menuCoffeeHouseEspresso from "./assets/home/menu-coffee-house-espresso.jpeg";
+import menuCoffeeSaffronLatte from "./assets/menu/menu-coffee-saffron-latte.jpeg";
+import menuCoffeePourOver from "./assets/menu/menu-coffee-pour-over.jpeg";
+import menuCoffeeColdBrew from "./assets/menu/menu-coffee-cold-brew.jpeg";
+import menuCoffeeCortado from "./assets/menu/menu-coffee-cortado.jpeg";
+// Tea images
+import menuTeaOldCityChai from "./assets/menu/menu-tea-old-city-chai.jpeg";
+import menuTeaLemongrassMint from "./assets/menu/menu-tea-lemongrass-mint.jpeg";
+import menuTeaHibiscusIcedTea from "./assets/menu/menu-tea-hibiscus-iced-tea.jpeg";
+import menuTeaHotChocolate from "./assets/menu/menu-tea-hot-chocolate.jpeg";
+// Food images
+import menuFoodMawaCroissant from "./assets/menu/menu-food-mawa-croissant.jpeg";
+import menuFoodPistachioRoseCake from "./assets/menu/menu-food-pistachio-rose-cake.jpeg";
+import menuFoodSourdoughToast from "./assets/menu/menu-food-sourdough-toast.jpeg";
+import menuFoodSpicedHandPie from "./assets/menu/menu-food-spiced-hand-pie.jpeg";
+import menuFoodAlmondBiscottiFallback from "./assets/menu/menu-food-almond-biscotti-fallback.jpeg";
+
 const Menu = () => {
     const [hoveredCoffee, setHoveredCoffee] = useState(null);
     const [hoveredTea, setHoveredTea] = useState(null);
     const [hoveredFood, setHoveredFood] = useState(null);
 
-    const defaultCoffeeImg = "url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop')";
-    const defaultTeaImg = "url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop')";
-    const defaultFoodImg = "url('https://images.unsplash.com/photo-1495147466023-af5c19cbbfc1?q=80&w=800&auto=format&fit=crop')";
+    const defaultCoffeeImg = `url('${menuCoffeeDefault}')`;
+    const defaultTeaImg = `url('${menuTeaOldCityChai}')`;
+    const defaultFoodImg = `url('${menuFoodMawaCroissant}')`;
 
     const coffeeImages = {
-        "House Espresso": "url('https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=800&auto=format&fit=crop')",
-        "Saffron Latte": "url('https://images.unsplash.com/photo-1534040385115-33dcb3ac8f0b?q=80&w=800&auto=format&fit=crop')",
-        "Pour Over": "url('https://images.unsplash.com/photo-1495474472207-464a4d965d56?q=80&w=800&auto=format&fit=crop')",
-        "Cold Brew": "url('https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=800&auto=format&fit=crop')",
-        "Cortado": "url('https://images.unsplash.com/photo-1516008126786-fb15535b91ce?q=80&w=800&auto=format&fit=crop')",
+        "House Espresso": `url('${menuCoffeeHouseEspresso}')`,
+        "Saffron Latte": `url('${menuCoffeeSaffronLatte}')`,
+        "Pour Over": `url('${menuCoffeePourOver}')`,
+        "Cold Brew": `url('${menuCoffeeColdBrew}')`,
+        "Cortado": `url('${menuCoffeeCortado}')`,
     };
     const teaImages = {
-        "Old City Chai": "url('https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?q=80&w=800&auto=format&fit=crop')",
-        "Lemongrass Mint Green": "url('https://images.unsplash.com/photo-1595981267035-7b04d84aa1fa?q=80&w=800&auto=format&fit=crop')",
-        "Hibiscus Iced Tea": "url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=800&auto=format&fit=crop')",
-        "Classic Hot Chocolate": "url('https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?q=80&w=800&auto=format&fit=crop')",
+        "Old City Chai": `url('${menuTeaOldCityChai}')`,
+        "Lemongrass Mint Green": `url('${menuTeaLemongrassMint}')`,
+        "Hibiscus Iced Tea": `url('${menuTeaHibiscusIcedTea}')`,
+        "Classic Hot Chocolate": `url('${menuTeaHotChocolate}')`,
     };
     const foodImages = {
-        "Mawa Croissant": "url('https://images.unsplash.com/photo-1555507036-ab1d4075c6f1?q=80&w=800&auto=format&fit=crop')",
-        "Pistachio Rose Cake": "url('https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop')",
-        "Sourdough Toast": "url('https://images.unsplash.com/photo-1484723091791-c0e7e14f9d0e?q=80&w=800&auto=format&fit=crop')",
-        "Spiced Hand Pie": "url('https://images.unsplash.com/photo-1601000938259-9e92002320b2?q=80&w=800&auto=format&fit=crop')",
-
-        "Almond Biscotti": "linear-gradient(180deg, rgba(210, 180, 140, 0.8) 0%, rgba(240, 220, 180, 0.8) 100%)",
+        "Mawa Croissant": `url('${menuFoodMawaCroissant}')`,
+        "Pistachio Rose Cake": `url('${menuFoodPistachioRoseCake}')`,
+        "Sourdough Toast": `url('${menuFoodSourdoughToast}')`,
+        "Spiced Hand Pie": `url('${menuFoodSpicedHandPie}')`,
+        "Almond Biscotti": `url('${menuFoodAlmondBiscottiFallback}')`,
     };
 
     const bindPreviewHandlers = (setHoveredItem, itemName) => ({

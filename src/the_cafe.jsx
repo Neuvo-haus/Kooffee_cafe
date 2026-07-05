@@ -6,6 +6,14 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import { CONTACT, CONTACT_LINKS } from "./config/site";
 
+// Cafe page images
+import cafeHero from "./assets/the cafe/cafe-hero.jpeg";
+import cafeFounderMalhar from "./assets/the cafe/cafe-founder-malhar.jpg";
+import cafeFounderPuja from "./assets/the cafe/cafe-founder-puja.jpg";
+import cafeInteriorCeramics from "./assets/the cafe/cafe-interior-ceramics.jpeg";
+import cafeInteriorMorningLight from "./assets/the cafe/cafe-interior-morning-light.jpeg";
+import cafeInteriorTeakTables from "./assets/the cafe/cafe-interior-teak-tables.jpeg";
+
 const TheCafe = () => {
     return (
         <div className="w-full relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
@@ -15,7 +23,7 @@ const TheCafe = () => {
                 <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row items-center relative gap-10 md:gap-0">
                     {/* Left: Atmospheric Image */}
                     <div className="w-full md:w-[55%] h-[400px] md:h-[650px] relative rounded-2xl overflow-hidden shadow-lg group">
-                        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000&auto=format&fit=crop')" }}></div>
+                        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeHero}')` }}></div>
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-1000"></div>
                     </div>
                     
@@ -56,7 +64,7 @@ const TheCafe = () => {
                         {/* Person 1 Card */}
                         <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col group select-none cursor-pointer relative">
                             <div className="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-md relative">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop')" }}></div>
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('${cafeFounderMalhar}')` }}></div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <div className="absolute bottom-6 left-6 right-6 text-white text-left text-shadow flex flex-col gap-1 pb-10 group-hover:pl-2 transition-all duration-500">
                                     <h3 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl italic">Malhar Thakar</h3>
@@ -73,7 +81,7 @@ const TheCafe = () => {
                         {/* Person 2 Card */}
                         <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col group select-none cursor-pointer relative md:mt-20">
                             <div className="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-md relative">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop')" }}></div>
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('${cafeFounderPuja}')` }}></div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <div className="absolute bottom-6 left-6 right-6 text-white text-left text-shadow flex flex-col gap-1 pb-10 group-hover:pl-2 transition-all duration-500">
                                     <h3 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl italic">Puja Joshi</h3>
@@ -118,7 +126,7 @@ const TheCafe = () => {
                     <div className="w-full md:w-[55%] flex gap-4 md:gap-6 h-[500px] md:h-[700px]">
                         {/* Tall Image */}
                         <div className="w-1/2 h-[90%] mt-[10%] rounded-2xl overflow-hidden shadow-lg relative group">
-                            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop')" }}></div>
+                            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeInteriorCeramics}')` }}></div>
                             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500"></div>
                             <div className="absolute bottom-6 left-6 bg-[rgba(250,247,242,0.95)] px-4 py-2 rounded-full text-[10px] font-dmsans uppercase tracking-[0.1em] text-[rgba(28,28,26,1)] font-bold shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 backdrop-blur-sm border border-[rgba(226,221,213,0.5)]">Handmade Ceramics</div>
                         </div>
@@ -126,12 +134,12 @@ const TheCafe = () => {
                         {/* Stacked Images */}
                         <div className="w-1/2 h-full flex flex-col gap-4 md:gap-6">
                             <div className="h-[55%] w-full rounded-2xl overflow-hidden shadow-md relative group">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=600&auto=format&fit=crop')" }}></div>
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeInteriorMorningLight}')` }}></div>
                                 <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div className="absolute bottom-6 left-6 bg-[rgba(250,247,242,0.95)] px-4 py-2 rounded-full text-[10px] font-dmsans uppercase tracking-[0.1em] text-[rgba(28,28,26,1)] font-bold shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 backdrop-blur-sm border border-[rgba(226,221,213,0.5)]">Morning Light</div>
                             </div>
                             <div className="h-[40%] w-full rounded-2xl overflow-hidden shadow-md relative group mt-auto">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=600&auto=format&fit=crop')" }}></div>
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeInteriorTeakTables}')` }}></div>
                                 <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div className="absolute bottom-6 left-6 bg-[rgba(250,247,242,0.95)] px-4 py-2 rounded-full text-[10px] font-dmsans uppercase tracking-[0.1em] text-[rgba(28,28,26,1)] font-bold shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 backdrop-blur-sm border border-[rgba(226,221,213,0.5)]">Teak Tables</div>
                             </div>

@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import CoffeeDivider from "./components/cooffeedivider";
 
+// Moments gallery images
+import momentsFamilyVisits1 from "./assets/moments/moments-family-visits-1.jpeg";
+import momentsQuietAfternoon1 from "./assets/moments/moments-quiet-afternoon-1.jpeg";
+import momentsQuietAfternoon2 from "./assets/moments/moments-quiet-afternoon-2.jpeg";
+import momentsQuietAfternoon3 from "./assets/moments/moments-quiet-afternoon-3.jpeg";
+import momentsFamilyVisits2 from "./assets/moments/moments-family-visits-2.jpeg";
+import momentsFamilyVisits3 from "./assets/moments/moments-family-visits-3.jpeg";
+import momentsConversation1 from "./assets/moments/moments-conversation-1.jpeg";
+import momentsConversation2 from "./assets/moments/moments-conversation-2.jpeg";
+import momentsConversation3 from "./assets/moments/moments-conversation-3.jpeg";
+import momentsFilmDiscussion1 from "./assets/moments/moments-film-discussion-1.jpeg";
+import momentsFilmDiscussion2 from "./assets/moments/moments-film-discussion-2.jpeg";
+import momentsFilmDiscussion3 from "./assets/moments/moments-film-discussion-3.jpeg";
+
 const Moments = () => {
     const [filter, setFilter] = useState("ALL");
 
     const categories = ["ALL", "FAM VISITS", "QUIET AFTERNOONS", "CONVERSATIONS", "FILM DISCUSSIONS"];
 
     const images = [
-        { id: 1, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: "url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=600&auto=format&fit=crop')" },
-        { id: 2, category: "QUIET AFTERNOONS", height: "h-[200px] md:h-[300px]", gradient: "url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop')" },
-        { id: 3, category: "QUIET AFTERNOONS", height: "h-[250px] md:h-[400px]", gradient: "url('https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=600&auto=format&fit=crop')" },
-        { id: 4, category: "QUIET AFTERNOONS", height: "h-[220px] md:h-[350px]", gradient: "url('https://images.unsplash.com/photo-1445116572660-236099cea460?q=80&w=600&auto=format&fit=crop')" },
-        { id: 5, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: "url('https://images.unsplash.com/photo-1521017430205-c25200ee6b0b?q=80&w=600&auto=format&fit=crop')" },
-        { id: 6, category: "FAM VISITS", height: "h-[200px] md:h-[300px]", gradient: "url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=600&auto=format&fit=crop')" },
-        { id: 7, category: "CONVERSATIONS", height: "h-[250px] md:h-[400px]", gradient: "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600&auto=format&fit=crop')" },
-        { id: 8, category: "CONVERSATIONS", height: "h-[220px] md:h-[350px]", gradient: "url('https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?q=80&w=600&auto=format&fit=crop')" },
-        { id: 9, category: "CONVERSATIONS", height: "h-[300px] md:h-[500px]", gradient: "url('https://images.unsplash.com/photo-1522851145625-7828decd27ec?q=80&w=600&auto=format&fit=crop')" },
-        { id: 10, category: "FILM DISCUSSIONS", height: "h-[300px] md:h-[450px]", gradient: "url('https://images.unsplash.com/photo-1606140510507-681b4fb5abde?q=80&w=600&auto=format&fit=crop')" },
-        { id: 11, category: "FILM DISCUSSIONS", height: "h-[250px] md:h-[400px]", gradient: "url('https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?q=80&w=600&auto=format&fit=crop')" },
-        { id: 12, category: "FILM DISCUSSIONS", height: "h-[200px] md:h-[300px]", gradient: "url('https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=600&auto=format&fit=crop')" },
+        { id: 1, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFamilyVisits1}')` },
+        { id: 2, category: "QUIET AFTERNOONS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsQuietAfternoon1}')` },
+        { id: 3, category: "QUIET AFTERNOONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsQuietAfternoon2}')` },
+        { id: 4, category: "QUIET AFTERNOONS", height: "h-[220px] md:h-[350px]", gradient: `url('${momentsQuietAfternoon3}')` },
+        { id: 5, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFamilyVisits2}')` },
+        { id: 6, category: "FAM VISITS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsFamilyVisits3}')` },
+        { id: 7, category: "CONVERSATIONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsConversation1}')` },
+        { id: 8, category: "CONVERSATIONS", height: "h-[220px] md:h-[350px]", gradient: `url('${momentsConversation2}')` },
+        { id: 9, category: "CONVERSATIONS", height: "h-[300px] md:h-[500px]", gradient: `url('${momentsConversation3}')` },
+        { id: 10, category: "FILM DISCUSSIONS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFilmDiscussion1}')` },
+        { id: 11, category: "FILM DISCUSSIONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsFilmDiscussion2}')` },
+        { id: 12, category: "FILM DISCUSSIONS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsFilmDiscussion3}')` },
     ];
 
     const quotes = [

@@ -8,10 +8,24 @@ import { FaArrowRight } from "react-icons/fa6";
 // Animation library  
 import { motion, useScroll, useTransform } from "framer-motion";   
 // Image assets 
-import background from "./assets/image.jpg";
-import first from "./assets/first.jpg";
-import second from "./assets/second.jpg";
-import third from "./assets/third.jpg";
+// Hero background
+import homeHeroBackground from "./assets/home/home-hero-background.png";
+import homeHeroVideo from "./assets/nce website.mp4";
+// Stay card feature circles
+import homeStaySlowMorning from "./assets/home/home-stay-slow-morning.jpeg";
+import homeStayDeepConversation from "./assets/home/home-stay-deep-conversation.jpeg";
+import homeStayQuickFocus from "./assets/home/home-stay-quick-focus.jpeg";
+// Space grid tiles
+import homeSpaceTile2 from "./assets/home/home-space-tile-2.jpeg";
+import homeSpaceTile3 from "./assets/home/home-space-tile-3.jpeg";
+import homeSpaceTile4 from "./assets/home/home-space-tile-4.jpeg";
+import homeSpaceTile5 from "./assets/home/home-space-tile-5.jpeg";
+import homeSpaceTile6 from "./assets/home/home-space-tile-6.jpeg";
+// Coffee offering images
+import espressoMacchiatoImg from "./assets/home/Espresso_Macchiato_in_cafe_.jpeg";
+import americanoImg from "./assets/home/Americano_in_ceramic_mug.jpeg";
+import mochaImg from "./assets/home/Mocha_in_ceramic_mug_.jpeg";
+import affogatoImg from "./assets/home/Affogato_drenched_in_espresso_.jpeg";
 // Custom divider component
 import CoffeeDivider from "./components/cooffeedivider";
 import { CONTACT_LINKS, SITE_HOURS } from "./config/site";
@@ -39,9 +53,9 @@ const Home = () => {
 
   // Data for repeated sections
   const stayCards = [
-    { img: first, title: "Slow Morning", desc: "A corner table reserved for no one. Stay as long as you need. The light here moves slowly too." },
-    { img: second, title: "Deep Conversation", desc: "Some tables face each other for a reason. This is where friendships deepen and ideas take shape." },
-    { img: third, title: "Quick Focus", desc: "Plug in, tune out. A quiet corner with power outlets and no interruptions. Just you and the work." },
+    { img: homeStaySlowMorning, title: "Slow Morning", desc: "A corner table reserved for no one. Stay as long as you need. The light here moves slowly too." },
+    { img: homeStayDeepConversation, title: "Deep Conversation", desc: "Some tables face each other for a reason. This is where friendships deepen and ideas take shape." },
+    { img: homeStayQuickFocus, title: "Quick Focus", desc: "Plug in, tune out. A quiet corner with power outlets and no interruptions. Just you and the work." },
   ];
 
   const dailyBlocks = [
@@ -50,11 +64,32 @@ const Home = () => {
     { icon: "🌙", title: "Quiet Hour", desc: "Work-friendly evenings with dim lights and deep focus. Laptops welcome. Silence respected.", time: "6–9 PM" },
   ];
 
-  const menuCards = Array(4).fill({
-    title: "coffee",
-    desc: "Single-origin pour-overs, velvety lattes, and bold espressos. Crafted with care, served with love.",
-    price: "₹320",
-  });
+  const menuCards = [
+    {
+      title: "Espresso Macchiato",
+      img: espressoMacchiatoImg,
+      desc: "Rich espresso marked with a dollop of velvety foamed milk, balancing bold flavor with creamy texture.",
+      price: "₹180",
+    },
+    {
+      title: "Americano",
+      img: americanoImg,
+      desc: "Smooth espresso shots combined with hot water, yielding a full-bodied cup with a rich aroma.",
+      price: "₹160",
+    },
+    {
+      title: "Mocha",
+      img: mochaImg,
+      desc: "A decadent fusion of rich espresso, steamed milk, and premium chocolate, topped with delicate foam.",
+      price: "₹240",
+    },
+    {
+      title: "Affogato",
+      img: affogatoImg,
+      desc: "A hot, double shot of bold espresso poured over a scoop of creamy vanilla gelato.",
+      price: "₹220",
+    },
+  ];
 
   const reviews = [
     { text: '"This isn\'t just a café, it\'s a feeling. The saffron latte changed my mornings forever. I come here to think, to breathe, to be."', author: "Priya M.", source: "— Google Review", stars: 5 },
@@ -63,23 +98,28 @@ const Home = () => {
   ];
 
   const spaceImages = [
-    { img: first, className: "row-span-2" },
-    { img: second },
-    { img: third },
-    { img: background },
-    { img: background, className: "row-span-2" },
-    { img: first, className: "col-span-1" },
+    { img: homeHeroBackground, className: "row-span-2" },
+    { img: homeSpaceTile2 },
+    { img: homeSpaceTile3 },
+    { img: homeSpaceTile4 },
+    { img: homeSpaceTile5, className: "row-span-2" },
+    { img: homeSpaceTile6, className: "col-span-1" },
   ];
 
   return (
     <div className="w-full relative flex items-center flex-col pb-20">
       {/* ===== MOBILE HERO: Static background image, no scroll animation ===== */}
       <div className="md:hidden w-full h-screen relative flex items-center justify-center">
-        {/* Background image */}
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${background})` }}></div>
-        {/* Gradient overlay */}
-        <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, rgba(245,240,232,0.85) 0%, rgba(232,213,176,0.7) 40%, rgba(196,168,130,0.6) 70%, rgba(160,133,106,0.7) 100%)` }} />
-        
+        {/* Video background */}
+        <video
+          src={homeHeroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+
         {/* Text content */}
         <div className="relative z-10 w-[85%] flex flex-col justify-center gap-4 pt-10">
           <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">EST. AHMEDABAD</h6>
@@ -150,8 +190,14 @@ const Home = () => {
           </motion.div>
           {/* Expanding Image Animation */}
           <motion.div style={{ width, height, top, right, borderRadius }} className="absolute z-20 overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${background})` }}></div>
-            <div className="absolute inset-0" style={{ background: `linear-gradient(180deg,rgba(232,213,176,0.6) 0%,rgba(196,168,130,0.6) 50%,rgba(160,133,106,0.6) 100%)` }} />
+            <video
+              src={homeHeroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </div>
@@ -198,9 +244,9 @@ const Home = () => {
         <div className="w-full h-fit grid grid-cols-2 md:grid-cols-4 gap-5 p-2 md:p-5">
           {menuCards.map((card, i) => (
             <div key={i} className="w-full h-full flex justify-around items-center flex-col gap-4 p-3 md:p-5">
-              <div className="w-full h-40 md:h-70 bg-black rounded-2xl" style={{ background: "linear-gradient(180deg, #E8D5B0 0%, #C4A882 50%, #A0856A 100%)" }}></div>
-              <div className="flex flex-col justify-around gap-2 md:gap-3">
-                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-3xl md:text-5xl">{card.title}</h1>
+              <div className="w-full h-40 md:h-70 bg-black rounded-2xl bg-cover bg-center" style={{ backgroundImage: `url(${card.img})` }}></div>
+              <div className="flex flex-col justify-around gap-2 md:gap-3 w-full">
+                <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-2xl md:text-3xl">{card.title}</h1>
                 <h6 className="text-[rgba(140,136,128,1)] text-xs md:text-base">{card.desc}</h6>
                 <h4 className="text-end text-xl md:text-2xl">{card.price}</h4>
               </div>
