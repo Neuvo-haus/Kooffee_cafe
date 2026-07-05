@@ -10,7 +10,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 // Image assets 
 // Hero background
 import homeHeroBackground from "./assets/home/home-hero-background.png";
-import homeHeroVideo from "./assets/nce website.mp4";
+import homeHeroVideoMp4 from "./assets/nce_website_compressed.mp4";
+import homeHeroVideoWebm from "./assets/nce_website_compressed.webm";
+import homeHeroPoster from "./assets/nce_website_poster.jpg";
 // Stay card feature circles
 import homeStaySlowMorning from "./assets/home/home-stay-slow-morning.jpeg";
 import homeStayDeepConversation from "./assets/home/home-stay-deep-conversation.jpeg";
@@ -112,13 +114,16 @@ const Home = () => {
       <div className="md:hidden w-full h-screen relative flex items-center justify-center">
         {/* Video background */}
         <video
-          src={homeHeroVideo}
+          poster={homeHeroPoster}
           autoPlay
           loop
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        >
+          <source src={homeHeroVideoWebm} type="video/webm" />
+          <source src={homeHeroVideoMp4} type="video/mp4" />
+        </video>
 
         {/* Text content */}
         <div className="relative z-10 w-[85%] flex flex-col justify-center gap-4 pt-10">
@@ -191,13 +196,16 @@ const Home = () => {
           {/* Expanding Image Animation */}
           <motion.div style={{ width, height, top, right, borderRadius }} className="absolute z-20 overflow-hidden shadow-2xl">
             <video
-              src={homeHeroVideo}
+              poster={homeHeroPoster}
               autoPlay
               loop
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
-            />
+            >
+              <source src={homeHeroVideoWebm} type="video/webm" />
+              <source src={homeHeroVideoMp4} type="video/mp4" />
+            </video>
           </motion.div>
         </div>
       </div>
