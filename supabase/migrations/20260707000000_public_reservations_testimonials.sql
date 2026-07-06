@@ -36,7 +36,7 @@ drop policy if exists "Public can create pending reservations" on public.reserva
 create policy "Public can create pending reservations"
 on public.reservations
 for insert
-to anon
+to public
 with check (
   status = 'pending'
   and party_size between 1 and 12

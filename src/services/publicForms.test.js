@@ -50,6 +50,7 @@ describe("public form services", () => {
     expect(client.insert).toHaveBeenCalledWith(
       "reservations",
       expect.objectContaining({ status: "pending", party_size: 2 }),
+      { returnRepresentation: false },
     );
   });
 

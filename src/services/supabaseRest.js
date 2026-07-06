@@ -66,11 +66,11 @@ export const createSupabaseRestClient = ({
   return {
     isConfigured,
     requireConfigured,
-    insert(table, row) {
+    insert(table, row, { returnRepresentation = true } = {}) {
       return request(table, {
         method: "POST",
         headers: {
-          Prefer: "return=representation",
+          Prefer: returnRepresentation ? "return=representation" : "return=minimal",
         },
         body: JSON.stringify(row),
       });

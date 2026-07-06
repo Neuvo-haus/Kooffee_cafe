@@ -28,6 +28,7 @@ export const submitReservationRequest = async (input, options = {}) => {
     const data = await (options.client ?? supabaseRest).insert(
       "reservations",
       validation.values,
+      { returnRepresentation: false },
     );
 
     return {
