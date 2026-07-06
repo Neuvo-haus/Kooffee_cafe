@@ -11,6 +11,7 @@ const navItems = [
   { label: "MENU", path: "/menu" },
   { label: "MOMENTS", path: "/moments" },
   { label: "VISIT", path: "/visits" },
+  { label: "RESERVE", path: "/reservations" },
 ];
 
 const Navbar = () => {

@@ -1,0 +1,100 @@
+import { describe, expect, it } from "vitest";
+import {
+  validateReservation,
+  validateTestimonial,
+} from "./validation";
+
+describe("validateReservation", () => {
+  it("accepts a valid pending reservation request", () => {
+    const result = validateReservation(
+      {
+        customerName: "Aarav Shah",
+        email: "aarav@example.com",
+        phone: "+91 98765 43210",
+        partySize: "4",
+        requestedDate: "2026-07-20",
+        requestedTime: "10:30",
+        occasion: "Birthday",
+        notes: "Window table if possible",
+      },
+      { today: "2026-07-07" },
+    );
+
+    expect(result.isValid).toBe(true);
+    expect(result.values).toMatchObject({
+      customer_name: "Aarav Shah",
+      email: "aarav@example.com",
+      phone: "+91 98765 43210",
+      party_size: 4,
+      requested_date: "2026-07-20",
+      requested_time: "10:30",
+      occasion: "Birthday",
+      notes: "Window table if possible",
+      status: "pending",
+    });
+  });
+
+  it("rejects reservation values outside cafe limits", () => {
+    const result = validateReservation(
+      {
+        customerName: "",
+        email: "bad-email",
+        phone: "",
+        partySize: "13",
+        requestedDate: "2026-08-20",
+        requestedTime: "22:15",
+        occasion: "",
+        notes: "",
+      },
+      { today: "2026-07-07" },
+    );
+
+    expect(result.isValid).toBe(false);
+    expect(result.errors).toMatchObject({
+      customerName: "Please enter your name.",
+      email: "Please enter a valid email address.",
+      phone: "Please enter a phone number.",
+      partySize: "Reservations can be requested for 1 to 12 guests.",
+      requestedDate: "Please choose a date within the next 30 days.",
+      requestedTime: "Please choose a time between 7:00 AM and 9:00 PM.",
+    });
+  });
+});
+
+describe("validateTestimonial", () => {
+  it("accepts a valid customer testimonial submission", () => {
+    const result = validateTestimonial({
+      customerName: "Mira Patel",
+      rating: "5",
+      message: "The morning light and coffee made this my new reading spot.",
+      consentToPublish: true,
+    });
+
+    expect(result.isValid).toBe(true);
+    expect(result.values).toMatchObject({
+      customer_name: "Mira Patel",
+      rating: 5,
+      message: "The morning light and coffee made this my new reading spot.",
+      consent_to_publish: true,
+      source: "Website submission",
+      status: "pending",
+    });
+  });
+
+  it("rejects invalid testimonial submissions", () => {
+    const result = validateTestimonial({
+      customerName: "",
+      rating: "6",
+      message: "Nice",
+      consentToPublish: false,
+    });
+
+    expect(result.isValid).toBe(false);
+    expect(result.errors).toMatchObject({
+      customerName: "Please enter your name.",
+      rating: "Please choose a rating from 1 to 5.",
+      message: "Please share at least 20 characters.",
+      consentToPublish: "Please allow us to publish your words before submitting.",
+    });
+  });
+});

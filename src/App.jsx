@@ -5,6 +5,7 @@ import Menu from "./menu";
 import TheCafe from "./the_cafe";
 import Visits from "./visits"; 
 import Moments from "./moments";
+import Reservations from "./reservations";
 import { Routes, Route, useLocation } from "react-router-dom"; 
 import Footer from "./components/fotter";
 import ScrollToTop from "./components/ScrollToTop";
@@ -27,6 +28,7 @@ function App() {
             <Route path="/menu" element={<PageTransition><Menu /></PageTransition>} />
             <Route path="/moments" element={<PageTransition><Moments /></PageTransition>} />
             <Route path="/visits" element={<PageTransition><Visits /></PageTransition>} />
+            <Route path="/reservations" element={<PageTransition><Reservations /></PageTransition>} />
           </Routes>
         </AnimatePresence>
       </div>

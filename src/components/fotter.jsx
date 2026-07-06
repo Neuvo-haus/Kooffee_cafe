@@ -64,6 +64,10 @@ const Footer = () => {
               <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
               <span className="group-hover:text-[#C4A882] transition-colors">Visit Us</span>
             </Link>
+            <Link to="/reservations" className="w-fit flex items-center gap-2 group">
+              <span className="w-0 h-[1px] bg-[#C4A882] group-hover:w-3 transition-all duration-300"></span>
+              <span className="group-hover:text-[#C4A882] transition-colors">Reservations</span>
+            </Link>
           </nav>
         </div>
 
@@ -74,6 +78,7 @@ const Footer = () => {
           </h6>
           <div className="flex flex-col gap-4 font-dmsans text-[13px] md:text-[14px] text-[rgba(28,28,26,0.9)]">
             <Link to="/moments" className="hover:text-[#C4A882] transition-colors">Journal / Blog</Link>
+            <Link to="/reservations" className="hover:text-[#C4A882] transition-colors">Reserve a Table</Link>
             <a href={CONTACT_LINKS.mediaKit} className="hover:text-[#C4A882] transition-colors">Press & Media</a>
             <a href={`mailto:${CONTACT.email}?subject=Careers%20at%20Kooffe`} className="hover:text-[#C4A882] transition-colors">Careers</a>
             <Link to="/visits" className="hover:text-[#C4A882] transition-colors">Contact Us</Link>

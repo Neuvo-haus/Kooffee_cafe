@@ -33,6 +33,8 @@ import affogatoImg from "./assets/home/Affogato_drenched_in_espresso_.jpeg";
 import CoffeeDivider from "./components/cooffeedivider";
 import { CONTACT_LINKS, SITE_HOURS } from "./config/site";
 import { useMediaQuery } from "./hooks/useMediaQuery";
+import ReservationForm from "./components/ReservationForm";
+import TestimonialSection from "./components/TestimonialSection";
 
 
 // Home page main component
@@ -94,12 +96,6 @@ const Home = () => {
       desc: "A hot, double shot of bold espresso poured over a scoop of creamy vanilla gelato.",
       price: "₹220",
     },
-  ];
-
-  const reviews = [
-    { text: '"This isn\'t just a café, it\'s a feeling. The saffron latte changed my mornings forever. I come here to think, to breathe, to be."', author: "Priya M.", source: "— Google Review", stars: 5 },
-    { text: '"Found this place by accident. Stayed four hours. The light, the quiet, the coffee — everything was intentional. Will be back every weekend."', author: "Arjun K.", source: "— Google Review", stars: 5 },
-    { text: '"Best specialty coffee in Ahmedabad, hands down. The space is thoughtful, the people are warm, and the mawa croissant is divine."', author: "Sneha R.", source: "— Google Review", stars: 5 },
   ];
 
   const spaceImages = [
@@ -294,37 +290,23 @@ const Home = () => {
       <CoffeeDivider/>
 
       {/* SECTION 6: Reviews */}
-      <div className="w-full flex items-center relative flex-col gap-5 mt-10 px-6 md:px-0">
-        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">What People Say</h6>
-        <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl mb-4 md:mb-8 text-center">Words That Stayed</h1>
-        
-        <div className="w-full md:w-[80%] flex flex-col md:flex-row justify-center gap-6 mt-5 mb-10">
-          {reviews.map((review, i) => (
-            <div key={i} className="flex-1 flex flex-col justify-between p-6 md:p-8 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-transparent">
-              <div className="flex flex-col gap-4 md:gap-5">
-                <div className="flex gap-1 text-[rgba(200,169,110,1)] text-sm">
-                  {[...Array(review.stars)].map((_, j) => (
-                    <span key={j}>★</span>
-                  ))}
-                </div>
-                <p className="font-dmsans italic text-[rgba(28,28,26,0.8)] leading-relaxed text-sm md:text-[15px]">
-                  {review.text}
-                </p>
-              </div>
-              <div className="mt-6 md:mt-10">
-                <div className="h-px w-full bg-[rgba(226,221,213,0.8)] mb-4" />
-                <div className="flex justify-between items-center text-xs font-dmsans text-[rgba(140,136,128,1)]">
-                  <span>{review.author}</span>
-                  <span>{review.source}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+      <TestimonialSection />
+      <CoffeeDivider />
+
+      {/* SECTION 7: Reservation Request */}
+      <div className="w-full flex flex-col items-center gap-8 px-6 md:px-0">
+        <div className="w-full md:w-[80%] flex flex-col gap-4 text-center">
+          <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Reserve</h6>
+          <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl">Request a Table</h1>
+          <p className="mx-auto max-w-2xl font-dmsans text-sm leading-relaxed text-[rgba(100,96,88,1)]">
+            Planning a slow morning, a focused work block, or a conversation that needs a corner? Send a request and our team will confirm availability.
+          </p>
         </div>
+        <ReservationForm compact />
       </div>
       <CoffeeDivider />
 
-      {/* SECTION 7: Visit Us */}
+      {/* SECTION 8: Visit Us */}
       <div className="w-full flex items-center relative flex-col gap-5 mt-10 bg-[#ede9e1]">
         <div className="w-[90%] md:w-[80%] py-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
           <div className="w-full md:w-1/2 flex flex-col gap-4">
