@@ -10,8 +10,8 @@ const navItems = [
   { label: "THE CAFE", path: "/the-cafe" },
   { label: "MENU", path: "/menu" },
   { label: "MOMENTS", path: "/moments" },
-  { label: "VISIT", path: "/visits" },
   { label: "RESERVE", path: "/reservations" },
+  { label: "VISIT", path: "/visits" },
 ];
 
 const Navbar = () => {
