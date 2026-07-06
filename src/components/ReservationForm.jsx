@@ -181,7 +181,7 @@ const ReservationForm = ({ compact = false }) => {
           initial="rest"
           whileHover={isSubmitting ? "rest" : "hover"}
           animate="rest"
-          className="relative inline-flex w-fit select-none items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
+          className="cursor-pointer relative inline-flex w-fit select-none items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className="flex items-center gap-3 pb-1">
             {isSubmitting ? "Sending" : "Request Table"} <FaArrowRight />
