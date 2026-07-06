@@ -4,7 +4,7 @@ import Home from "./home";
 import Menu from "./menu";
 import TheCafe from "./the_cafe";
 import Visits from "./visits"; 
-import Moments from "./moments";
+import Moments from "./moments"; 
 import Reservations from "./reservations";  
 import { Routes, Route, useLocation } from "react-router-dom";   
 import Footer from "./components/fotter";
