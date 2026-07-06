@@ -60,7 +60,13 @@ export const createSupabaseRestClient = ({
       return [];
     }
 
-    return response.json();
+    const text = await response.text();
+
+    if (!text) {
+      return [];
+    }
+
+    return JSON.parse(text);
   };
 
   return {

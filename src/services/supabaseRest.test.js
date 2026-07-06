@@ -18,7 +18,7 @@ describe("createSupabaseRestClient", () => {
   it("posts rows to a Supabase REST table", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => [{ id: "row-1" }],
+      text: async () => JSON.stringify([{ id: "row-1" }]),
     });
 
     const client = createSupabaseRestClient({
@@ -40,6 +40,36 @@ describe("createSupabaseRestClient", () => {
           Prefer: "return=representation",
         }),
         body: JSON.stringify({ customer_name: "Aarav" }),
+      }),
+    );
+  });
+
+  it("handles successful empty responses from return=minimal inserts", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 201,
+      text: async () => "",
+    });
+
+    const client = createSupabaseRestClient({
+      url: "https://example.supabase.co",
+      anonKey: "anon-key",
+      fetchImpl: fetchMock,
+    });
+
+    const rows = await client.insert(
+      "reservations",
+      { customer_name: "Aarav" },
+      { returnRepresentation: false },
+    );
+
+    expect(rows).toEqual([]);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://example.supabase.co/rest/v1/reservations",
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          Prefer: "return=minimal",
+        }),
       }),
     );
   });
