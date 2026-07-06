@@ -1,7 +1,7 @@
 import React from "react";
 import CoffeeDivider from "./components/cooffeedivider";
 import { FaArrowRight, FaWhatsapp } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { IoTimeOutline, IoCarOutline, IoPawOutline } from "react-icons/io5";
 import { FiMusic, FiSun, FiVolume2, FiSunrise, FiCoffee, FiMoon, FiWifi, FiZap, FiPhoneCall } from "react-icons/fi";
 import { CONTACT, CONTACT_LINKS, SITE_HOURS } from "./config/site";
@@ -256,16 +256,16 @@ const Visits = () => {
                     </h1>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-4 w-full">
-                        <motion.a
+                        <Motion.a
                             href={`tel:${CONTACT.phoneRaw}`}
                             whileHover={{ y: -2 }}
                             whileTap={{ scale: 0.98 }}
                             className="select-none w-full md:w-auto bg-[rgba(28,28,26,1)] text-white font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:bg-[#C4A882] transition-colors duration-500 font-bold uppercase shadow-lg"
                         >
                             <FiPhoneCall className="text-[14px]" /> CALL US NOW
-                        </motion.a>
+                        </Motion.a>
                         
-                        <motion.a
+                        <Motion.a
                             href={CONTACT_LINKS.whatsapp}
                             target="_blank"
                             rel="noreferrer"
@@ -274,9 +274,9 @@ const Visits = () => {
                             className="select-none w-full md:w-auto bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,1)] text-[rgba(28,28,26,0.9)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-10 rounded-full flex items-center justify-center gap-3 hover:border-[rgba(28,28,26,0.5)] hover:bg-white transition-all duration-500 font-bold uppercase shadow-sm"
                         >
                             <FaWhatsapp className="text-[14px]" /> Chat on WhatsApp
-                        </motion.a>
+                        </Motion.a>
                         
-                        <motion.a
+                        <Motion.a
                             href={CONTACT_LINKS.directions}
                             target="_blank"
                             rel="noreferrer"
@@ -285,7 +285,7 @@ const Visits = () => {
                             className="select-none w-full md:w-auto bg-transparent border border-transparent text-[rgba(140,136,128,1)] font-dmsans text-[10px] md:text-xs tracking-[0.2em] py-4 px-6 md:px-8 flex items-center justify-center gap-2 hover:text-[rgba(28,28,26,1)] transition-colors duration-500 font-bold uppercase underline underline-offset-4"
                         >
                             GET DIRECTIONS <FaArrowRight className="text-[10px]" />
-                        </motion.a>
+                        </Motion.a>
                     </div>
                 </div>
             </div>

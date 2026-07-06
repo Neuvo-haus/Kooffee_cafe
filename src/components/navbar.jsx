@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
@@ -48,7 +48,7 @@ const Navbar = () => {
               className="relative cursor-pointer"
             >
               {({ isActive }) => (
-                <motion.div
+                <Motion.div
                   initial={false}
                   animate={isActive ? "active" : "rest"}
                   whileHover="hover"
@@ -61,7 +61,7 @@ const Navbar = () => {
                     {item.label}
                   </span>
 
-                  <motion.div
+                  <Motion.div
                     variants={{
                       rest: { scaleX: 0 },
                       hover: { scaleX: 1 },
@@ -74,7 +74,7 @@ const Navbar = () => {
                     }}
                     className="absolute left-0 bottom-0 h-px w-full bg-[rgba(200,169,110,1)] origin-left"
                   />
-                </motion.div>
+                </Motion.div>
               )}
             </NavLink>
           ))}
@@ -92,7 +92,7 @@ const Navbar = () => {
       {/* Mobile Overlay Menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -137,7 +137,7 @@ const Navbar = () => {
                 </NavLink>
               ))}
             </nav>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </>

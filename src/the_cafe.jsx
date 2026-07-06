@@ -3,7 +3,7 @@ import CoffeeDivider from "./components/cooffeedivider";
 import { FiDownload } from "react-icons/fi";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { CONTACT, CONTACT_LINKS } from "./config/site";
 
 // Cafe page images
@@ -184,7 +184,7 @@ const TheCafe = () => {
                         Kooffe is a specialty café in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection.
                     </p>
 
-                    <motion.a
+                    <Motion.a
                         href={CONTACT_LINKS.mediaKit}
                         download
                         whileHover={{ y: -2 }}
@@ -193,7 +193,7 @@ const TheCafe = () => {
                     >
                         <FiDownload className="text-base" />
                         DOWNLOAD MEDIA KIT
-                    </motion.a>
+                    </Motion.a>
 
                     <div className="flex items-center justify-center gap-6 mt-8 w-[80%] pt-8 border-t border-[rgba(226,221,213,0.6)]">
                         <a href={CONTACT_LINKS.brandAssets} className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">

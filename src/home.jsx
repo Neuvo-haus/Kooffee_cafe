@@ -6,13 +6,14 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoTimeOutline } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
 // Animation library  
-import { motion, useScroll, useTransform } from "framer-motion";   
+import { motion as Motion, useScroll, useTransform } from "framer-motion";
 // Image assets 
 // Hero background
 import homeHeroBackground from "./assets/home/home-hero-background.png";
 import homeHeroVideoMp4 from "./assets/nce_website_compressed.mp4";
 import homeHeroVideoWebm from "./assets/nce_website_compressed.webm";
 import homeHeroPoster from "./assets/nce_website_poster.jpg";
+import cafeInteriorMorningLight from "./assets/the cafe/cafe-interior-morning-light.jpeg";
 // Stay card feature circles
 import homeStaySlowMorning from "./assets/home/home-stay-slow-morning.jpeg";
 import homeStayDeepConversation from "./assets/home/home-stay-deep-conversation.jpeg";
@@ -31,11 +32,13 @@ import affogatoImg from "./assets/home/Affogato_drenched_in_espresso_.jpeg";
 // Custom divider component
 import CoffeeDivider from "./components/cooffeedivider";
 import { CONTACT_LINKS, SITE_HOURS } from "./config/site";
+import { useMediaQuery } from "./hooks/useMediaQuery";
 
 
 // Home page main component
 const Home = () => {
   const navigate = useNavigate();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   // Ref for scroll container
   const containerRef = useRef(null);
 
@@ -111,19 +114,13 @@ const Home = () => {
   return (
     <div className="w-full relative flex items-center flex-col pb-20">
       {/* ===== MOBILE HERO: Static background image, no scroll animation ===== */}
-      <div className="md:hidden w-full h-screen relative flex items-center justify-center">
-        {/* Video background */}
-        <video
-          poster={homeHeroPoster}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src={homeHeroVideoWebm} type="video/webm" />
-          <source src={homeHeroVideoMp4} type="video/mp4" />
-        </video>
+      {!isDesktop && (
+      <div className="w-full h-screen relative flex items-center justify-center">
+        <img
+          src={cafeInteriorMorningLight}
+          alt="Morning light inside Kooffee Cafe"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
 
         {/* Text content */}
         <div className="relative z-10 w-[85%] flex flex-col justify-center gap-4 pt-10">
@@ -136,11 +133,11 @@ const Home = () => {
             <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-2">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
           </h6>
           <div className="flex items-center gap-4 pt-4 mt-2 flex-wrap">
-            <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
+            <Motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
               <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
-              <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-            </motion.div>
-            <motion.a
+              <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+            </Motion.div>
+            <Motion.a
               href={CONTACT_LINKS.directions}
               target="_blank"
               rel="noreferrer"
@@ -150,17 +147,19 @@ const Home = () => {
               className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm"
             >
               <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
-              <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-            </motion.a>
+              <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+            </Motion.a>
           </div>
         </div>
       </div>
+      )}
 
       {/* ===== DESKTOP HERO: Original scroll-driven expanding image animation ===== */}
-      <div ref={containerRef} className="w-full h-[300vh] relative hidden md:block">
+      {isDesktop && (
+      <div ref={containerRef} className="w-full h-[300vh] relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {/* Intro Text Section */}
-          <motion.div style={{ opacity: textOpacity }} className="w-[60%] h-[70%] flex z-10">
+          <Motion.div style={{ opacity: textOpacity }} className="w-[60%] h-[70%] flex z-10">
             <div className="w-1/2 h-full flex items-center">
               <div className="w-full flex flex-col justify-center gap-6">
                 <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">EST. AHMEDABAD</h6>
@@ -172,11 +171,11 @@ const Home = () => {
                   <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-4">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
                 </h6>
                 <div className="flex items-center gap-10 pt-4 mt-4">
-                  <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                  <Motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                     <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
-                    <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-                  </motion.div>
-                  <motion.a
+                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+                  </Motion.div>
+                  <Motion.a
                     href={CONTACT_LINKS.directions}
                     target="_blank"
                     rel="noreferrer"
@@ -186,15 +185,15 @@ const Home = () => {
                     className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors"
                   >
                     <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
-                    <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-                  </motion.a>
+                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+                  </Motion.a>
                 </div>
               </div>
             </div>
             <div className="w-1/2 h-full"></div>
-          </motion.div>
+          </Motion.div>
           {/* Expanding Image Animation */}
-          <motion.div style={{ width, height, top, right, borderRadius }} className="absolute z-20 overflow-hidden shadow-2xl">
+          <Motion.div style={{ width, height, top, right, borderRadius }} className="absolute z-20 overflow-hidden shadow-2xl">
             <video
               poster={homeHeroPoster}
               autoPlay
@@ -206,15 +205,16 @@ const Home = () => {
               <source src={homeHeroVideoWebm} type="video/webm" />
               <source src={homeHeroVideoMp4} type="video/mp4" />
             </video>
-          </motion.div>
+          </Motion.div>
         </div>
       </div>
+      )}
 
       {/* SECTION 2: Why People Stay Longer */}
       <div className="w-full h-fit mt-16 md:mt-30 flex gap-6 md:gap-10 flex-col items-center justify-center relative z-30 px-6 md:px-0">
         <h1 className="text-black text-3xl md:text-5xl font-['Cormorant_Garamond'] italic text-center">Why People Stay Longer</h1>
         <div className="flex flex-col md:flex-row gap-10 md:gap-40 mt-10 md:mt-20">
-          {stayCards.map((card, i) => (
+          {stayCards.map((card) => (
             <div key={card.title} className="h-auto md:h-60 w-full md:w-80 flex gap-3 flex-col items-center relative">
               <div className="h-20 w-20 rounded-full bg-cover bg-center relative overflow-hidden" style={{ backgroundImage: `url(${card.img})` }}>
                 <div className="absolute inset-0" style={{ background: `linear-gradient(180deg,rgba(232,213,176,0.7) 0%,rgba(196,168,130,0.7) 50%,rgba(160,133,106,0.7) 100%)` }} />
@@ -261,10 +261,10 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-5 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+        <Motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-5 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
           <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">SEE FULL MENU <FaArrowRight /></span>
-          <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-        </motion.div>
+          <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+        </Motion.div>
       </div>
       <CoffeeDivider />
 
@@ -286,10 +286,10 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <motion.div onClick={() => navigate('/the-cafe')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-12 md:mt-24 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+        <Motion.div onClick={() => navigate('/the-cafe')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer mt-12 md:mt-24 px-6 md:px-8 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
           <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] pb-1">EXPLORE THE SPACE <FaArrowRight /></span>
-          <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-        </motion.div>
+          <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 md:left-8 right-6 md:right-8 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+        </Motion.div>
       </div>
       <CoffeeDivider/>
 
@@ -357,14 +357,14 @@ const Home = () => {
             </div>
 
             <div className="flex items-center gap-4 md:gap-8 mt-8 md:mt-10 flex-wrap">
-              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+              <Motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                 <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">CALL NOW <FaArrowRight /></span>
-                <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-              </motion.div>
-              <motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+              </Motion.div>
+              <Motion.div initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 md:px-6 py-3 md:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
                 <span className="flex items-center gap-2 text-xs md:text-sm tracking-[0.2em] md:tracking-[0.3em] font-dmsans uppercase pb-1">WHATSAPP <FaArrowRight /></span>
-                <motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
-              </motion.div>
+                <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 md:left-6 right-4 md:right-6 bottom-2 md:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+              </Motion.div>
             </div>
           </div>
           

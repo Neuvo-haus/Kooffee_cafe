@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 const variants = {
   initial: {
@@ -26,7 +26,7 @@ const variants = {
 
 const PageTransition = ({ children }) => {
   return (
-    <motion.div
+    <Motion.div
       initial="initial"
       animate="enter"
       exit="exit"
@@ -34,7 +34,7 @@ const PageTransition = ({ children }) => {
       className="w-full flex-1 flex flex-col items-center justify-start"
     >
       {children}
-    </motion.div>
+    </Motion.div>
   );
 };
 
