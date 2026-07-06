@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion as Motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import { fallbackTestimonials } from "../data/testimonials";
 import {
@@ -218,13 +219,23 @@ const TestimonialSection = () => {
                   {status.message}
                 </p>
               )}
-              <button
+              <Motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-fit items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
+                initial="rest"
+                whileHover={isSubmitting ? "rest" : "hover"}
+                animate="rest"
+                className="relative inline-flex w-fit select-none items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isSubmitting ? "Sending" : "Send Words"} <FaArrowRight />
-              </button>
+                <span className="flex items-center gap-3 pb-1">
+                  {isSubmitting ? "Sending" : "Send Words"} <FaArrowRight />
+                </span>
+                <Motion.div
+                  variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="absolute left-6 right-6 bottom-3 h-[1px] origin-left bg-[rgba(200,169,110,1)]"
+                />
+              </Motion.button>
             </div>
           </div>
         </form>
