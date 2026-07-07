@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion as Motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 import { FaArrowRight } from "react-icons/fa6";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { fallbackTestimonials } from "../data/testimonials";
 import {
   fetchApprovedTestimonials,
@@ -20,6 +22,14 @@ const TestimonialSection = () => {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    loop: testimonials.length > 1,
+    slidesToScroll: 1,
+  });
 
   useEffect(() => {
     let active = true;
@@ -40,6 +50,35 @@ const TestimonialSection = () => {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!emblaApi) {
+      return undefined;
+    }
+
+    const updateState = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+
+    updateState();
+    emblaApi.on("select", updateState);
+    emblaApi.on("reInit", updateState);
+
+    return () => {
+      emblaApi.off("select", updateState);
+      emblaApi.off("reInit", updateState);
+    };
+  }, [emblaApi, testimonials.length]);
+
+  useEffect(() => {
+    if (!emblaApi) {
+      return;
+    }
+
+    emblaApi.reInit();
+  }, [emblaApi, testimonials]);
 
   const updateField = (field) => (event) => {
     const value =
@@ -90,6 +129,10 @@ const TestimonialSection = () => {
     setIsSubmitting(false);
   };
 
+  const scrollPrev = () => emblaApi?.scrollPrev();
+  const scrollNext = () => emblaApi?.scrollNext();
+  const scrollTo = (index) => emblaApi?.scrollTo(index);
+
   return (
     <section className="w-full border-y border-[rgba(226,221,213,0.65)] bg-[rgba(250,247,242,0.42)] px-5 py-16 md:px-8 md:py-24">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 md:gap-14">
@@ -105,31 +148,78 @@ const TestimonialSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((review) => (
-            <article
-              key={review.id}
-              className="flex min-h-72 flex-col justify-between rounded-lg border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.82)] p-6 shadow-[0_18px_60px_rgba(28,28,26,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(196,168,130,0.65)] hover:bg-[rgba(250,247,242,0.96)] md:min-h-80 md:p-8"
-            >
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-1 text-sm text-[#C4A882]">
-                  {Array.from({ length: review.rating }).map((_, index) => (
-                    <span key={index}>★</span>
-                  ))}
+        <div className="space-y-5">
+          <div className="flex items-center justify-between gap-4">
+            <div className="font-dmsans text-[10px] font-bold uppercase tracking-[0.24em] text-[#8C6D46]">
+              Testimonials carousel
+            </div>
+            <div className="hidden items-center gap-2 sm:flex">
+              <button
+                type="button"
+                onClick={scrollPrev}
+                disabled={!canScrollPrev}
+                aria-label="Previous testimonials"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.85)] text-[rgba(28,28,26,0.88)] transition hover:border-[rgba(196,168,130,0.6)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <FiChevronLeft />
+              </button>
+              <button
+                type="button"
+                onClick={scrollNext}
+                disabled={!canScrollNext}
+                aria-label="Next testimonials"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.85)] text-[rgba(28,28,26,0.88)] transition hover:border-[rgba(196,168,130,0.6)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <FiChevronRight />
+              </button>
+            </div>
+          </div>
+
+          <div ref={emblaRef} className="overflow-hidden" aria-label="Testimonials carousel" role="region">
+            <div className="-ml-4 flex">
+              {testimonials.map((review) => (
+                <div key={review.id} className="min-w-0 flex-[0_0_100%] pl-4 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
+                  <article
+                    className="flex h-full min-h-72 flex-col justify-between rounded-lg border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.82)] p-6 shadow-[0_18px_60px_rgba(28,28,26,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(196,168,130,0.65)] hover:bg-[rgba(250,247,242,0.96)] md:min-h-80 md:p-8"
+                  >
+                    <div className="flex flex-col gap-5">
+                      <div className="flex gap-1 text-sm text-[#C4A882]">
+                        {Array.from({ length: review.rating }).map((_, index) => (
+                          <span key={index}>★</span>
+                        ))}
+                      </div>
+                      <p className="font-['Cormorant_Garamond'] text-2xl italic leading-snug text-[rgba(28,28,26,0.88)] md:text-3xl">
+                        “{review.message}”
+                      </p>
+                    </div>
+                    <div className="mt-8">
+                      <div className="mb-4 h-px w-full bg-[rgba(196,168,130,0.32)]" />
+                      <div className="flex flex-col gap-1 font-dmsans text-xs text-[rgba(100,96,88,1)] sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                        <span className="font-bold uppercase tracking-[0.16em] text-[rgba(28,28,26,0.82)]">{review.customer_name}</span>
+                        <span className="uppercase tracking-[0.14em] text-[rgba(140,136,128,1)]">{review.source}</span>
+                      </div>
+                    </div>
+                  </article>
                 </div>
-                <p className="font-['Cormorant_Garamond'] text-2xl italic leading-snug text-[rgba(28,28,26,0.88)] md:text-3xl">
-                  “{review.message}”
-                </p>
-              </div>
-              <div className="mt-8">
-                <div className="mb-4 h-px w-full bg-[rgba(196,168,130,0.32)]" />
-                <div className="flex flex-col gap-1 font-dmsans text-xs text-[rgba(100,96,88,1)] sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                  <span className="font-bold uppercase tracking-[0.16em] text-[rgba(28,28,26,0.82)]">{review.customer_name}</span>
-                  <span className="uppercase tracking-[0.14em] text-[rgba(140,136,128,1)]">{review.source}</span>
-                </div>
-              </div>
-            </article>
-          ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-2">
+            {testimonials.map((review, index) => (
+              <button
+                key={review.id}
+                type="button"
+                onClick={() => scrollTo(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  index === selectedIndex
+                    ? "w-8 bg-[#C4A882]"
+                    : "w-2.5 bg-[rgba(196,168,130,0.35)] hover:bg-[rgba(196,168,130,0.55)]"
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         <form
