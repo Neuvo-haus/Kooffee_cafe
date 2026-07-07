@@ -35,6 +35,9 @@ const updateRow = async (table, id, values, client = requireAdminSupabase()) =>
 const upsertRow = async (table, values, client = requireAdminSupabase(), options) =>
   requireData(await client.from(table).upsert(values, options).select().single());
 
+const deleteRow = async (table, id, client = requireAdminSupabase()) =>
+  requireData(await client.from(table).delete().eq("id", id));
+
 const getFileExtension = (fileName) => {
   const extension = String(fileName ?? "").split(".").pop();
   return extension && extension !== fileName ? extension.toLowerCase() : "jpg";
@@ -129,6 +132,9 @@ export const updateReservation = async (
 
 export const updateTestimonial = (id, input, client = requireAdminSupabase()) =>
   updateRow("testimonials", id, normalizeTestimonialUpdate(input), client);
+
+export const deleteTestimonial = (id, client = requireAdminSupabase()) =>
+  deleteRow("testimonials", id, client);
 
 export const saveMenuCategory = (input, client = requireAdminSupabase()) =>
   upsertRow("menu_categories", normalizeCategoryPayload(input), client);

@@ -21,6 +21,7 @@ import { canManageAdmins, getAdminAccessState } from "./features/admin/adminAuth
 import {
   fetchAdminProfile,
   fetchDashboardStats,
+  deleteTestimonial,
   listRows,
   saveAdminProfile,
   saveCafeSections,
@@ -43,6 +44,8 @@ const roomyInputClass =
   "w-full rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-4 py-3 text-base leading-7 text-[rgba(28,28,26,1)] outline-none focus:border-[#C4A882]";
 const buttonClass =
   "inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[rgba(28,28,26,0.12)] px-4 text-xs font-bold uppercase tracking-[0.18em] transition-colors hover:border-[#C4A882] hover:text-[#8C6D46]";
+const destructiveButton =
+  "inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[rgba(153,27,27,0.18)] px-4 text-xs font-bold uppercase tracking-[0.18em] text-red-700 transition-colors hover:border-red-300 hover:text-red-900";
 const primaryButton =
   "inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[rgba(28,28,26,1)] px-4 text-xs font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#8C6D46]";
 const editorPanel = "border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.92)] shadow-sm rounded-lg p-6 md:p-8";
@@ -509,13 +512,32 @@ const TestimonialsAdmin = () => {
   const { rows, loading, error, reload } = useRows(() =>
     listRows("testimonials", (request) => request.select("*").order("created_at", { ascending: false })),
   );
+  const [actionError, setActionError] = useState("");
   const save = async (row, values) => {
+    setActionError("");
     await updateTestimonial(row.id, { ...row, ...values });
     reload();
+  };
+  const remove = async (row) => {
+    const confirmed = window.confirm(`Delete testimonial from ${row.customer_name}?`);
+
+    if (!confirmed) {
+      return;
+    }
+
+    setActionError("");
+
+    try {
+      await deleteTestimonial(row.id);
+      reload();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Could not delete testimonial.");
+    }
   };
 
   return (
     <CrudPage title="Testimonials" loading={loading} error={error}>
+      {actionError && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{actionError}</p>}
       <DataTable
         columns={["Name", "Message", "Status", "Featured", "Actions"]}
         rows={rows.map((row) => [
@@ -527,6 +549,7 @@ const TestimonialsAdmin = () => {
             <button className={buttonClass} onClick={() => save(row, { status: "approved" })}>Approve</button>
             <button className={buttonClass} onClick={() => save(row, { status: "rejected" })}>Reject</button>
             <button className={buttonClass} onClick={() => save(row, { is_featured: !row.is_featured })}>Feature</button>
+            <button className={destructiveButton} onClick={() => remove(row)}>Delete</button>
           </div>,
         ])}
       />

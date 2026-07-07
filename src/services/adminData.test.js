@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fetchAdminProfile, saveAdminProfile, uploadMediaFile } from "./adminData";
+import { deleteTestimonial, fetchAdminProfile, saveAdminProfile, uploadMediaFile } from "./adminData";
 
 vi.mock("./adminSupabase", () => ({
   requireAdminSupabase: () => {
@@ -123,5 +123,19 @@ describe("admin data services", () => {
       { cacheControl: "3600", upsert: false },
     );
     expect(getPublicUrl).toHaveBeenCalledWith(uploadedPath);
+  });
+
+  it("deletes testimonials by id", async () => {
+    const eq = vi.fn(async () => ({ data: [{ id: "testimonial-1" }], error: null }));
+    const remove = vi.fn(() => ({ eq }));
+    const client = {
+      from: vi.fn(() => ({ delete: remove })),
+    };
+
+    await deleteTestimonial("testimonial-1", client);
+
+    expect(remove).toHaveBeenCalled();
+    expect(eq).toHaveBeenCalledWith("id", "testimonial-1");
+    expect(client.from).toHaveBeenCalledWith("testimonials");
   });
 });

@@ -187,6 +187,8 @@ drop policy if exists "Admins can read testimonials" on public.testimonials;
 create policy "Admins can read testimonials" on public.testimonials for select to authenticated using (public.is_admin());
 drop policy if exists "Admins can update testimonials" on public.testimonials;
 create policy "Admins can update testimonials" on public.testimonials for update to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Admins can delete testimonials" on public.testimonials;
+create policy "Admins can delete testimonials" on public.testimonials for delete to authenticated using (public.is_admin());
 
 drop policy if exists "Admins can read admin profiles" on public.admin_profiles;
 create policy "Admins can read admin profiles" on public.admin_profiles for select to authenticated using (public.is_admin());
