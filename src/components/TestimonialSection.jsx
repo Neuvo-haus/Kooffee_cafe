@@ -8,6 +8,7 @@ import {
   fetchApprovedTestimonials,
   submitTestimonial,
 } from "../services/publicForms";
+import { startTestimonialAutoplay } from "./testimonialCarouselAutoplay";
 
 const initialForm = {
   customerName: "",
@@ -25,6 +26,7 @@ const TestimonialSection = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: testimonials.length > 1,
@@ -79,6 +81,14 @@ const TestimonialSection = () => {
 
     emblaApi.reInit();
   }, [emblaApi, testimonials]);
+
+  useEffect(() => {
+    if (!emblaApi || isCarouselPaused) {
+      return undefined;
+    }
+
+    return startTestimonialAutoplay(emblaApi, { delayMs: 4500 });
+  }, [emblaApi, isCarouselPaused]);
 
   const updateField = (field) => (event) => {
     const value =
@@ -175,7 +185,16 @@ const TestimonialSection = () => {
             </div>
           </div>
 
-          <div ref={emblaRef} className="overflow-hidden" aria-label="Testimonials carousel" role="region">
+          <div
+            ref={emblaRef}
+            className="overflow-hidden"
+            aria-label="Testimonials carousel"
+            role="region"
+            onMouseEnter={() => setIsCarouselPaused(true)}
+            onMouseLeave={() => setIsCarouselPaused(false)}
+            onFocusCapture={() => setIsCarouselPaused(true)}
+            onBlurCapture={() => setIsCarouselPaused(false)}
+          >
             <div className="-ml-4 flex">
               {testimonials.map((review) => (
                 <div key={review.id} className="min-w-0 flex-[0_0_100%] pl-4 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
