@@ -8,7 +8,7 @@ import Moments from "./moments";
 import Reservations from "./reservations";  
 import AdminApp from "./admin";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Footer from "./components/fotter";
+import Footer from "./components/fotter"; 
 import ScrollToTop from "./components/ScrollToTop";
 import { AnimatePresence } from "framer-motion"; 
 import PageTransition from "./components/PageTransition";
