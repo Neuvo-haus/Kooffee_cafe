@@ -61,6 +61,7 @@ export const submitTestimonial = async (input, options = {}) => {
     const data = await (options.client ?? supabaseRest).insert(
       "testimonials",
       validation.values,
+      { returnRepresentation: false },
     );
 
     return {

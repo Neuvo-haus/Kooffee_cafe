@@ -90,6 +90,7 @@ describe("public form services", () => {
     expect(client.insert).toHaveBeenCalledWith(
       "testimonials",
       expect.objectContaining({ status: "pending", consent_to_publish: true }),
+      { returnRepresentation: false },
     );
   });
 
