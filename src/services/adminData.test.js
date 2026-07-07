@@ -126,8 +126,8 @@ describe("admin data services", () => {
   });
 
   it("deletes testimonials by id", async () => {
-    const eq = vi.fn(async () => ({ data: [{ id: "testimonial-1" }], error: null }));
-    const remove = vi.fn(() => ({ eq }));
+    const select = vi.fn(async () => ({ data: [{ id: "testimonial-1" }], error: null }));
+    const remove = vi.fn(() => ({ eq: vi.fn(() => ({ select })) }));
     const client = {
       from: vi.fn(() => ({ delete: remove })),
     };
@@ -135,7 +135,7 @@ describe("admin data services", () => {
     await deleteTestimonial("testimonial-1", client);
 
     expect(remove).toHaveBeenCalled();
-    expect(eq).toHaveBeenCalledWith("id", "testimonial-1");
+    expect(select).toHaveBeenCalledWith("id");
     expect(client.from).toHaveBeenCalledWith("testimonials");
   });
 });

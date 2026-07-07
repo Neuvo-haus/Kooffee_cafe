@@ -36,7 +36,21 @@ const upsertRow = async (table, values, client = requireAdminSupabase(), options
   requireData(await client.from(table).upsert(values, options).select().single());
 
 const deleteRow = async (table, id, client = requireAdminSupabase()) =>
-  requireData(await client.from(table).delete().eq("id", id));
+  (() => {
+    const request = client.from(table).delete().eq("id", id).select("id");
+
+    return request.then(({ data, error }) => {
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error(`No ${table} row was deleted. Check Supabase delete policies.`);
+      }
+
+      return data;
+    });
+  })();
 
 const getFileExtension = (fileName) => {
   const extension = String(fileName ?? "").split(".").pop();
