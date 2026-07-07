@@ -23,7 +23,7 @@ function App() {
       <ScrollToTop />
       {!isAdminRoute && <Navbar className="absolute top-0 left-0 right-0 z-50" />}
       <div className={`flex-1 flex justify-center w-full ${isAdminRoute ? "block" : ""}`}>
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait"> 
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
             <Route path="/the-cafe" element={<PageTransition><TheCafe /></PageTransition>} />
