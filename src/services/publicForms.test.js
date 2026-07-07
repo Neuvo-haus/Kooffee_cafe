@@ -10,6 +10,9 @@ describe("public form services", () => {
     const client = {
       insert: vi.fn(),
     };
+    const emailClient = {
+      sendReservationEmails: vi.fn(),
+    };
 
     const result = await submitReservationRequest(
       {
@@ -20,17 +23,21 @@ describe("public form services", () => {
         requestedDate: "2026-08-20",
         requestedTime: "22:00",
       },
-      { client, today: "2026-07-07" },
+      { client, emailClient, today: "2026-07-07" },
     );
 
     expect(result.ok).toBe(false);
     expect(result.type).toBe("validation");
     expect(client.insert).not.toHaveBeenCalled();
+    expect(emailClient.sendReservationEmails).not.toHaveBeenCalled();
   });
 
-  it("submits a valid reservation as pending", async () => {
+  it("submits a valid reservation and sends reservation emails", async () => {
     const client = {
-      insert: vi.fn().mockResolvedValue([{ id: "reservation-1" }]),
+      insert: vi.fn().mockResolvedValue([]),
+    };
+    const emailClient = {
+      sendReservationEmails: vi.fn().mockResolvedValue({ skipped: false }),
     };
 
     const result = await submitReservationRequest(
@@ -42,15 +49,25 @@ describe("public form services", () => {
         requestedDate: "2026-07-10",
         requestedTime: "09:30",
       },
-      { client, today: "2026-07-07" },
+      { client, emailClient, today: "2026-07-07" },
     );
 
     expect(result.ok).toBe(true);
-    expect(result.data).toEqual([{ id: "reservation-1" }]);
+    expect(result.data).toEqual({
+      reservation: [],
+      email: { skipped: false },
+    });
     expect(client.insert).toHaveBeenCalledWith(
       "reservations",
       expect.objectContaining({ status: "pending", party_size: 2 }),
       { returnRepresentation: false },
+    );
+    expect(emailClient.sendReservationEmails).toHaveBeenCalledWith(
+      expect.objectContaining({
+        customer_name: "Aarav Shah",
+        email: "aarav@example.com",
+        party_size: 2,
+      }),
     );
   });
 

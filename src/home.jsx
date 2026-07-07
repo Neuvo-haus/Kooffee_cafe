@@ -1,5 +1,5 @@
 // React and hooks
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Icon imports
 import { CiLocationOn } from "react-icons/ci";
@@ -35,7 +35,9 @@ import { CONTACT_LINKS, SITE_HOURS } from "./config/site";
 import { useMediaQuery } from "./hooks/useMediaQuery";
 import ReservationForm from "./components/ReservationForm";
 import TestimonialSection from "./components/TestimonialSection";
+import { fetchPublishedSections } from "./services/publicCms";
 
+const getSection = (sections, key) => sections.find((section) => section.key === key) || {};
 
 // Home page main component
 const Home = () => {
@@ -58,20 +60,80 @@ const Home = () => {
   const borderRadius = useTransform(scrollYProgress, [0, 1], ["1rem", "0rem"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
-  // Data for repeated sections
-  const stayCards = [
+  const fallbackStayCards = [
     { img: homeStaySlowMorning, title: "Slow Morning", desc: "A corner table reserved for no one. Stay as long as you need. The light here moves slowly too." },
     { img: homeStayDeepConversation, title: "Deep Conversation", desc: "Some tables face each other for a reason. This is where friendships deepen and ideas take shape." },
     { img: homeStayQuickFocus, title: "Quick Focus", desc: "Plug in, tune out. A quiet corner with power outlets and no interruptions. Just you and the work." },
   ];
 
-  const dailyBlocks = [
+  const fallbackDailyBlocks = [
     { icon: "🌅", title: "Golden Hour", desc: "Morning specialty brews paired with fresh pastries. The city hasn't woken up yet — but you have.", time: "7-10 AM" },
     { icon: "☕", title: "Conversation Hour", desc: "Afternoon gatherings over long blacks and chai. Pull up a chair. Stay a while.", time: "12–4 PM" },
     { icon: "🌙", title: "Quiet Hour", desc: "Work-friendly evenings with dim lights and deep focus. Laptops welcome. Silence respected.", time: "6–9 PM" },
   ];
+  const [homepageSections, setHomepageSections] = useState([]);
 
-  const menuCards = [
+  useEffect(() => {
+    fetchPublishedSections("homepage_sections", []).then(setHomepageSections);
+  }, []);
+
+  const heroSection = getSection(homepageSections, "hero");
+  const staySection = getSection(homepageSections, "stay_longer");
+  const ritualSection = getSection(homepageSections, "daily_ritual");
+  const signatureSection = getSection(homepageSections, "signature_offering");
+  const offersSection = getSection(homepageSections, "offers");
+  const noticeSection = getSection(homepageSections, "notice");
+  const heroContent = {
+    eyebrow: heroSection.eyebrow || "EST. AHMEDABAD",
+    title: heroSection.title || "Kooffee cafe in Ahmedabad",
+    subtitle: heroSection.body || "Specialty coffee. Slow mornings. Open conversations.",
+    primaryButtonLabel: heroSection.data?.primaryButtonLabel || "VIEW MENU",
+    primaryButtonPath: heroSection.data?.primaryButtonPath || "/menu",
+  };
+  const stayCards = (staySection.data?.cards?.length ? staySection.data.cards : fallbackStayCards)
+    .map((card, index) => ({
+      ...fallbackStayCards[index % fallbackStayCards.length],
+      title: card.title,
+      desc: card.body || card.desc,
+    }));
+  const dailyBlocks = (ritualSection.data?.cards?.length ? ritualSection.data.cards : fallbackDailyBlocks)
+    .map((card, index) => ({
+      ...fallbackDailyBlocks[index % fallbackDailyBlocks.length],
+      title: card.title,
+      desc: card.body || card.desc,
+      time: card.time,
+    }));
+  const notice = {
+    enabled: Boolean(noticeSection.data?.enabled && noticeSection.body),
+    text: noticeSection.body,
+  };
+  const fallbackOfferCards = [
+    {
+      badge: "Mon-Fri",
+      title: "Morning Pour",
+      body: "Complimentary biscotti with any pour over before 10 AM.",
+    },
+    {
+      badge: "After 4 PM",
+      title: "Conversation Pairing",
+      body: "Two coffees and one shared bake at a softer evening price.",
+    },
+    {
+      badge: "Weekends",
+      title: "Long Table Brunch",
+      body: "Reserved seating for groups with a curated first round.",
+    },
+  ];
+  const offerCards = (offersSection.data?.offers?.length ? offersSection.data.offers : fallbackOfferCards)
+    .map((offer, index) => ({
+      ...fallbackOfferCards[index % fallbackOfferCards.length],
+      badge: offer.badge,
+      title: offer.title,
+      body: offer.body,
+    }))
+    .filter((offer) => offer.badge || offer.title || offer.body);
+
+  const fallbackMenuCards = [
     {
       title: "Espresso Macchiato",
       img: espressoMacchiatoImg,
@@ -97,6 +159,14 @@ const Home = () => {
       price: "₹220",
     },
   ];
+  const menuCards = (signatureSection.data?.items?.length ? signatureSection.data.items : fallbackMenuCards)
+    .map((item, index) => ({
+      ...fallbackMenuCards[index % fallbackMenuCards.length],
+      title: item.title,
+      desc: item.body || item.desc,
+      price: item.price,
+      img: item.imageUrl || item.img,
+    }));
 
   const spaceImages = [
     { img: homeHeroBackground, className: "row-span-2" },
@@ -120,17 +190,17 @@ const Home = () => {
 
         {/* Text content */}
         <div className="relative z-10 w-[85%] flex flex-col justify-center gap-4 pt-10">
-          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">EST. AHMEDABAD</h6>
+          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">{heroContent.eyebrow}</h6>
           <h1 className="text-4xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] leading-tight">
-            Kooffee cafe <br /> in Ahmedabad
+            {heroContent.title}
           </h1>
-          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">Specialty coffee. Slow mornings. Open conversations.</h6>
+          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">{heroContent.subtitle}</h6>
           <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs flex items-center gap-2 flex-wrap">
             <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-2">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
           </h6>
           <div className="flex items-center gap-4 pt-4 mt-2 flex-wrap">
-            <Motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
-              <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
+            <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
+              <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
               <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
             </Motion.div>
             <Motion.a
@@ -158,17 +228,17 @@ const Home = () => {
           <Motion.div style={{ opacity: textOpacity }} className="w-[60%] h-[70%] flex z-10">
             <div className="w-1/2 h-full flex items-center">
               <div className="w-full flex flex-col justify-center gap-6">
-                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">EST. AHMEDABAD</h6>
+                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">{heroContent.eyebrow}</h6>
                 <h1 className="text-6xl lg:text-7xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] leading-tight">
-                  Kooffee cafe <br /> in Ahmedabad
+                  {heroContent.title}
                 </h1>
-                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">Specialty coffee. Slow mornings. Open conversations.</h6>
+                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">{heroContent.subtitle}</h6>
                 <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm flex items-center gap-2">
                   <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-4">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
                 </h6>
                 <div className="flex items-center gap-10 pt-4 mt-4">
-                  <Motion.div onClick={() => navigate('/menu')} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
-                    <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">VIEW MENU <FaArrowRight /></span>
+                  <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                    <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
                     <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
                   </Motion.div>
                   <Motion.a
@@ -206,6 +276,18 @@ const Home = () => {
       </div>
       )}
 
+      {notice.enabled && (
+        <div className="w-full border-y border-[rgba(196,168,130,0.45)] bg-[rgba(250,247,242,0.96)] px-6 py-6">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-2 text-center md:flex-row md:gap-5">
+            <span className="font-dmsans text-[10px] font-bold uppercase tracking-[0.24em] text-[#8C6D46]">Today at Kooffee</span>
+            <span className="hidden h-8 w-px bg-[rgba(196,168,130,0.55)] md:block"></span>
+            <p className="font-['Cormorant_Garamond'] text-2xl italic leading-snug text-[rgba(28,28,26,1)] md:text-3xl">
+              {notice.text}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* SECTION 2: Why People Stay Longer */}
       <div className="w-full h-fit mt-16 md:mt-30 flex gap-6 md:gap-10 flex-col items-center justify-center relative z-30 px-6 md:px-0">
         <h1 className="text-black text-3xl md:text-5xl font-['Cormorant_Garamond'] italic text-center">Why People Stay Longer</h1>
@@ -222,6 +304,37 @@ const Home = () => {
         </div>
       </div>
       <CoffeeDivider />
+
+      {offerCards.length > 0 && (
+        <>
+          <div className="w-full border-y border-[rgba(226,221,213,0.65)] bg-[rgba(250,247,242,0.55)] px-6 py-16 md:px-0 md:py-20">
+            <div className="mx-auto flex w-full flex-col gap-8 md:w-[80%]">
+              <div className="text-center">
+                <h6 className="font-dmsans text-xs uppercase tracking-[0.22em] text-[#8C6D46]">
+                  {offersSection.eyebrow || "THIS WEEK"}
+                </h6>
+                <h1 className="mt-3 font-['Cormorant_Garamond'] text-4xl italic text-[rgba(28,28,26,1)] md:text-5xl">
+                  {offersSection.title || "Slow Hour Offers"}
+                </h1>
+              </div>
+              <div className="grid gap-4 md:grid-cols-3">
+                {offerCards.map((offer) => (
+                  <div key={`${offer.badge}-${offer.title}`} className="rounded-lg border border-[rgba(196,168,130,0.45)] bg-[rgba(245,240,232,0.78)] p-6 shadow-[0_18px_60px_rgba(28,28,26,0.05)] md:p-8">
+                    <span className="font-dmsans text-[10px] font-bold uppercase tracking-[0.2em] text-[#8C6D46]">{offer.badge}</span>
+                    <h2 className="mt-4 font-['Cormorant_Garamond'] text-3xl italic leading-tight text-[rgba(28,28,26,1)]">
+                      {offer.title}
+                    </h2>
+                    <p className="mt-3 font-dmsans text-sm leading-7 text-[rgba(100,96,88,1)]">
+                      {offer.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <CoffeeDivider />
+        </>
+      )}
 
       {/* SECTION 3: Daily Rituals */}
       <div className="w-full flex items-center relative flex-col gap-5 mt-10 px-6 md:px-0">
@@ -243,8 +356,8 @@ const Home = () => {
 
       {/* SECTION 4: Signature Offerings */}
       <div className="w-[90%] md:w-[80%] flex items-center relative flex-col gap-5 mt-10">
-        <div className="font-dmsans text-[rgba(140,136,128,1)] font-light text-1xl">SIGNATURE OFFERING</div>
-        <div className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-3xl md:text-5xl text-center">What We Serve</div>
+        <div className="font-dmsans text-[rgba(140,136,128,1)] font-light text-1xl">{signatureSection.eyebrow || "SIGNATURE OFFERING"}</div>
+        <div className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-3xl md:text-5xl text-center">{signatureSection.title || "What We Serve"}</div>
         <div className="w-full h-fit grid grid-cols-2 md:grid-cols-4 gap-5 p-2 md:p-5">
           {menuCards.map((card, i) => (
             <div key={i} className="w-full h-full flex justify-around items-center flex-col gap-4 p-3 md:p-5">

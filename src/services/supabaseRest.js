@@ -88,6 +88,28 @@ export const createSupabaseRestClient = ({
         method: "GET",
       });
     },
+    invoke(functionName, body) {
+      requireConfigured();
+
+      return fetchImpl(`${cleanUrl}/functions/v1/${functionName}`, {
+        method: "POST",
+        headers: {
+          apikey: cleanAnonKey,
+          Authorization: `Bearer ${cleanAnonKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }).then(async (response) => {
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
+
+        if (!response.ok) {
+          throw new Error(data.error || data.message || "Supabase function request failed.");
+        }
+
+        return data;
+      });
+    },
   };
 };
 

@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .worktrees/
 .superpowers/
+supabase/.temp/
 
 # Editor directories and files
 .vscode/*

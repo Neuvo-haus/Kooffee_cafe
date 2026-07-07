@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CoffeeDivider from "./components/cooffeedivider";
+import { fetchPublishedMoments } from "./services/publicCms";
 
 // Moments gallery images
 import momentsFamilyVisits1 from "./assets/moments/moments-family-visits-1.jpeg";
@@ -20,20 +21,31 @@ const Moments = () => {
 
     const categories = ["ALL", "FAM VISITS", "QUIET AFTERNOONS", "CONVERSATIONS", "FILM DISCUSSIONS"];
 
-    const images = [
-        { id: 1, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFamilyVisits1}')` },
-        { id: 2, category: "QUIET AFTERNOONS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsQuietAfternoon1}')` },
-        { id: 3, category: "QUIET AFTERNOONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsQuietAfternoon2}')` },
-        { id: 4, category: "QUIET AFTERNOONS", height: "h-[220px] md:h-[350px]", gradient: `url('${momentsQuietAfternoon3}')` },
-        { id: 5, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFamilyVisits2}')` },
-        { id: 6, category: "FAM VISITS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsFamilyVisits3}')` },
-        { id: 7, category: "CONVERSATIONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsConversation1}')` },
-        { id: 8, category: "CONVERSATIONS", height: "h-[220px] md:h-[350px]", gradient: `url('${momentsConversation2}')` },
-        { id: 9, category: "CONVERSATIONS", height: "h-[300px] md:h-[500px]", gradient: `url('${momentsConversation3}')` },
-        { id: 10, category: "FILM DISCUSSIONS", height: "h-[300px] md:h-[450px]", gradient: `url('${momentsFilmDiscussion1}')` },
-        { id: 11, category: "FILM DISCUSSIONS", height: "h-[250px] md:h-[400px]", gradient: `url('${momentsFilmDiscussion2}')` },
-        { id: 12, category: "FILM DISCUSSIONS", height: "h-[200px] md:h-[300px]", gradient: `url('${momentsFilmDiscussion3}')` },
-    ];
+    const fallbackImages = useMemo(() => [
+        { id: 1, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", imageUrl: momentsFamilyVisits1 },
+        { id: 2, category: "QUIET AFTERNOONS", height: "h-[200px] md:h-[300px]", imageUrl: momentsQuietAfternoon1 },
+        { id: 3, category: "QUIET AFTERNOONS", height: "h-[250px] md:h-[400px]", imageUrl: momentsQuietAfternoon2 },
+        { id: 4, category: "QUIET AFTERNOONS", height: "h-[220px] md:h-[350px]", imageUrl: momentsQuietAfternoon3 },
+        { id: 5, category: "FAM VISITS", height: "h-[300px] md:h-[450px]", imageUrl: momentsFamilyVisits2 },
+        { id: 6, category: "FAM VISITS", height: "h-[200px] md:h-[300px]", imageUrl: momentsFamilyVisits3 },
+        { id: 7, category: "CONVERSATIONS", height: "h-[250px] md:h-[400px]", imageUrl: momentsConversation1 },
+        { id: 8, category: "CONVERSATIONS", height: "h-[220px] md:h-[350px]", imageUrl: momentsConversation2 },
+        { id: 9, category: "CONVERSATIONS", height: "h-[300px] md:h-[500px]", imageUrl: momentsConversation3 },
+        { id: 10, category: "FILM DISCUSSIONS", height: "h-[300px] md:h-[450px]", imageUrl: momentsFilmDiscussion1 },
+        { id: 11, category: "FILM DISCUSSIONS", height: "h-[250px] md:h-[400px]", imageUrl: momentsFilmDiscussion2 },
+        { id: 12, category: "FILM DISCUSSIONS", height: "h-[200px] md:h-[300px]", imageUrl: momentsFilmDiscussion3 },
+    ].map((image) => ({ ...image, gradient: `url('${image.imageUrl}')` })), []);
+    const [images, setImages] = useState(fallbackImages);
+
+    useEffect(() => {
+        fetchPublishedMoments(fallbackImages).then((assets) => {
+            setImages(assets.map((asset, index) => ({
+                ...asset,
+                height: fallbackImages[index % fallbackImages.length].height,
+                gradient: `url('${asset.imageUrl}')`,
+            })));
+        });
+    }, [fallbackImages]);
 
     const quotes = [
         "I came for coffee. I stayed for the light.",

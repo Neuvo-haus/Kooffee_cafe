@@ -73,4 +73,32 @@ describe("createSupabaseRestClient", () => {
       }),
     );
   });
+
+  it("invokes Supabase edge functions with the anon key", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => JSON.stringify({ ok: true }),
+    });
+
+    const client = createSupabaseRestClient({
+      url: "https://example.supabase.co",
+      anonKey: "anon-key",
+      fetchImpl: fetchMock,
+    });
+
+    const response = await client.invoke("reserve", { customer_name: "Aarav" });
+
+    expect(response).toEqual({ ok: true });
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://example.supabase.co/functions/v1/reserve",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          apikey: "anon-key",
+          Authorization: "Bearer anon-key",
+        }),
+        body: JSON.stringify({ customer_name: "Aarav" }),
+      }),
+    );
+  });
 });

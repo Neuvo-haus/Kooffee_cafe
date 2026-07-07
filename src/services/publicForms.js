@@ -2,6 +2,7 @@ import {
   validateReservation,
   validateTestimonial,
 } from "../features/publicForms/validation";
+import { emailJs } from "./emailJs";
 import { supabaseRest } from "./supabaseRest";
 
 const toServiceError = (error) => ({
@@ -30,10 +31,15 @@ export const submitReservationRequest = async (input, options = {}) => {
       validation.values,
       { returnRepresentation: false },
     );
+    const emailResult = await (options.emailClient ?? emailJs)
+      .sendReservationEmails(validation.values);
 
     return {
       ok: true,
-      data,
+      data: {
+        reservation: data,
+        email: emailResult,
+      },
     };
   } catch (error) {
     return toServiceError(error);
