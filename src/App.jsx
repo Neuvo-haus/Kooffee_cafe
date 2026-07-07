@@ -15,7 +15,7 @@ import PageTransition from "./components/PageTransition";
  
 
 function App() {
-  const location = useLocation();
+  const location = useLocation(); 
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
