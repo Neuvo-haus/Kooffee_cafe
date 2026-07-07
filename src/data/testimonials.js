@@ -23,4 +23,28 @@ export const fallbackTestimonials = [
       "Best specialty coffee in Ahmedabad, hands down. The space is thoughtful, the people are warm, and the mawa croissant is divine.",
     source: "Google Review",
   },
+  {
+    id: "fallback-dev",
+    customer_name: "Dev P.",
+    rating: 5,
+    message:
+      "The corner table by the window has become my quiet hour ritual. The team remembers my order and the coffee is always balanced.",
+    source: "Guest Note",
+  },
+  {
+    id: "fallback-nisha",
+    customer_name: "Nisha B.",
+    rating: 5,
+    message:
+      "Kooffee feels calm without feeling sleepy. It is the rare place where a quick espresso can turn into an afternoon with friends.",
+    source: "Website Submission",
+  },
+  {
+    id: "fallback-kabir",
+    customer_name: "Kabir S.",
+    rating: 5,
+    message:
+      "Warm lighting, careful service, and a pour over that tasted clean from the first sip. This is where I bring people visiting Ahmedabad.",
+    source: "Google Review",
+  },
 ];
