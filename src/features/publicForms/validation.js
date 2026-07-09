@@ -1,4 +1,6 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const BOT_TRAP_MESSAGE = "We could not accept this request. Please try again.";
+const MIN_SUBMIT_SECONDS = 3;
 
 const RESERVATION_LIMITS = {
   minPartySize: 1,
@@ -35,6 +37,24 @@ const timeToMinutes = (time) => {
   return hours * 60 + minutes;
 };
 
+const isTooFast = (submittedAt, now = new Date()) => {
+  if (!submittedAt) {
+    return false;
+  }
+
+  const started = new Date(submittedAt).getTime();
+  const submitted = now instanceof Date ? now.getTime() : new Date(now).getTime();
+
+  return Number.isFinite(started) &&
+    Number.isFinite(submitted) &&
+    submitted - started >= 0 &&
+    submitted - started < MIN_SUBMIT_SECONDS * 1000;
+};
+
+const hasBotTrap = (input, options = {}) =>
+  Boolean(trimValue(input.website || input.company || input.url)) ||
+  isTooFast(input.submittedAt, options.now);
+
 export const validateReservation = (input, options = {}) => {
   const today = options.today ?? getTodayIso();
   const maxDate = addUtcDays(today, RESERVATION_LIMITS.maxDaysAhead);
@@ -56,6 +76,10 @@ export const validateReservation = (input, options = {}) => {
   };
 
   const errors = {};
+
+  if (hasBotTrap(input, options)) {
+    errors.form = BOT_TRAP_MESSAGE;
+  }
 
   if (!values.customer_name) {
     errors.customerName = "Please enter your name.";
@@ -97,7 +121,7 @@ export const validateReservation = (input, options = {}) => {
   };
 };
 
-export const validateTestimonial = (input) => {
+export const validateTestimonial = (input, options = {}) => {
   const rating = Number.parseInt(input.rating, 10);
   const values = {
     customer_name: trimValue(input.customerName),
@@ -109,6 +133,10 @@ export const validateTestimonial = (input) => {
   };
 
   const errors = {};
+
+  if (hasBotTrap(input, options)) {
+    errors.form = BOT_TRAP_MESSAGE;
+  }
 
   if (!values.customer_name) {
     errors.customerName = "Please enter your name.";

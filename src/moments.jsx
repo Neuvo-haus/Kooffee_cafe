@@ -75,7 +75,7 @@ const Moments = () => {
         <div
             key={img.id}
             className={`w-full ${img.height} rounded-2xl relative group overflow-hidden shadow-sm border border-[rgba(226,221,213,0.5)] bg-cover bg-center transition-transform duration-500 hover:scale-[1.02]`}
-            style={{ backgroundImage: img.gradient }}
+            style={{ backgroundImage: img.gradient, backgroundPosition: img.imagePosition || "50% 50%" }}
         >
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500"></div>
             <div className="absolute bottom-4 left-4 bg-[rgba(245,240,232,0.95)] text-[rgba(28,28,26,1)] font-dmsans text-[10px] tracking-[0.1em] py-2 px-4 rounded-full opacity-0 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 font-bold uppercase shadow-sm">

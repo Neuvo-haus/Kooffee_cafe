@@ -14,6 +14,7 @@ import {
   FiSettings,
   FiShield,
   FiStar,
+  FiTrash2,
   FiUserPlus,
   FiX,
 } from "react-icons/fi";
@@ -21,10 +22,13 @@ import { canManageAdmins, getAdminAccessState } from "./features/admin/adminAuth
 import {
   fetchAdminProfile,
   fetchDashboardStats,
+  deleteMenuCategory,
+  deleteMenuItem,
   deleteTestimonial,
   listRows,
   saveAdminProfile,
   saveCafeSections,
+  saveDashboardPriorities,
   saveHomepageSections,
   saveMediaAsset,
   saveMenuCategory,
@@ -39,9 +43,9 @@ import { adminSupabase, isAdminSupabaseConfigured } from "./services/adminSupaba
 
 const panel = "border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.92)] shadow-sm";
 const inputClass =
-  "w-full rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-3 py-2 text-sm text-[rgba(28,28,26,1)] outline-none focus:border-[#C4A882]";
+  "w-full rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-3 py-2 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
 const roomyInputClass =
-  "w-full rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-4 py-3 text-base leading-7 text-[rgba(28,28,26,1)] outline-none focus:border-[#C4A882]";
+  "w-full rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-4 py-3 font-dmsans text-base font-medium leading-7 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
 const buttonClass =
   "inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[rgba(28,28,26,0.12)] px-4 text-xs font-bold uppercase tracking-[0.18em] transition-colors hover:border-[#C4A882] hover:text-[#8C6D46]";
 const destructiveButton =
@@ -134,10 +138,83 @@ const StatusChip = ({ status }) => (
   </span>
 );
 
+const toPositionValue = (value) => {
+  const parsed = Number.parseInt(String(value ?? 50), 10);
+  return Number.isFinite(parsed) ? Math.min(100, Math.max(0, parsed)) : 50;
+};
+
+const MediaPreviewControls = ({
+  url,
+  type = "image",
+  alt = "Uploaded media preview",
+  positionX = 50,
+  positionY = 50,
+  onPositionChange,
+  className = "",
+}) => {
+  if (!url) {
+    return null;
+  }
+
+  const x = toPositionValue(positionX);
+  const y = toPositionValue(positionY);
+
+  return (
+    <div className={`grid gap-3 ${className}`}>
+      <div className="overflow-hidden rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.7)]">
+        {type === "video" ? (
+          <video src={url} className="h-44 w-full object-cover" controls muted playsInline />
+        ) : (
+          <img
+            src={url}
+            alt={alt}
+            className="h-44 w-full object-cover"
+            style={{ objectPosition: `${x}% ${y}%` }}
+          />
+        )}
+      </div>
+      {type === "image" && onPositionChange && (
+        <div className="grid gap-3 rounded-lg border border-[rgba(226,221,213,0.72)] bg-[rgba(245,240,232,0.45)] p-3">
+          <TextField
+            label={`Horizontal focus ${x}%`}
+            type="range"
+            min="0"
+            max="100"
+            value={x}
+            onChange={(event) => onPositionChange("x", event.target.value)}
+          />
+          <TextField
+            label={`Vertical focus ${y}%`}
+            type="range"
+            min="0"
+            max="100"
+            value={y}
+            onChange={(event) => onPositionChange("y", event.target.value)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const AdminSubsection = ({ title, eyebrow, children }) => (
+  <div className="grid gap-3 border-t border-[rgba(226,221,213,0.72)] pt-4">
+    <div>
+      {eyebrow && (
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[rgba(100,96,88,1)]">
+          {eyebrow}
+        </p>
+      )}
+      <h3 className="font-['Cormorant_Garamond'] text-2xl italic text-[rgba(28,28,26,1)]">{title}</h3>
+    </div>
+    {children}
+  </div>
+);
+
 const TextField = ({ label, as = "input", className = "", controlClassName = inputClass, ...props }) => {
   const Control = as;
   return (
-    <label className={`flex flex-col gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[rgba(100,96,88,1)] ${className}`}>
+    <label className={`flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)] ${className}`}>
       {label}
       <Control className={controlClassName} {...props} />
     </label>
@@ -163,7 +240,7 @@ const EditorSection = ({ title, eyebrow, children }) => (
 );
 
 const SelectField = ({ label, children, ...props }) => (
-  <label className="flex flex-col gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[rgba(100,96,88,1)]">
+  <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
     {label}
     <select className={inputClass} {...props}>
       {children}
@@ -373,44 +450,217 @@ const PageMotion = ({ children }) => {
   );
 };
 
+const dashboardPriorityPaths = [
+  ["/admin/reservations", "Reservations"],
+  ["/admin/testimonials", "Testimonials"],
+  ["/admin/menu", "Menu"],
+  ["/admin/moments", "Moments"],
+  ["/admin/home", "Homepage"],
+  ["/admin/cafe", "Cafe"],
+  ["/admin/settings", "Settings"],
+];
+
+const fallbackDashboardPriorities = [
+  { label: "Review reservations", path: "/admin/reservations", enabled: true },
+  { label: "Moderate testimonials", path: "/admin/testimonials", enabled: true },
+  { label: "Add menu item", path: "/admin/menu", enabled: true },
+  { label: "Update homepage", path: "/admin/home", enabled: true },
+];
+
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
+  const [priorityDraft, setPriorityDraft] = useState(fallbackDashboardPriorities);
+  const [priorityState, setPriorityState] = useState({ saving: false, error: "", saved: false });
 
   useEffect(() => {
-    fetchDashboardStats().then(setStats).catch(() => setStats({ pendingReservations: 0, pendingTestimonials: 0, draftContent: 0, recentEdits: [] }));
+    fetchDashboardStats()
+      .then((loadedStats) => {
+        setStats(loadedStats);
+        setPriorityDraft(loadedStats.priorities || fallbackDashboardPriorities);
+      })
+      .catch(() => {
+        setStats({
+          pendingReservations: 0,
+          pendingTestimonials: 0,
+          draftContent: 0,
+          recentEdits: [],
+          priorities: fallbackDashboardPriorities,
+        });
+        setPriorityDraft(fallbackDashboardPriorities);
+      });
   }, []);
 
   if (!stats) return <Spinner />;
 
   const cards = [
-    ["Pending reservations", stats.pendingReservations, FiCalendar, "/admin/reservations"],
-    ["Pending testimonials", stats.pendingTestimonials, FiStar, "/admin/testimonials"],
-    ["Draft menu items", stats.draftContent, FiCoffee, "/admin/menu"],
+    ["Pending reservations", stats.pendingReservations, FiCalendar, "/admin/reservations", "Confirm or decline new table requests."],
+    ["Pending testimonials", stats.pendingTestimonials, FiStar, "/admin/testimonials", "Approve guest notes before they go public."],
+    ["Draft menu items", stats.draftContent, FiCoffee, "/admin/menu", "Finish unpublished menu changes."],
   ];
+  const enabledPriorities = priorityDraft.filter((priority) => priority.enabled !== false && priority.label && priority.path);
+  const healthRows = [
+    ["Reservations waiting", stats.pendingReservations],
+    ["Testimonials in review", stats.pendingTestimonials],
+    ["Draft menu items", stats.draftContent],
+    ["Recent edit entries", stats.recentEdits.length],
+  ];
+  const quickLinks = [
+    ["Menu", "/admin/menu", FiCoffee],
+    ["Moments", "/admin/moments", FiImage],
+    ["Homepage", "/admin/home", FiHome],
+    ["Cafe", "/admin/cafe", FiEdit3],
+    ["Settings", "/admin/settings", FiSettings],
+  ];
+
+  const updatePriority = (index, field, value) => {
+    setPriorityState({ saving: false, error: "", saved: false });
+    setPriorityDraft((current) =>
+      current.map((priority, priorityIndex) =>
+        priorityIndex === index ? { ...priority, [field]: value } : priority,
+      ),
+    );
+  };
+
+  const addPriority = () => {
+    setPriorityState({ saving: false, error: "", saved: false });
+    setPriorityDraft((current) => [
+      ...current,
+      { label: "New priority", path: "/admin/menu", enabled: true },
+    ].slice(0, 6));
+  };
+
+  const removePriority = (index) => {
+    setPriorityState({ saving: false, error: "", saved: false });
+    setPriorityDraft((current) => current.filter((_, priorityIndex) => priorityIndex !== index));
+  };
+
+  const savePriorities = async () => {
+    setPriorityState({ saving: true, error: "", saved: false });
+
+    try {
+      await saveDashboardPriorities(priorityDraft);
+      setStats((current) => ({ ...current, priorities: priorityDraft }));
+      setPriorityState({ saving: false, error: "", saved: true });
+    } catch (error) {
+      setPriorityState({
+        saving: false,
+        error: error instanceof Error ? error.message : "Could not save dashboard priorities.",
+        saved: false,
+      });
+    }
+  };
 
   return (
     <PageMotion>
       <div className="grid gap-4 md:grid-cols-3">
-        {cards.map(([label, value, CardIcon, to]) => (
+        {cards.map(([label, value, CardIcon, to, helper]) => (
           <Link key={label} to={to} className={`${panel} rounded-lg p-5 transition-transform hover:-translate-y-1`}>
-            {React.createElement(CardIcon, { className: "text-[#8C6D46]" })}
+            <div className="flex items-start justify-between gap-4">
+              {React.createElement(CardIcon, { className: "text-[#8C6D46]" })}
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[rgba(100,96,88,0.86)]">Open</span>
+            </div>
             <p className="mt-5 text-3xl font-semibold">{value}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[rgba(100,96,88,1)]">{label}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[rgba(100,96,88,0.92)]">{label}</p>
+            <p className="mt-3 text-sm leading-6 text-[rgba(100,96,88,0.92)]">{helper}</p>
           </Link>
         ))}
       </div>
-      <section className={`${panel} mt-6 rounded-lg p-5`}>
-        <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Recent edits</h2>
-        <div className="mt-4 grid gap-3">
-          {stats.recentEdits.length === 0 && <p className="text-sm text-[rgba(100,96,88,1)]">No edits logged yet.</p>}
-          {stats.recentEdits.map((edit) => (
-            <div key={edit.id} className="flex items-center justify-between border-t border-[rgba(226,221,213,0.7)] py-3 text-sm">
-              <span>{edit.action} in {edit.entity_table}</span>
-              <span className="text-[rgba(100,96,88,1)]">{new Date(edit.created_at).toLocaleString()}</span>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)]">
+        <section className={`${panel} rounded-lg p-5`}>
+          <div className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[rgba(100,96,88,0.86)]">Editable shortcuts</p>
+              <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Today&apos;s priorities</h2>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="flex flex-wrap gap-2">
+              <button className={buttonClass} onClick={addPriority} disabled={priorityDraft.length >= 6}>Add priority</button>
+              <button className={primaryButton} onClick={savePriorities} disabled={priorityState.saving}>
+                <FiCheckCircle /> {priorityState.saving ? "Saving" : "Save priorities"}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3">
+            {enabledPriorities.length > 0 && (
+              <div className="grid gap-3 md:grid-cols-2">
+                {enabledPriorities.map((priority) => (
+                  <Link key={`${priority.label}-${priority.path}`} to={priority.path} className="rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.55)] p-4 transition-colors hover:border-[#C4A882]">
+                    <p className="font-dmsans text-sm font-semibold text-[rgba(28,28,26,0.92)]">{priority.label}</p>
+                    <p className="mt-2 text-xs text-[rgba(100,96,88,0.9)]">{dashboardPriorityPaths.find(([path]) => path === priority.path)?.[1] || priority.path}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <div className="grid gap-3 border-t border-[rgba(226,221,213,0.72)] pt-4">
+              {priorityDraft.map((priority, index) => (
+                <div key={index} className="grid gap-3 rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.72)] p-3 md:grid-cols-[1fr_190px_92px_40px]">
+                  <TextField label="Label" value={priority.label} onChange={(event) => updatePriority(index, "label", event.target.value)} />
+                  <SelectField label="Link" value={priority.path} onChange={(event) => updatePriority(index, "path", event.target.value)}>
+                    {dashboardPriorityPaths.map(([path, label]) => <option key={path} value={path}>{label}</option>)}
+                  </SelectField>
+                  <label className="flex items-center gap-2 self-end rounded-lg border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.7)] px-3 py-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
+                    <input type="checkbox" checked={priority.enabled !== false} onChange={(event) => updatePriority(index, "enabled", event.target.checked)} />
+                    Show
+                  </label>
+                  <button className={`${buttonClass} self-end px-0`} onClick={() => removePriority(index)} aria-label={`Remove ${priority.label || "priority"}`}>
+                    <FiX />
+                  </button>
+                </div>
+              ))}
+            </div>
+            {priorityState.error && <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{priorityState.error}</p>}
+            {priorityState.saved && <p className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">Dashboard priorities saved.</p>}
+          </div>
+        </section>
+
+        <section className={`${panel} rounded-lg p-5`}>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[rgba(100,96,88,0.86)]">Publishing</p>
+          <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Quick publish</h2>
+          <div className="mt-4 grid gap-2">
+            {quickLinks.map(([label, to, LinkIcon]) => (
+              <Link key={label} to={to} className="flex items-center justify-between rounded-lg border border-[rgba(226,221,213,0.74)] px-4 py-3 text-sm font-medium transition-colors hover:border-[#C4A882] hover:text-[#8C6D46]">
+                <span className="flex items-center gap-3">{React.createElement(LinkIcon)} {label}</span>
+                <span className="text-xs uppercase tracking-[0.12em] text-[rgba(100,96,88,0.8)]">Edit</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
+        <section className={`${panel} rounded-lg p-5`}>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[rgba(100,96,88,0.86)]">Overview</p>
+          <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Content health</h2>
+          <div className="mt-4 grid gap-3">
+            {healthRows.map(([label, value]) => (
+              <div key={label} className="flex items-center justify-between border-t border-[rgba(226,221,213,0.7)] pt-3">
+                <span className="text-sm text-[rgba(100,96,88,0.95)]">{label}</span>
+                <span className="text-lg font-semibold text-[rgba(28,28,26,0.92)]">{value}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className={`${panel} rounded-lg p-5`}>
+          <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Recent edits</h2>
+          <div className="mt-4 grid gap-3">
+            {stats.recentEdits.length === 0 && (
+              <div className="rounded-lg border border-dashed border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.46)] p-5">
+                <p className="font-dmsans text-sm font-medium text-[rgba(28,28,26,0.9)]">No edits logged yet.</p>
+                <p className="mt-2 text-sm leading-6 text-[rgba(100,96,88,0.92)]">Use the quick publish links above to update content. Recent admin activity will appear here after audit logging is populated.</p>
+              </div>
+            )}
+            {stats.recentEdits.map((edit) => (
+              <div key={edit.id} className="flex flex-col justify-between gap-1 border-t border-[rgba(226,221,213,0.7)] py-3 text-sm md:flex-row md:items-center">
+                <span className="font-medium text-[rgba(28,28,26,0.9)]">{edit.action} in {edit.entity_table}</span>
+                <span className="text-[rgba(100,96,88,0.9)]">{new Date(edit.created_at).toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </PageMotion>
   );
 };
@@ -519,12 +769,6 @@ const TestimonialsAdmin = () => {
     reload();
   };
   const remove = async (row) => {
-    const confirmed = window.confirm(`Delete testimonial from ${row.customer_name}?`);
-
-    if (!confirmed) {
-      return;
-    }
-
     setActionError("");
 
     try {
@@ -562,50 +806,275 @@ const MenuAdmin = () => {
   const items = useRows(() => listRows("menu_items", (request) => request.select("*").order("sort_order")));
   const [item, setItem] = useState({ status: "draft", is_available: true, sort_order: 0 });
   const [category, setCategory] = useState({ status: "published", sort_order: 0 });
+  const [categoryUpload, setCategoryUpload] = useState({ loading: false, error: "" });
+  const [itemUpload, setItemUpload] = useState({ loading: false, error: "" });
+  const [actionError, setActionError] = useState("");
+
+  const uploadMenuMedia = async ({ file, folder, kind, onComplete, setUpload }) => {
+    if (!file) {
+      return;
+    }
+
+    setUpload({ loading: true, error: "" });
+
+    try {
+      const result = await uploadMediaFile(file, { folder, kind });
+      onComplete(result.public_url);
+      setUpload({ loading: false, error: "" });
+    } catch (error) {
+      setUpload({
+        loading: false,
+        error: error instanceof Error ? error.message : `${kind} upload failed.`,
+      });
+    }
+  };
+
+  const uploadCategoryPhoto = (file) =>
+    uploadMenuMedia({
+      file,
+      folder: "menu/categories",
+      kind: "Category photo",
+      setUpload: setCategoryUpload,
+      onComplete: (publicUrl) => setCategory((current) => ({ ...current, image_url: publicUrl })),
+    });
+
+  const uploadCategoryVideo = (file) =>
+    uploadMenuMedia({
+      file,
+      folder: "menu/categories",
+      kind: "Category video",
+      setUpload: setCategoryUpload,
+      onComplete: (publicUrl) => setCategory((current) => ({ ...current, video_url: publicUrl })),
+    });
+
+  const uploadItemPhoto = (file) =>
+    uploadMenuMedia({
+      file,
+      folder: "menu/items",
+      kind: "Item photo",
+      setUpload: setItemUpload,
+      onComplete: (publicUrl) => setItem((current) => ({ ...current, image_url: publicUrl })),
+    });
+
+  const updateCategoryFocus = (axis, value) => {
+    const field = axis === "x" ? "image_position_x" : "image_position_y";
+    setCategory((current) => ({ ...current, [field]: toPositionValue(value) }));
+  };
+
+  const updateItemFocus = (axis, value) => {
+    const field = axis === "x" ? "image_position_x" : "image_position_y";
+    setItem((current) => ({ ...current, [field]: toPositionValue(value) }));
+  };
 
   const saveItem = async () => {
+    setActionError("");
     await saveMenuItem(item);
     setItem({ status: "draft", is_available: true, sort_order: 0 });
+    setItemUpload({ loading: false, error: "" });
     items.reload();
   };
 
   const saveCategory = async () => {
+    setActionError("");
     await saveMenuCategory(category);
     setCategory({ status: "published", sort_order: 0 });
+    setCategoryUpload({ loading: false, error: "" });
     categories.reload();
+  };
+
+  const editCategory = (row) => {
+    setActionError("");
+    setCategory(row);
+  };
+
+  const editItem = (row) => {
+    setActionError("");
+    setItem({
+      ...row,
+      price: row.price_inr,
+      dietary_tags: Array.isArray(row.dietary_tags)
+        ? row.dietary_tags.join(", ")
+        : row.dietary_tags || "",
+    });
+  };
+
+  const removeCategory = async (row) => {
+    setActionError("");
+
+    try {
+      await deleteMenuCategory(row.id);
+      if (category.id === row.id) {
+        setCategory({ status: "published", sort_order: 0 });
+      }
+      categories.reload();
+      items.reload();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Could not delete category.");
+    }
+  };
+
+  const removeItem = async (row) => {
+    setActionError("");
+
+    try {
+      await deleteMenuItem(row.id);
+      if (item.id === row.id) {
+        setItem({ status: "draft", is_available: true, sort_order: 0 });
+      }
+      items.reload();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Could not delete item.");
+    }
   };
 
   return (
     <CrudPage title="Menu manager" loading={categories.loading || items.loading} error={categories.error || items.error}>
-      <div className="grid gap-4 lg:grid-cols-[360px_1fr]">
+      {actionError && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{actionError}</p>}
+      <div className="grid gap-6 xl:grid-cols-[minmax(320px,0.9fr)_minmax(0,1.5fr)]">
         <section className={`${panel} rounded-lg p-5`}>
-          <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Category</h2>
-          <div className="mt-4 grid gap-3">
-            <TextField label="Name" value={category.name || ""} onChange={(event) => setCategory({ ...category, name: event.target.value })} />
-            <TextField label="Description" value={category.description || ""} onChange={(event) => setCategory({ ...category, description: event.target.value })} />
-            <TextField label="Sort" type="number" value={category.sort_order || 0} onChange={(event) => setCategory({ ...category, sort_order: event.target.value })} />
-            <button className={primaryButton} onClick={saveCategory}><FiCheckCircle /> Save category</button>
+          <div className="flex flex-col gap-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[rgba(100,96,88,1)]">Menu section</p>
+            <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Category</h2>
+          </div>
+          <div className="mt-5 grid gap-4">
+            <div className="grid gap-3 sm:grid-cols-[1fr_110px]">
+              <TextField label="Name" value={category.name || ""} onChange={(event) => setCategory({ ...category, name: event.target.value })} />
+              <TextField label="Sort" type="number" value={category.sort_order || 0} onChange={(event) => setCategory({ ...category, sort_order: event.target.value })} />
+            </div>
+            <TextField label="Description" as="textarea" rows="3" value={category.description || ""} onChange={(event) => setCategory({ ...category, description: event.target.value })} />
+
+            <AdminSubsection title="Photo" eyebrow="Category artwork">
+              <div className="grid gap-3">
+                <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
+                  Upload photo
+                  <input
+                    className={inputClass}
+                    type="file"
+                    accept="image/*"
+                    disabled={categoryUpload.loading}
+                    onChange={(event) => uploadCategoryPhoto(event.target.files?.[0])}
+                  />
+                </label>
+                <MediaPreviewControls
+                  url={category.image_url}
+                  alt={category.name || "Category photo"}
+                  positionX={category.image_position_x}
+                  positionY={category.image_position_y}
+                  onPositionChange={updateCategoryFocus}
+                />
+                <TextField label="Photo URL" value={category.image_url || ""} onChange={(event) => setCategory({ ...category, image_url: event.target.value })} />
+              </div>
+            </AdminSubsection>
+
+            <AdminSubsection title="Video" eyebrow="Optional section motion">
+              <div className="grid gap-3">
+                <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
+                  Upload video
+                  <input
+                    className={inputClass}
+                    type="file"
+                    accept="video/*"
+                    disabled={categoryUpload.loading}
+                    onChange={(event) => uploadCategoryVideo(event.target.files?.[0])}
+                  />
+                </label>
+                <MediaPreviewControls url={category.video_url} type="video" />
+                <TextField label="Video URL" value={category.video_url || ""} onChange={(event) => setCategory({ ...category, video_url: event.target.value })} />
+              </div>
+            </AdminSubsection>
+
+            {categoryUpload.error && <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{categoryUpload.error}</p>}
+            <div className="flex flex-wrap gap-2">
+              <button className={`${primaryButton} flex-1`} onClick={saveCategory}><FiCheckCircle /> {category.id ? "Update category" : "Save category"}</button>
+              {category.id && (
+                <button className={buttonClass} onClick={() => setCategory({ status: "published", sort_order: 0 })}>New</button>
+              )}
+            </div>
           </div>
         </section>
+
         <section className={`${panel} rounded-lg p-5`}>
-          <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Menu item</h2>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <SelectField label="Category" value={item.category_id || ""} onChange={(event) => setItem({ ...item, category_id: event.target.value })}>
-              <option value="">Choose category</option>
-              {categories.rows.map((row) => <option key={row.id} value={row.id}>{row.name}</option>)}
-            </SelectField>
-            <TextField label="Name" value={item.name || ""} onChange={(event) => setItem({ ...item, name: event.target.value })} />
-            <TextField label="Price" type="number" value={item.price || ""} onChange={(event) => setItem({ ...item, price: event.target.value })} />
-            <TextField label="Dietary tags" value={item.dietary_tags || ""} onChange={(event) => setItem({ ...item, dietary_tags: event.target.value })} />
+          <div className="flex flex-col gap-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[rgba(100,96,88,1)]">Dish or drink</p>
+            <h2 className="font-['Cormorant_Garamond'] text-3xl italic">Menu item</h2>
+          </div>
+          <div className="mt-5 grid gap-4">
+            <div className="grid gap-3 md:grid-cols-[1.2fr_1fr_130px]">
+              <SelectField label="Category" value={item.category_id || ""} onChange={(event) => setItem({ ...item, category_id: event.target.value })}>
+                <option value="">Choose category</option>
+                {categories.rows.map((row) => <option key={row.id} value={row.id}>{row.name}</option>)}
+              </SelectField>
+              <TextField label="Name" value={item.name || ""} onChange={(event) => setItem({ ...item, name: event.target.value })} />
+              <TextField label="Price" type="number" value={item.price || ""} onChange={(event) => setItem({ ...item, price: event.target.value })} />
+            </div>
+            <div className="grid gap-3 md:grid-cols-[1fr_180px]">
+              <TextField label="Dietary tags" value={item.dietary_tags || ""} onChange={(event) => setItem({ ...item, dietary_tags: event.target.value })} />
+              <SelectField label="Status" value={item.status} onChange={(event) => setItem({ ...item, status: event.target.value })}>
+                {["draft", "published", "archived"].map((value) => <option key={value}>{value}</option>)}
+              </SelectField>
+            </div>
             <TextField label="Description" as="textarea" rows="3" value={item.description || ""} onChange={(event) => setItem({ ...item, description: event.target.value })} />
-            <SelectField label="Status" value={item.status} onChange={(event) => setItem({ ...item, status: event.target.value })}>
-              {["draft", "published", "archived"].map((value) => <option key={value}>{value}</option>)}
-            </SelectField>
-            <button className={primaryButton} onClick={saveItem}><FiCheckCircle /> Save item</button>
+
+            <AdminSubsection title="Photo" eyebrow="Item artwork">
+              <div className="grid gap-3 lg:grid-cols-[minmax(240px,0.75fr)_minmax(0,1fr)]">
+                <div className="grid content-start gap-3">
+                  <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
+                    Upload photo
+                    <input
+                      className={inputClass}
+                      type="file"
+                      accept="image/*"
+                      disabled={itemUpload.loading}
+                      onChange={(event) => uploadItemPhoto(event.target.files?.[0])}
+                    />
+                  </label>
+                  <TextField label="Photo URL" value={item.image_url || ""} onChange={(event) => setItem({ ...item, image_url: event.target.value })} />
+                </div>
+                <MediaPreviewControls
+                  url={item.image_url}
+                  alt={item.name || "Menu item photo"}
+                  positionX={item.image_position_x}
+                  positionY={item.image_position_y}
+                  onPositionChange={updateItemFocus}
+                />
+              </div>
+            </AdminSubsection>
+
+            {itemUpload.error && <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{itemUpload.error}</p>}
+            <div className="flex flex-wrap gap-2">
+              <button className={`${primaryButton} w-full md:w-fit md:px-8`} onClick={saveItem}><FiCheckCircle /> {item.id ? "Update item" : "Save item"}</button>
+              {item.id && (
+                <button className={buttonClass} onClick={() => setItem({ status: "draft", is_available: true, sort_order: 0 })}>New</button>
+              )}
+            </div>
           </div>
         </section>
       </div>
-      <DataTable columns={["Item", "Price", "Status"]} rows={items.rows.map((row) => [row.name, `₹${row.price_inr}`, <StatusChip status={row.status} />])} />
+      <DataTable
+        columns={["Category", "Status", "Sort", "Actions"]}
+        rows={categories.rows.map((row) => [
+          <div><strong>{row.name}</strong><p className="text-xs text-[rgba(100,96,88,1)]">{row.description || row.slug}</p></div>,
+          <StatusChip status={row.status} />,
+          row.sort_order,
+          <div className="flex flex-wrap gap-2">
+            <button className={buttonClass} onClick={() => editCategory(row)}><FiEdit3 /> Edit</button>
+            <button className={destructiveButton} onClick={() => removeCategory(row)}><FiTrash2 /> Delete</button>
+          </div>,
+        ])}
+      />
+      <DataTable
+        columns={["Item", "Category", "Price", "Status", "Actions"]}
+        rows={items.rows.map((row) => [
+          row.name,
+          categories.rows.find((categoryRow) => categoryRow.id === row.category_id)?.name || "Unassigned",
+          `₹${row.price_inr}`,
+          <StatusChip status={row.status} />,
+          <div className="flex flex-wrap gap-2">
+            <button className={buttonClass} onClick={() => editItem(row)}><FiEdit3 /> Edit</button>
+            <button className={destructiveButton} onClick={() => removeItem(row)}><FiTrash2 /> Delete</button>
+          </div>,
+        ])}
+      />
     </CrudPage>
   );
 };
@@ -652,6 +1121,11 @@ const MomentsAdmin = () => {
     assets.reload();
   };
 
+  const updateAssetFocus = (axis, value) => {
+    const field = axis === "x" ? "image_position_x" : "image_position_y";
+    setAsset((current) => ({ ...current, [field]: toPositionValue(value) }));
+  };
+
   return (
     <CrudPage title="Moments gallery" loading={categories.loading || assets.loading} error={categories.error || assets.error}>
       <section className={`${panel} rounded-lg p-5`}>
@@ -660,7 +1134,7 @@ const MomentsAdmin = () => {
           <StatusChip status={progressLabel} />
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <label className="flex flex-col gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[rgba(100,96,88,1)] md:col-span-2">
+          <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)] md:col-span-2">
             Upload photo
             <input
               className={inputClass}
@@ -675,11 +1149,14 @@ const MomentsAdmin = () => {
               {uploadState.error}
             </p>
           )}
-          {asset.public_url && (
-            <div className="md:col-span-2 overflow-hidden rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.7)]">
-              <img src={asset.public_url} alt={asset.alt_text || asset.title || "Uploaded moment"} className="h-56 w-full object-cover" />
-            </div>
-          )}
+          <MediaPreviewControls
+            className="md:col-span-2"
+            url={asset.public_url}
+            alt={asset.alt_text || asset.title || "Uploaded moment"}
+            positionX={asset.image_position_x}
+            positionY={asset.image_position_y}
+            onPositionChange={updateAssetFocus}
+          />
           <TextField label="Title" value={asset.title || ""} onChange={(event) => setAsset({ ...asset, title: event.target.value })} />
           <TextField label="Public URL" value={asset.public_url || ""} onChange={(event) => setAsset({ ...asset, public_url: event.target.value })} />
           <TextField label="Storage path" value={asset.storage_path || ""} onChange={(event) => setAsset({ ...asset, storage_path: event.target.value })} />
@@ -740,18 +1217,26 @@ const HomeAdmin = () => {
       signatureItemBody1: signatureOffering.data?.items?.[0]?.body || "Rich espresso marked with a dollop of velvety foamed milk.",
       signatureItemPrice1: signatureOffering.data?.items?.[0]?.price || "₹180",
       signatureItemImageUrl1: signatureOffering.data?.items?.[0]?.imageUrl || "",
+      signatureItemImagePositionX1: signatureOffering.data?.items?.[0]?.imagePositionX ?? 50,
+      signatureItemImagePositionY1: signatureOffering.data?.items?.[0]?.imagePositionY ?? 50,
       signatureItemTitle2: signatureOffering.data?.items?.[1]?.title || "Americano",
       signatureItemBody2: signatureOffering.data?.items?.[1]?.body || "Smooth espresso shots combined with hot water.",
       signatureItemPrice2: signatureOffering.data?.items?.[1]?.price || "₹160",
       signatureItemImageUrl2: signatureOffering.data?.items?.[1]?.imageUrl || "",
+      signatureItemImagePositionX2: signatureOffering.data?.items?.[1]?.imagePositionX ?? 50,
+      signatureItemImagePositionY2: signatureOffering.data?.items?.[1]?.imagePositionY ?? 50,
       signatureItemTitle3: signatureOffering.data?.items?.[2]?.title || "Mocha",
       signatureItemBody3: signatureOffering.data?.items?.[2]?.body || "Rich espresso, steamed milk, and premium chocolate.",
       signatureItemPrice3: signatureOffering.data?.items?.[2]?.price || "₹240",
       signatureItemImageUrl3: signatureOffering.data?.items?.[2]?.imageUrl || "",
+      signatureItemImagePositionX3: signatureOffering.data?.items?.[2]?.imagePositionX ?? 50,
+      signatureItemImagePositionY3: signatureOffering.data?.items?.[2]?.imagePositionY ?? 50,
       signatureItemTitle4: signatureOffering.data?.items?.[3]?.title || "Affogato",
       signatureItemBody4: signatureOffering.data?.items?.[3]?.body || "A hot double shot of espresso poured over vanilla gelato.",
       signatureItemPrice4: signatureOffering.data?.items?.[3]?.price || "₹220",
       signatureItemImageUrl4: signatureOffering.data?.items?.[3]?.imageUrl || "",
+      signatureItemImagePositionX4: signatureOffering.data?.items?.[3]?.imagePositionX ?? 50,
+      signatureItemImagePositionY4: signatureOffering.data?.items?.[3]?.imagePositionY ?? 50,
       offersEyebrow: offers.eyebrow || "THIS WEEK",
       offersTitle: offers.title || "Slow Hour Offers",
       offerBadge1: getOffer(offers, 0).badge || "Mon-Fri",
@@ -801,6 +1286,11 @@ const HomeAdmin = () => {
     }
   };
 
+  const updateSignatureFocus = (index, axis, value) => {
+    const field = axis === "x" ? `signatureItemImagePositionX${index}` : `signatureItemImagePositionY${index}`;
+    update(field, toPositionValue(value));
+  };
+
   const renderStayCard = (index) => (
     <div key={index} className="grid gap-4 rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.42)] p-5">
       <RoomyTextField label={`Card ${index} title`} value={form[`stayTitle${index}`]} onChange={(event) => update(`stayTitle${index}`, event.target.value)} />
@@ -820,12 +1310,14 @@ const HomeAdmin = () => {
 
   const renderSignatureItem = (index) => (
     <div key={index} className="grid gap-4 rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.42)] p-5">
-      {form[`signatureItemImageUrl${index}`] && (
-        <div className="overflow-hidden rounded-lg border border-[rgba(226,221,213,0.8)] bg-[rgba(245,240,232,0.7)]">
-          <img src={form[`signatureItemImageUrl${index}`]} alt={form[`signatureItemTitle${index}`] || `Signature item ${index}`} className="h-44 w-full object-cover" />
-        </div>
-      )}
-      <label className="flex flex-col gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[rgba(100,96,88,1)]">
+      <MediaPreviewControls
+        url={form[`signatureItemImageUrl${index}`]}
+        alt={form[`signatureItemTitle${index}`] || `Signature item ${index}`}
+        positionX={form[`signatureItemImagePositionX${index}`]}
+        positionY={form[`signatureItemImagePositionY${index}`]}
+        onPositionChange={(axis, value) => updateSignatureFocus(index, axis, value)}
+      />
+      <label className="flex flex-col gap-2 font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]">
         Upload image
         <input
           className={inputClass}
@@ -940,7 +1432,7 @@ const CafeAdmin = () => {
       storyEyebrow: story.eyebrow || "Our Story",
       storyTitle: story.title || "Why This Space Exists",
       storyQuote: story.data?.quote || "We didn't set out to build a cafe. We set out to build a reason to slow down.",
-      storyBody1: storyParagraphs[0] || "Kooffe was born from a simple observation: Ahmedabad moves fast, but its best moments happen slowly.",
+      storyBody1: storyParagraphs[0] || "Kooffee was born from a simple observation: Ahmedabad moves fast, but its best moments happen slowly.",
       storyBody2: storyParagraphs[1] || "We wanted to create a space that honors that pace, where time is something you inhabit.",
       foundersTitle: founders.title || "Founded on Friendship",
       founder1Name: getPerson(founders, 0).name || "Malhar Thakar",
@@ -950,13 +1442,13 @@ const CafeAdmin = () => {
       founder2Role: getPerson(founders, 1).role || "Co-Founder",
       founder2Bio: getPerson(founders, 1).bio || "I believe food and drink should nourish more than the body.",
       interiorTitle: interior.title || "The Space Itself",
-      interiorBody1: interiorParagraphs[0] || "Every surface in Kooffe has been chosen with care.",
+      interiorBody1: interiorParagraphs[0] || "Every surface in Kooffee has been chosen with care.",
       interiorBody2: interiorParagraphs[1] || "We designed the seating to offer choices: communal benches, corner nooks, and a window counter.",
       cityTitle: city.title || "Why Ahmedabad",
       cityBody: city.body || "Ahmedabad is a city of contrasts, a city that knows how to hold both energy and calm.",
       cityQuote: city.data?.quote || "Some cities wake up slowly. We built a place for that.",
       pressTitle: press.title || "Press Inquiries",
-      pressBody: press.body || "Kooffe is a specialty cafe in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection.",
+      pressBody: press.body || "Kooffee is a specialty cafe in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection.",
     }),
     [city, founders, interior, interiorParagraphs, press, story, storyParagraphs],
   );

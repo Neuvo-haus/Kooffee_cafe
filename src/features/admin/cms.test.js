@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
+  groupMenuItemsByCategory,
   isPublishedRow,
   normalizeCafeSections,
+  normalizeCategoryPayload,
   normalizeHomepageSections,
   normalizeMenuItemPayload,
   normalizeReservationUpdate,
   normalizeSiteBasicsPayload,
   normalizeTestimonialUpdate,
+  toPublicMenuSections,
   toMomentPublicAsset,
 } from "./cms";
 
@@ -19,6 +22,9 @@ describe("admin cms helpers", () => {
         description: " House espresso with saffron ",
         price: "320",
         dietary_tags: "vegetarian, signature",
+        image_url: " https://cdn.example/saffron.jpg ",
+        image_position_x: "25",
+        image_position_y: "65",
         is_available: true,
         status: "published",
         sort_order: "4",
@@ -29,9 +35,110 @@ describe("admin cms helpers", () => {
       description: "House espresso with saffron",
       price_inr: 320,
       dietary_tags: ["vegetarian", "signature"],
+      image_url: "https://cdn.example/saffron.jpg",
+      image_position_x: 25,
+      image_position_y: 65,
       is_available: true,
       status: "published",
       sort_order: 4,
+    });
+  });
+
+  it("normalizes menu category media fields for Supabase writes", () => {
+    expect(
+      normalizeCategoryPayload({
+        name: " Coffee ",
+        description: " Espresso and slow brews ",
+        image_url: " https://cdn.example/coffee.jpg ",
+        video_url: " https://cdn.example/coffee.mp4 ",
+        image_position_x: "40",
+        image_position_y: "70",
+        sort_order: "2",
+        status: "published",
+      }),
+    ).toEqual({
+      name: "Coffee",
+      slug: "coffee",
+      description: "Espresso and slow brews",
+      image_url: "https://cdn.example/coffee.jpg",
+      video_url: "https://cdn.example/coffee.mp4",
+      image_position_x: 40,
+      image_position_y: 70,
+      sort_order: 2,
+      status: "published",
+    });
+  });
+
+  it("keeps category media on public menu groups", () => {
+    expect(
+      groupMenuItemsByCategory(
+        [
+          {
+            id: "cat-1",
+            name: "Coffee",
+            status: "published",
+            sort_order: 1,
+            image_url: "https://cdn.example/coffee.jpg",
+            video_url: "https://cdn.example/coffee.mp4",
+          },
+        ],
+        [
+          {
+            id: "item-1",
+            category_id: "cat-1",
+            name: "Latte",
+            status: "published",
+            sort_order: 1,
+            image_url: "https://cdn.example/latte.jpg",
+          },
+        ],
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        image_url: "https://cdn.example/coffee.jpg",
+        video_url: "https://cdn.example/coffee.mp4",
+        items: [
+          expect.objectContaining({
+            image_url: "https://cdn.example/latte.jpg",
+          }),
+        ],
+      }),
+    ]);
+  });
+
+  it("maps CMS menu categories without reusing hardcoded three-section keys", () => {
+    const sections = toPublicMenuSections(
+      [
+        { id: "cat-1", slug: "coffee", name: "Coffee", items: [{ name: "Latte" }] },
+        { id: "cat-2", slug: "tea", name: "Tea", items: [{ name: "Chai" }] },
+        { id: "cat-3", slug: "food", name: "Food", items: [{ name: "Toast" }] },
+        {
+          id: "cat-4",
+          slug: "desserts",
+          name: "Desserts",
+          image_url: "https://cdn.example/desserts.jpg",
+          items: [{ name: "Cake", image_url: "https://cdn.example/cake.jpg" }],
+        },
+      ],
+      [
+        { key: "coffee", defaultImg: "coffee.jpg", imageMap: { Latte: "latte.jpg" } },
+        { key: "tea", defaultImg: "tea.jpg", imageMap: { Chai: "chai.jpg" }, reverse: true },
+        { key: "food", defaultImg: "food.jpg", imageMap: { Toast: "toast.jpg" } },
+      ],
+    );
+
+    expect(sections.map((section) => section.key)).toEqual([
+      "coffee",
+      "tea",
+      "food",
+      "desserts",
+    ]);
+    expect(sections[3]).toMatchObject({
+      title: "Desserts",
+      defaultImg: "url('https://cdn.example/desserts.jpg')",
+      imageMap: {},
+      reverse: true,
+      caption: "Desserts",
     });
   });
 
@@ -68,6 +175,8 @@ describe("admin cms helpers", () => {
         title: "Quiet afternoon",
         alt_text: "A quiet afternoon table",
         public_url: "https://cdn.example/moment.jpg",
+        image_position_x: 35,
+        image_position_y: 80,
         category: { name: "Quiet Afternoons" },
       }),
     ).toEqual({
@@ -75,6 +184,7 @@ describe("admin cms helpers", () => {
       title: "Quiet afternoon",
       alt: "A quiet afternoon table",
       imageUrl: "https://cdn.example/moment.jpg",
+      imagePosition: "35% 80%",
       category: "QUIET AFTERNOONS",
     });
   });
@@ -136,6 +246,8 @@ describe("admin cms helpers", () => {
         signatureItemBody1: " Rich espresso marked with milk. ",
         signatureItemPrice1: " ₹180 ",
         signatureItemImageUrl1: " https://cdn.example/espresso.jpg ",
+        signatureItemImagePositionX1: "35",
+        signatureItemImagePositionY1: "70",
         offersEyebrow: " This Week ",
         offersTitle: " Slow Hour Offers ",
         offerBadge1: " Mon-Fri ",
@@ -202,6 +314,8 @@ describe("admin cms helpers", () => {
               body: "Rich espresso marked with milk.",
               price: "₹180",
               imageUrl: "https://cdn.example/espresso.jpg",
+              imagePositionX: 35,
+              imagePositionY: 70,
             },
           ],
         },

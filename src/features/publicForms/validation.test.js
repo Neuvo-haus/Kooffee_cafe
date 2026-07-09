@@ -59,6 +59,28 @@ describe("validateReservation", () => {
       requestedTime: "Please choose a time between 7:00 AM and 9:00 PM.",
     });
   });
+
+  it("rejects reservation submissions that trigger bot traps", () => {
+    const result = validateReservation(
+      {
+        customerName: "Aarav Shah",
+        email: "aarav@example.com",
+        phone: "+91 98765 43210",
+        partySize: "4",
+        requestedDate: "2026-07-20",
+        requestedTime: "10:30",
+        website: "https://spam.example",
+        submittedAt: "2026-07-07T10:00:00.000Z",
+      },
+      {
+        today: "2026-07-07",
+        now: new Date("2026-07-07T10:00:01.000Z"),
+      },
+    );
+
+    expect(result.isValid).toBe(false);
+    expect(result.errors.form).toBe("We could not accept this request. Please try again.");
+  });
 });
 
 describe("validateTestimonial", () => {
@@ -96,5 +118,22 @@ describe("validateTestimonial", () => {
       message: "Please share at least 20 characters.",
       consentToPublish: "Please allow us to publish your words before submitting.",
     });
+  });
+
+  it("rejects testimonial submissions that trigger bot traps", () => {
+    const result = validateTestimonial(
+      {
+        customerName: "Mira Patel",
+        rating: "5",
+        message: "The morning light and coffee made this my new reading spot.",
+        consentToPublish: true,
+        website: "https://spam.example",
+        submittedAt: "2026-07-07T10:00:00.000Z",
+      },
+      { now: new Date("2026-07-07T10:00:01.000Z") },
+    );
+
+    expect(result.isValid).toBe(false);
+    expect(result.errors.form).toBe("We could not accept this request. Please try again.");
   });
 });

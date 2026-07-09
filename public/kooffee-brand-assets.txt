@@ -1,0 +1,22 @@
+Kooffee Cafe Brand Assets
+
+Primary name:
+Kooffee Cafe
+
+Short name:
+Kooffee
+
+Preferred spelling:
+Use "Kooffee" in headings, navigation, press copy, and captions.
+
+Primary colors:
+Warm cream: #f5f0e8
+Coffee black: #1c1c1a
+Brass accent: #c4a882
+Deep coffee accent: #8c6d46
+
+Logo:
+Use /logo.svg for the current site logo.
+
+Contact:
+hello@kooffee.in

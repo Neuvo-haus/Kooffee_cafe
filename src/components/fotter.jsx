@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="col-span-1 md:col-span-5 flex flex-col gap-6 md:gap-8 md:pr-10">
           <Link to="/" className="flex flex-col gap-2 w-fit group">
             <h1 className="text-5xl md:text-6xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] group-hover:text-[#C4A882] transition-colors duration-500">
-              Kooffe
+              Kooffee
             </h1>
             <div className="w-8 h-[1px] bg-[rgba(28,28,26,1)] group-hover:w-16 transition-all duration-500"></div>
           </Link>
@@ -80,7 +80,7 @@ const Footer = () => {
             <Link to="/moments" className="hover:text-[#C4A882] transition-colors">Journal / Blog</Link>
             <Link to="/reservations" className="hover:text-[#C4A882] transition-colors">Reserve a Table</Link>
             <a href={CONTACT_LINKS.mediaKit} className="hover:text-[#C4A882] transition-colors">Press & Media</a>
-            <a href={`mailto:${CONTACT.email}?subject=Careers%20at%20Kooffe`} className="hover:text-[#C4A882] transition-colors">Careers</a>
+            <a href={`mailto:${CONTACT.email}?subject=Careers%20at%20Kooffee`} className="hover:text-[#C4A882] transition-colors">Careers</a>
             <Link to="/visits" className="hover:text-[#C4A882] transition-colors">Contact Us</Link>
           </div>
         </div>
@@ -108,7 +108,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="w-[90%] md:w-[85%] lg:w-[75%] pt-6 md:pt-8 border-t border-[rgba(226,221,213,1)] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 font-dmsans text-[11px] md:text-xs text-[rgba(140,136,128,1)] relative z-10">
-        <p className="tracking-wide">© {new Date().getFullYear()} Kooffe Cafe. All rights reserved.</p>
+        <p className="tracking-wide">© {new Date().getFullYear()} Kooffee Cafe. All rights reserved.</p>
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 tracking-wide">
           <span className="uppercase text-[rgba(140,136,128,0.8)]">Privacy (Coming Soon)</span>
           <span className="uppercase text-[rgba(140,136,128,0.8)]">Terms (Coming Soon)</span>

@@ -3,7 +3,7 @@ import { motion as Motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import { submitReservationRequest } from "../services/publicForms";
 
-const initialValues = {
+const createInitialValues = () => ({
   customerName: "",
   email: "",
   phone: "",
@@ -12,10 +12,15 @@ const initialValues = {
   requestedTime: "09:00",
   occasion: "",
   notes: "",
-};
+  website: "",
+  submittedAt: new Date().toISOString(),
+});
 
 const fieldClass =
-  "w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-[rgba(250,247,242,0.7)] px-4 py-3 font-dmsans text-sm text-[rgba(28,28,26,0.9)] outline-none transition focus:border-[#C4A882] focus:bg-white";
+  "w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-[rgba(250,247,242,0.7)] px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
+
+const labelClass =
+  "font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]";
 
 const ErrorText = ({ children }) =>
   children ? (
@@ -23,7 +28,7 @@ const ErrorText = ({ children }) =>
   ) : null;
 
 const ReservationForm = ({ compact = false }) => {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(createInitialValues);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +52,7 @@ const ReservationForm = ({ compact = false }) => {
     const result = await submitReservationRequest(values);
 
     if (result.ok) {
-      setValues(initialValues);
+      setValues(createInitialValues());
       setErrors({});
       setStatus({
         type: "success",
@@ -80,7 +85,18 @@ const ReservationForm = ({ compact = false }) => {
       }`}
     >
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className="sr-only" aria-hidden="true">
+          Website
+          <input
+            value={values.website}
+            onChange={updateField("website")}
+            className="hidden"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </label>
+
+        <label className={labelClass}>
           Name
           <input
             value={values.customerName}
@@ -91,7 +107,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.customerName}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Email
           <input
             value={values.email}
@@ -103,7 +119,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.email}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Phone
           <input
             value={values.phone}
@@ -114,7 +130,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.phone}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Guests
           <input
             value={values.partySize}
@@ -127,7 +143,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.partySize}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Date
           <input
             value={values.requestedDate}
@@ -138,7 +154,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.requestedDate}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Time
           <input
             value={values.requestedTime}
@@ -149,7 +165,7 @@ const ReservationForm = ({ compact = false }) => {
           <ErrorText>{errors.requestedTime}</ErrorText>
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+        <label className={labelClass}>
           Occasion
           <input
             value={values.occasion}
@@ -159,7 +175,7 @@ const ReservationForm = ({ compact = false }) => {
           />
         </label>
 
-        <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)] md:row-span-2">
+        <label className={`${labelClass} md:row-span-2`}>
           Notes
           <textarea
             value={values.notes}
@@ -169,6 +185,10 @@ const ReservationForm = ({ compact = false }) => {
           />
         </label>
       </div>
+
+      {errors.form && (
+        <p className="mt-4 font-dmsans text-sm text-red-700">{errors.form}</p>
+      )}
 
       <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <p className="font-dmsans text-xs leading-relaxed text-[rgba(100,96,88,1)] md:max-w-md">

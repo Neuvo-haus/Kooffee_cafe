@@ -9,6 +9,11 @@ const parseInteger = (value, fallback = 0) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+const parsePercent = (value, fallback = 50) => {
+  const parsed = parseInteger(value, fallback);
+  return Math.min(100, Math.max(0, parsed));
+};
+
 const ensureOneOf = (value, values, message) => {
   if (!values.includes(value)) {
     throw new Error(message);
@@ -48,6 +53,9 @@ export const normalizeMenuItemPayload = (input) => ({
         .split(",")
         .map(trim)
         .filter(Boolean),
+  image_url: trim(input.image_url),
+  image_position_x: parsePercent(input.image_position_x),
+  image_position_y: parsePercent(input.image_position_y),
   is_available: Boolean(input.is_available),
   status: ensureOneOf(input.status, CONTENT_STATUSES, "Unsupported content status."),
   sort_order: parseInteger(input.sort_order),
@@ -60,6 +68,10 @@ export const normalizeCategoryPayload = (input) => ({
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, ""),
   description: trim(input.description),
+  image_url: trim(input.image_url),
+  video_url: trim(input.video_url),
+  image_position_x: parsePercent(input.image_position_x),
+  image_position_y: parsePercent(input.image_position_y),
   sort_order: parseInteger(input.sort_order),
   status: ensureOneOf(input.status || "published", CONTENT_STATUSES, "Unsupported content status."),
 });
@@ -80,6 +92,8 @@ export const normalizeMediaAssetPayload = (input) => ({
   category_id: trim(input.category_id),
   storage_path: trim(input.storage_path),
   public_url: trim(input.public_url),
+  image_position_x: parsePercent(input.image_position_x),
+  image_position_y: parsePercent(input.image_position_y),
   sort_order: parseInteger(input.sort_order),
   status: ensureOneOf(input.status || "draft", CONTENT_STATUSES, "Unsupported content status."),
 });
@@ -127,6 +141,8 @@ const itemFromFields = (input, index) => ({
   body: trim(input[`signatureItemBody${index}`]),
   price: trim(input[`signatureItemPrice${index}`]),
   imageUrl: trim(input[`signatureItemImageUrl${index}`]),
+  imagePositionX: parsePercent(input[`signatureItemImagePositionX${index}`]),
+  imagePositionY: parsePercent(input[`signatureItemImagePositionY${index}`]),
 });
 
 const filledItems = (items) => items.filter((item) => item.title || item.body || item.price || item.imageUrl);
@@ -281,6 +297,7 @@ export const toMomentPublicAsset = (row) => ({
   title: row.title,
   alt: row.alt_text || row.title,
   imageUrl: row.public_url,
+  imagePosition: `${parsePercent(row.image_position_x)}% ${parsePercent(row.image_position_y)}%`,
   category: String(row.category?.name || row.category_name || "Moments").toUpperCase(),
 });
 
@@ -295,3 +312,48 @@ export const groupMenuItemsByCategory = (categories = [], items = []) =>
         .sort((a, b) => a.sort_order - b.sort_order),
     }))
     .filter((category) => category.items.length > 0);
+
+export const toPublicMenuSections = (sections = [], fallbackSections = []) => {
+  const usedKeys = new Set();
+  const toUniqueKey = (section, index) => {
+    const baseKey = trim(section.key || section.slug || section.id || section.name || `section-${index + 1}`)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || `section-${index + 1}`;
+    let key = baseKey;
+    let suffix = 2;
+
+    while (usedKeys.has(key)) {
+      key = `${baseKey}-${suffix}`;
+      suffix += 1;
+    }
+
+    usedKeys.add(key);
+    return key;
+  };
+
+  return sections.map((section, index) => {
+    const fallback = fallbackSections[index] ?? {};
+    const key = toUniqueKey(section, index);
+    const imageMap = section.imageMap || fallback.imageMap || {};
+    const defaultImg = section.image_url
+      ? `url('${section.image_url}')`
+      : section.defaultImg || fallback.defaultImg;
+
+    return {
+      ...fallback,
+      ...section,
+      key,
+      title: section.name || section.title || fallback.title || "Menu",
+      defaultImg,
+      imageMap,
+      caption: section.caption || section.description || fallback.caption || section.name || "Menu",
+      reverse: typeof section.reverse === "boolean"
+        ? section.reverse
+        : typeof fallback.reverse === "boolean"
+          ? fallback.reverse
+          : index % 2 === 1,
+      items: Array.isArray(section.items) ? section.items : [],
+    };
+  });
+};

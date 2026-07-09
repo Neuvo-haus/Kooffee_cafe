@@ -10,16 +10,23 @@ import {
 } from "../services/publicForms";
 import { startTestimonialAutoplay } from "./testimonialCarouselAutoplay";
 
-const initialForm = {
+const testimonialFieldClass =
+  "mt-2 w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
+const testimonialLabelClass =
+  "font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]";
+
+const createInitialForm = () => ({
   customerName: "",
   rating: "5",
   message: "",
   consentToPublish: false,
-};
+  website: "",
+  submittedAt: new Date().toISOString(),
+});
 
 const TestimonialSection = () => {
   const [testimonials, setTestimonials] = useState(fallbackTestimonials);
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState(createInitialForm);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -114,7 +121,7 @@ const TestimonialSection = () => {
     const result = await submitTestimonial(form);
 
     if (result.ok) {
-      setForm(initialForm);
+      setForm(createInitialForm());
       setErrors({});
       setStatus({
         type: "success",
@@ -258,12 +265,23 @@ const TestimonialSection = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+            <label className="sr-only" aria-hidden="true">
+              Website
+              <input
+                value={form.website}
+                onChange={updateField("website")}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </label>
+
+            <label className={testimonialLabelClass}>
               Name
               <input
                 value={form.customerName}
                 onChange={updateField("customerName")}
-                className="mt-2 w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 text-sm outline-none focus:border-[#C4A882]"
+                className={testimonialFieldClass}
               />
               {errors.customerName && (
                 <p className="mt-2 text-xs normal-case tracking-normal text-red-700">
@@ -272,12 +290,12 @@ const TestimonialSection = () => {
               )}
             </label>
 
-            <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)]">
+            <label className={testimonialLabelClass}>
               Rating
               <select
                 value={form.rating}
                 onChange={updateField("rating")}
-                className="mt-2 w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 text-sm outline-none focus:border-[#C4A882]"
+                className={testimonialFieldClass}
               >
                 <option value="5">5 stars</option>
                 <option value="4">4 stars</option>
@@ -292,12 +310,12 @@ const TestimonialSection = () => {
               )}
             </label>
 
-            <label className="font-dmsans text-xs uppercase tracking-[0.2em] text-[rgba(100,96,88,1)] md:col-span-2">
+            <label className={`${testimonialLabelClass} md:col-span-2`}>
               Message
               <textarea
                 value={form.message}
                 onChange={updateField("message")}
-                className="mt-2 min-h-28 w-full resize-none rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 text-sm outline-none focus:border-[#C4A882]"
+                className={`${testimonialFieldClass} min-h-28 resize-none`}
               />
               {errors.message && (
                 <p className="mt-2 text-xs normal-case tracking-normal text-red-700">
@@ -313,11 +331,16 @@ const TestimonialSection = () => {
                 onChange={updateField("consentToPublish")}
                 className="mt-1"
               />
-              I allow Kooffe Cafe to publish this testimonial after review.
+              I allow Kooffee Cafe to publish this testimonial after review.
             </label>
             {errors.consentToPublish && (
               <p className="font-dmsans text-xs text-red-700 md:col-span-2">
                 {errors.consentToPublish}
+              </p>
+            )}
+            {errors.form && (
+              <p className="font-dmsans text-xs text-red-700 md:col-span-2">
+                {errors.form}
               </p>
             )}
 

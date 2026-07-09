@@ -18,13 +18,13 @@ export const fetchPublishedMenu = async (fallback, client = supabaseRest) => {
   const [categories, items] = await Promise.all([
     safeSelect(
       "menu_categories",
-      "select=id,name,slug,description,sort_order,status&status=eq.published&order=sort_order.asc",
+      "select=id,name,slug,description,image_url,video_url,image_position_x,image_position_y,sort_order,status&status=eq.published&order=sort_order.asc",
       [],
       client,
     ),
     safeSelect(
       "menu_items",
-      "select=id,category_id,name,description,price_inr,dietary_tags,image_url,is_available,sort_order,status&status=eq.published&is_available=eq.true&order=sort_order.asc",
+      "select=id,category_id,name,description,price_inr,dietary_tags,image_url,image_position_x,image_position_y,is_available,sort_order,status&status=eq.published&is_available=eq.true&order=sort_order.asc",
       [],
       client,
     ),
@@ -37,7 +37,7 @@ export const fetchPublishedMenu = async (fallback, client = supabaseRest) => {
 export const fetchPublishedMoments = async (fallback, client = supabaseRest) => {
   const rows = await safeSelect(
     "media_assets",
-    "select=id,title,alt_text,caption,public_url,sort_order,status,category:moment_categories(name)&status=eq.published&order=sort_order.asc",
+    "select=id,title,alt_text,caption,public_url,image_position_x,image_position_y,sort_order,status,category:moment_categories(name)&status=eq.published&order=sort_order.asc",
     [],
     client,
   );

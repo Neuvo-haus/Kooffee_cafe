@@ -15,7 +15,10 @@ const toServiceError = (error) => ({
 });
 
 export const submitReservationRequest = async (input, options = {}) => {
-  const validation = validateReservation(input, { today: options.today });
+  const validation = validateReservation(input, {
+    today: options.today,
+    now: options.now,
+  });
 
   if (!validation.isValid) {
     return {
@@ -47,7 +50,7 @@ export const submitReservationRequest = async (input, options = {}) => {
 };
 
 export const submitTestimonial = async (input, options = {}) => {
-  const validation = validateTestimonial(input);
+  const validation = validateTestimonial(input, { now: options.now });
 
   if (!validation.isValid) {
     return {

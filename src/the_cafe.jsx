@@ -34,23 +34,23 @@ const TheCafe = () => {
     const city = getSection(sections, "city");
     const press = getSection(sections, "press");
     const storyParagraphs = paragraphs(story.body, [
-        "Kooffe was born from a simple observation: Ahmedabad moves fast, but its best moments happen slowly. A cup of chai with a stranger. A morning walk along the Sabarmati. The way sunlight hits the old city walls at 7 AM.",
+        "Kooffee was born from a simple observation: Ahmedabad moves fast, but its best moments happen slowly. A cup of chai with a stranger. A morning walk along the Sabarmati. The way sunlight hits the old city walls at 7 AM.",
         "We wanted to create a space that honors that pace — where time is not something you manage, but something you inhabit. Where the coffee is brewed with patience, the food is prepared with intention, and the conversations unfold without urgency.",
     ]);
     const interiorParagraphs = paragraphs(interior.body, [
-        "Every surface in Kooffe has been chosen with care. The reclaimed teak tables came from old Ahmedabad havelis. The ceramic cups are handmade by local artisans in Kheda. The lighting is warm but never dim — bright enough to read, soft enough to dream.",
+        "Every surface in Kooffee has been chosen with care. The reclaimed teak tables came from old Ahmedabad havelis. The ceramic cups are handmade by local artisans in Kheda. The lighting is warm but never dim — bright enough to read, soft enough to dream.",
         "We designed the seating to offer choices: communal benches for the social, corner nooks for the solitary, and a window counter for those who like to watch the world go by. The outdoor area is lined with neem trees, and yes, your dog is welcome there.",
     ]);
     const founderPeople = founders.data?.people?.length ? founders.data.people : [
         {
             name: "Malhar Thakar",
             role: "Co-Founder",
-            bio: "I grew up in the old city, where every lane has a chai stall and every stall has a story. Kooffe is my attempt to build a space where those stories continue — over better coffee, in a quieter room, with a little more intention. This place is personal.",
+            bio: "I grew up in the old city, where every lane has a chai stall and every stall has a story. Kooffee is my attempt to build a space where those stories continue — over better coffee, in a quieter room, with a little more intention. This place is personal.",
         },
         {
             name: "Puja Joshi",
             role: "Co-Founder",
-            bio: "I believe food and drink should nourish more than the body. Every recipe here comes from somewhere — a grandmother's kitchen, a farmer's field, a conversation that changed how I see flavor. Kooffe is where all those threads come together.",
+            bio: "I believe food and drink should nourish more than the body. Every recipe here comes from somewhere — a grandmother's kitchen, a farmer's field, a conversation that changed how I see flavor. Kooffee is where all those threads come together.",
         },
     ];
     const founderImages = [cafeFounderMalhar, cafeFounderPuja];
@@ -177,7 +177,7 @@ const TheCafe = () => {
                     </div>
                     
                     <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[16px] leading-loose text-center relative z-10">
-                        {city.body || "Ahmedabad is a city of contrasts — ancient pol houses next to modern glass towers, street food vendors beside fine dining restaurants, the noise of commerce and the silence of the Sabarmati. It's a city that knows how to hold both energy and calm. Kooffe exists in that calm. We chose this city because it chose us — because there was room here for something quiet, something intentional, something that felt like home."}
+                        {city.body || "Ahmedabad is a city of contrasts — ancient pol houses next to modern glass towers, street food vendors beside fine dining restaurants, the noise of commerce and the silence of the Sabarmati. It's a city that knows how to hold both energy and calm. Kooffee exists in that calm. We chose this city because it chose us — because there was room here for something quiet, something intentional, something that felt like home."}
                     </p>
 
                     <div className="w-[80%] md:w-[60%] h-[1px] bg-gradient-to-r from-transparent via-[#C4A882] to-transparent mt-4 mb-2 opacity-50"></div>
@@ -199,7 +199,7 @@ const TheCafe = () => {
                     </div>
                     
                     <p className="font-dmsans text-[rgba(100,96,88,1)] text-[13px] md:text-[14px] leading-relaxed max-w-[90%] md:max-w-[80%] mt-2">
-                        {press.body || "Kooffe is a specialty café in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection."}
+                        {press.body || "Kooffee is a specialty café in Ahmedabad celebrating slow living, Gujarat heritage ingredients, and meaningful human connection."}
                     </p>
 
                     <Motion.a

@@ -14,7 +14,7 @@ const Visits = () => {
             <div className="w-full flex justify-center px-6 md:px-0 mb-16 md:mb-24">
                 <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col items-center relative gap-10">
                     <div className="w-full flex flex-col items-center text-center gap-4">
-                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Welcome to Kooffe</h6>
+                        <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Welcome to Kooffee</h6>
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-5xl md:text-7xl italic">
                             First Time Here?
                         </h1>
@@ -75,7 +75,7 @@ const Visits = () => {
                             </div>
                             
                             <div className="font-dmsans text-[rgba(28,28,26,0.9)] leading-loose text-[14px]">
-                                Kooffe Cafe<br />
+                                Kooffee Cafe<br />
                                 Ground Floor, Heritage House<br />
                                 Near Law Garden, Navrangpura<br />
                                 Ahmedabad, Gujarat 380001
@@ -196,7 +196,7 @@ const Visits = () => {
                         
                         <div className="hidden md:flex flex-col gap-4 mt-8 p-6 rounded-2xl bg-[rgba(250,247,242,0.8)] border border-[rgba(226,221,213,0.8)]">
                             <h4 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-2xl italic">Have a specific question?</h4>
-                            <a href="mailto:hello@kooffe.in" className="font-dmsans text-[12px] uppercase tracking-widest font-bold text-[#C4A882] hover:text-[rgba(28,28,26,1)] transition-colors">
+                            <a href="mailto:hello@kooffee.in" className="font-dmsans text-[12px] uppercase tracking-widest font-bold text-[#C4A882] hover:text-[rgba(28,28,26,1)] transition-colors">
                                 Drop us an email
                             </a>
                         </div>

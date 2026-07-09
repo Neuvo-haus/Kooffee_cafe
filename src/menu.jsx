@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import CoffeeDivider from "./components/cooffeedivider";
+import { toPublicMenuSections } from "./features/admin/cms";
 import { fetchPublishedMenu } from "./services/publicCms";
 
 // Coffee images
@@ -21,10 +22,11 @@ import menuFoodSourdoughToast from "./assets/menu/menu-food-sourdough-toast.jpeg
 import menuFoodSpicedHandPie from "./assets/menu/menu-food-spiced-hand-pie.jpeg";
 import menuFoodAlmondBiscottiFallback from "./assets/menu/menu-food-almond-biscotti-fallback.jpeg";
 
+const imagePosition = (media = {}) =>
+    `${Number.isFinite(media.image_position_x) ? media.image_position_x : 50}% ${Number.isFinite(media.image_position_y) ? media.image_position_y : 50}%`;
+
 const Menu = () => {
-    const [hoveredCoffee, setHoveredCoffee] = useState(null);
-    const [hoveredTea, setHoveredTea] = useState(null);
-    const [hoveredFood, setHoveredFood] = useState(null);
+    const [hoveredBySection, setHoveredBySection] = useState({});
 
     const defaultCoffeeImg = `url('${menuCoffeeDefault}')`;
     const defaultTeaImg = `url('${menuTeaOldCityChai}')`;
@@ -99,27 +101,26 @@ const Menu = () => {
 
     useEffect(() => {
         fetchPublishedMenu(fallbackMenuSections).then((sections) => {
-            setMenuSections(sections.map((section, index) => ({
-                ...fallbackMenuSections[index % fallbackMenuSections.length],
-                ...section,
-                title: section.name || section.title,
-                items: section.items,
-            })));
+            setMenuSections(toPublicMenuSections(sections, fallbackMenuSections));
         });
     }, [fallbackMenuSections]);
 
-    const hoveredBySection = { coffee: hoveredCoffee, tea: hoveredTea, food: hoveredFood };
-    const hoverSetters = { coffee: setHoveredCoffee, tea: setHoveredTea, food: setHoveredFood };
+    const setHoveredForSection = (sectionKey, itemName) => {
+        setHoveredBySection((current) => ({
+            ...current,
+            [sectionKey]: itemName,
+        }));
+    };
 
-    const bindPreviewHandlers = (setHoveredItem, itemName) => ({
-        onMouseEnter: () => setHoveredItem(itemName),
-        onFocus: () => setHoveredItem(itemName),
-        onClick: () => setHoveredItem(itemName),
-        onTouchStart: () => setHoveredItem(itemName),
+    const bindPreviewHandlers = (sectionKey, itemName) => ({
+        onMouseEnter: () => setHoveredForSection(sectionKey, itemName),
+        onFocus: () => setHoveredForSection(sectionKey, itemName),
+        onClick: () => setHoveredForSection(sectionKey, itemName),
+        onTouchStart: () => setHoveredForSection(sectionKey, itemName),
         onKeyDown: (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                setHoveredItem(itemName);
+                setHoveredForSection(sectionKey, itemName);
             }
         },
     });
@@ -146,35 +147,58 @@ const Menu = () => {
 
             <CoffeeDivider />
 
-            {menuSections.map((section, index) => (
+            {menuSections.map((section, index) => {
+                const hoveredItemName = hoveredBySection[section.key];
+                const hoveredItem = section.items.find((item) => item.name === hoveredItemName);
+                const hoveredImage = hoveredItemName
+                    ? section.imageMap[hoveredItemName] || (hoveredItem?.image_url ? `url('${hoveredItem.image_url}')` : section.defaultImg)
+                    : section.defaultImg;
+                const previewPosition = hoveredItem?.image_url ? imagePosition(hoveredItem) : imagePosition(section);
+                const showCategoryVideo = !hoveredItemName && Boolean(section.video_url);
+                const isStackedItem = section.key === "food" || section.layout === "stacked";
+
+                return (
             <React.Fragment key={section.id || section.key}>
             <div className="w-full flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-0">
                 <div className={`w-full md:w-[80%] flex flex-col ${section.reverse ? "md:flex-row-reverse" : "md:flex-row"} items-start gap-8 md:gap-16`}>
                     {/* Image Side */}
                     <div className="w-full md:w-2/5 flex flex-col gap-4 md:sticky md:top-32 transition-all duration-500">
-                        <div 
-                            className="w-full h-[250px] md:h-[500px] rounded-2xl shadow-sm bg-cover bg-center transition-all duration-500"
-                            style={{ backgroundImage: hoveredBySection[section.key] ? (section.imageMap[hoveredBySection[section.key]] || `url('${section.items.find((item) => item.name === hoveredBySection[section.key])?.image_url}')`) : section.defaultImg }}
-                        ></div>
+                        {showCategoryVideo ? (
+                            <video
+                                className="h-[250px] w-full rounded-2xl object-cover shadow-sm md:h-[500px]"
+                                src={section.video_url}
+                                poster={section.image_url || undefined}
+                                style={{ objectPosition: imagePosition(section) }}
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                            />
+                        ) : (
+                            <div
+                                className="w-full h-[250px] md:h-[500px] rounded-2xl shadow-sm bg-cover bg-center transition-all duration-500"
+                                style={{ backgroundImage: hoveredImage, backgroundPosition: previewPosition }}
+                            ></div>
+                        )}
                         <span className={`font-dmsans text-[rgba(140,136,128,1)] italic text-[13px] transition-all duration-300 ${section.reverse ? "md:text-right" : ""}`}>
-                            {hoveredBySection[section.key] ? `Viewing: ${hoveredBySection[section.key]}` : section.caption}
+                            {hoveredItemName ? `Viewing: ${hoveredItemName}` : section.caption}
                         </span>
                     </div>
 
                     {/* Menu Side */}
-                    <div className="w-full md:w-3/5 flex flex-col gap-8 md:gap-10" onMouseLeave={() => hoverSetters[section.key]?.(null)}>
+                    <div className="w-full md:w-3/5 flex flex-col gap-8 md:gap-10" onMouseLeave={() => setHoveredForSection(section.key, null)}>
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl italic mb-4 md:mb-6">{section.title}</h1>
                         
                         <div className="flex flex-col gap-8 md:gap-12">
                             {section.items.map((item) => (
                                 <div 
                                     key={item.name}
-                                    className={`${section.key === "food" ? "flex flex-col gap-1 md:gap-2" : "flex justify-between items-end"} border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group`}
+                                    className={`${isStackedItem ? "flex flex-col gap-1 md:gap-2" : "flex justify-between items-end"} border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group`}
                                     role="button"
                                     tabIndex={0}
-                                    {...bindPreviewHandlers(hoverSetters[section.key], item.name)}
+                                    {...bindPreviewHandlers(section.key, item.name)}
                                 >
-                                    {section.key === "food" ? (
+                                    {isStackedItem ? (
                                     <>
                                     <div className="flex justify-between items-end">
                                         <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
@@ -199,7 +223,8 @@ const Menu = () => {
             </div>
             {index < menuSections.length - 1 && <CoffeeDivider />}
             </React.Fragment>
-            ))}
+                );
+            })}
             <CoffeeDivider />
 
              {/* SECTION 5: Footer Quote */}

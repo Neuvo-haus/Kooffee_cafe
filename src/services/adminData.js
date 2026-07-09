@@ -13,6 +13,16 @@ import { emailJs } from "./emailJs";
 import { requireAdminSupabase } from "./adminSupabase";
 
 const MEDIA_BUCKET = "kooffee-media";
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+const IMAGE_EXTENSIONS = new Set(["avif", "gif", "jpeg", "jpg", "png", "webp"]);
+const VIDEO_EXTENSIONS = new Set(["mp4", "mov", "webm"]);
+const DEFAULT_DASHBOARD_PRIORITIES = [
+  { label: "Review reservations", path: "/admin/reservations", enabled: true },
+  { label: "Moderate testimonials", path: "/admin/testimonials", enabled: true },
+  { label: "Add menu item", path: "/admin/menu", enabled: true },
+  { label: "Update homepage", path: "/admin/home", enabled: true },
+];
 
 const requireData = ({ data, error }) => {
   if (error) {
@@ -22,8 +32,41 @@ const requireData = ({ data, error }) => {
   return data ?? [];
 };
 
-const updateRow = async (table, id, values, client = requireAdminSupabase()) =>
-  requireData(
+const writeAuditLog = async (
+  client,
+  { action, entityTable, entityId = null, metadata = {} },
+) => {
+  if (entityTable === "audit_log") {
+    return;
+  }
+
+  try {
+    const request = client.from("audit_log");
+
+    if (typeof request.insert !== "function") {
+      return;
+    }
+
+    const { error } = await request.insert({
+      action,
+      entity_table: entityTable,
+      entity_id: entityId,
+      metadata,
+    });
+
+    if (error) {
+      console.warn("Could not write admin audit log:", error.message);
+    }
+  } catch (error) {
+    console.warn(
+      "Could not write admin audit log:",
+      error instanceof Error ? error.message : error,
+    );
+  }
+};
+
+const updateRow = async (table, id, values, client = requireAdminSupabase()) => {
+  const row = requireData(
     await client
       .from(table)
       .update({ ...values, updated_at: new Date().toISOString() })
@@ -31,26 +74,47 @@ const updateRow = async (table, id, values, client = requireAdminSupabase()) =>
       .select()
       .single(),
   );
+  await writeAuditLog(client, {
+    action: "update",
+    entityTable: table,
+    entityId: row.id ?? id,
+    metadata: { fields: Object.keys(values) },
+  });
+  return row;
+};
 
-const upsertRow = async (table, values, client = requireAdminSupabase(), options) =>
-  requireData(await client.from(table).upsert(values, options).select().single());
+const upsertRow = async (table, values, client = requireAdminSupabase(), options) => {
+  const row = requireData(await client.from(table).upsert(values, options).select().single());
+  await writeAuditLog(client, {
+    action: "upsert",
+    entityTable: table,
+    entityId: row.id ?? values.id ?? null,
+    metadata: { fields: Object.keys(values) },
+  });
+  return row;
+};
 
-const deleteRow = async (table, id, client = requireAdminSupabase()) =>
-  (() => {
-    const request = client.from(table).delete().eq("id", id).select("id");
+const deleteRow = async (table, id, client = requireAdminSupabase()) => {
+  const request = client.from(table).delete().eq("id", id).select("id");
 
-    return request.then(({ data, error }) => {
-      if (error) {
-        throw new Error(error.message);
-      }
+  const { data, error } = await request;
 
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error(`No ${table} row was deleted. Check Supabase delete policies.`);
-      }
+  if (error) {
+    throw new Error(error.message);
+  }
 
-      return data;
-    });
-  })();
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error(`No ${table} row was deleted. Check Supabase delete policies.`);
+  }
+
+  await writeAuditLog(client, {
+    action: "delete",
+    entityTable: table,
+    entityId: data[0]?.id ?? id,
+  });
+
+  return data;
+};
 
 const getFileExtension = (fileName) => {
   const extension = String(fileName ?? "").split(".").pop();
@@ -66,6 +130,49 @@ const slugifyFileName = (fileName) =>
     .slice(0, 70) || "image";
 
 const randomSuffix = () => Math.random().toString(36).slice(2, 10);
+
+const inferUploadKind = (file, requestedKind = "image") => {
+  const type = String(file.type ?? "").toLowerCase();
+  const kind = String(requestedKind ?? "").toLowerCase();
+
+  if (kind.includes("video") || type.startsWith("video/")) {
+    return "video";
+  }
+
+  return "image";
+};
+
+const validateUploadFile = (file, kind) => {
+  const extension = getFileExtension(file.name);
+  const type = String(file.type ?? "").toLowerCase();
+  const isImage = kind === "image";
+  const allowedExtensions = isImage ? IMAGE_EXTENSIONS : VIDEO_EXTENSIONS;
+  const maxSize = isImage ? MAX_IMAGE_BYTES : MAX_VIDEO_BYTES;
+  const typeMatches = type
+    ? type.startsWith(isImage ? "image/" : "video/")
+    : allowedExtensions.has(extension);
+
+  if (!typeMatches || !allowedExtensions.has(extension)) {
+    throw new Error(isImage ? "Upload an image file." : "Upload a video file.");
+  }
+
+  if (file.size > maxSize) {
+    throw new Error(isImage ? "Images must be 8 MB or smaller." : "Videos must be 25 MB or smaller.");
+  }
+};
+
+const normalizeDashboardPriorities = (items) => {
+  const normalized = (Array.isArray(items) ? items : [])
+    .map((item) => ({
+      label: String(item?.label ?? "").trim(),
+      path: String(item?.path ?? "").trim(),
+      enabled: item?.enabled !== false,
+    }))
+    .filter((item) => item.label && item.path)
+    .slice(0, 6);
+
+  return normalized.length > 0 ? normalized : DEFAULT_DASHBOARD_PRIORITIES;
+};
 
 export const fetchAdminProfile = async (user, client = requireAdminSupabase()) => {
   const userId = typeof user === "string" ? user : user?.id;
@@ -104,7 +211,7 @@ export const fetchAdminProfile = async (user, client = requireAdminSupabase()) =
 };
 
 export const fetchDashboardStats = async (client = requireAdminSupabase()) => {
-  const [reservations, testimonials, menuDrafts, recentEdits] = await Promise.all([
+  const [reservations, testimonials, menuDrafts, recentEdits, dashboardPriorities] = await Promise.all([
     client.from("reservations").select("id", { count: "exact", head: true }).eq("status", "pending"),
     client.from("testimonials").select("id", { count: "exact", head: true }).eq("status", "pending"),
     client.from("menu_items").select("id", { count: "exact", head: true }).eq("status", "draft"),
@@ -113,6 +220,7 @@ export const fetchDashboardStats = async (client = requireAdminSupabase()) => {
       .select("id,action,entity_table,entity_id,created_at")
       .order("created_at", { ascending: false })
       .limit(6),
+    client.from("site_settings").select("value").eq("key", "dashboard_priorities").maybeSingle(),
   ]);
 
   return {
@@ -120,6 +228,7 @@ export const fetchDashboardStats = async (client = requireAdminSupabase()) => {
     pendingTestimonials: testimonials.count ?? 0,
     draftContent: menuDrafts.count ?? 0,
     recentEdits: requireData(recentEdits),
+    priorities: normalizeDashboardPriorities(dashboardPriorities.data?.value?.items),
   };
 };
 
@@ -156,17 +265,25 @@ export const saveMenuCategory = (input, client = requireAdminSupabase()) =>
 export const saveMenuItem = (input, client = requireAdminSupabase()) =>
   upsertRow("menu_items", normalizeMenuItemPayload(input), client);
 
+export const deleteMenuCategory = (id, client = requireAdminSupabase()) =>
+  deleteRow("menu_categories", id, client);
+
+export const deleteMenuItem = (id, client = requireAdminSupabase()) =>
+  deleteRow("menu_items", id, client);
+
 export const saveMediaAsset = (input, client = requireAdminSupabase()) =>
   upsertRow("media_assets", normalizeMediaAssetPayload(input), client);
 
 export const uploadMediaFile = async (
   file,
-  { client = requireAdminSupabase(), folder = "moments" } = {},
+  { client = requireAdminSupabase(), folder = "moments", kind = "image" } = {},
 ) => {
   if (!file) {
-    throw new Error("Choose an image before uploading.");
+    throw new Error(kind === "video" ? "Choose a video before uploading." : "Choose an image before uploading.");
   }
 
+  const uploadKind = inferUploadKind(file, kind);
+  validateUploadFile(file, uploadKind);
   const extension = getFileExtension(file.name);
   const baseName = slugifyFileName(file.name);
   const storagePath = `${folder}/${baseName}-${randomSuffix()}.${extension}`;
@@ -223,6 +340,16 @@ export const saveSiteSetting = (input, client = requireAdminSupabase()) =>
 
 export const saveSiteBasics = (input, client = requireAdminSupabase()) =>
   saveSiteSetting(normalizeSiteBasicsPayload(input), client);
+
+export const saveDashboardPriorities = (items, client = requireAdminSupabase()) =>
+  saveSiteSetting(
+    {
+      key: "dashboard_priorities",
+      value: { items: normalizeDashboardPriorities(items) },
+      status: "published",
+    },
+    client,
+  );
 
 export const saveAdminProfile = (input, client = requireAdminSupabase()) =>
   upsertRow(
