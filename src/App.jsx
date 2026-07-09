@@ -6,7 +6,7 @@ import TheCafe from "./the_cafe";
 import Visits from "./visits";  
 import Moments from "./moments";  
 import Reservations from "./reservations";  
-import AdminApp from "./admin";
+import AdminApp from "./admin"; 
 import { Routes, Route, useLocation } from "react-router-dom";
 import Footer from "./components/fotter"; 
 import ScrollToTop from "./components/ScrollToTop";
