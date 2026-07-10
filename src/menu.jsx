@@ -126,7 +126,7 @@ const Menu = () => {
     });
 
     return (
-        <div className="w-full relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
+        <div className="w-full min-w-0 relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
             
             {/* SECTION 1: Intro / Quote */}
             <div className="w-full flex flex-col items-center justify-center pt-6 md:pt-10 pb-12 md:pb-16 px-6 md:px-0">
@@ -160,12 +160,12 @@ const Menu = () => {
                 return (
             <React.Fragment key={section.id || section.key}>
             <div className="w-full flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-0">
-                <div className={`w-full md:w-[80%] flex flex-col ${section.reverse ? "md:flex-row-reverse" : "md:flex-row"} items-start gap-8 md:gap-16`}>
+                <div className={`w-full md:w-[86%] lg:w-[80%] flex flex-col ${section.reverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-start gap-8 md:gap-12 lg:gap-16`}>
                     {/* Image Side */}
-                    <div className="w-full md:w-2/5 flex flex-col gap-4 md:sticky md:top-32 transition-all duration-500">
+                    <div className="w-full lg:w-2/5 flex flex-col gap-4 lg:sticky lg:top-32 transition-all duration-500">
                         {showCategoryVideo ? (
                             <video
-                                className="h-[250px] w-full rounded-2xl object-cover shadow-sm md:h-[500px]"
+                                className="h-[260px] w-full rounded-2xl object-cover shadow-sm sm:h-[360px] lg:h-[500px]"
                                 src={section.video_url}
                                 poster={section.image_url || undefined}
                                 style={{ objectPosition: imagePosition(section) }}
@@ -176,7 +176,7 @@ const Menu = () => {
                             />
                         ) : (
                             <div
-                                className="w-full h-[250px] md:h-[500px] rounded-2xl shadow-sm bg-cover bg-center transition-all duration-500"
+                                className="w-full h-[260px] sm:h-[360px] lg:h-[500px] rounded-2xl shadow-sm bg-cover bg-center transition-all duration-500"
                                 style={{ backgroundImage: hoveredImage, backgroundPosition: previewPosition }}
                             ></div>
                         )}
@@ -186,33 +186,33 @@ const Menu = () => {
                     </div>
 
                     {/* Menu Side */}
-                    <div className="w-full md:w-3/5 flex flex-col gap-8 md:gap-10" onMouseLeave={() => setHoveredForSection(section.key, null)}>
+                    <div className="w-full lg:w-3/5 flex flex-col gap-8 md:gap-10" onMouseLeave={() => setHoveredForSection(section.key, null)}>
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl md:text-5xl italic mb-4 md:mb-6">{section.title}</h1>
                         
                         <div className="flex flex-col gap-8 md:gap-12">
                             {section.items.map((item) => (
                                 <div 
                                     key={item.name}
-                                    className={`${isStackedItem ? "flex flex-col gap-1 md:gap-2" : "flex justify-between items-end"} border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group`}
+                                    className={`${isStackedItem ? "flex flex-col gap-1 md:gap-2" : "flex justify-between items-end gap-4"} min-w-0 border-b border-[rgba(226,221,213,0.8)] pb-4 select-none cursor-pointer hover:border-[#C4A882] transition-colors duration-300 group`}
                                     role="button"
                                     tabIndex={0}
                                     {...bindPreviewHandlers(section.key, item.name)}
                                 >
                                     {isStackedItem ? (
                                     <>
-                                    <div className="flex justify-between items-end">
-                                        <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
-                                        <span className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg">₹{item.price_inr}</span>
+                                    <div className="flex justify-between items-end gap-4">
+                                        <h3 className="min-w-0 font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
+                                        <span className="shrink-0 font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg">₹{item.price_inr}</span>
                                     </div>
                                     <p className="font-['Cormorant_Garamond'] text-[rgba(140,136,128,1)] text-base md:text-lg italic">{item.description || item.desc}</p>
                                     </>
                                     ) : (
                                     <>
-                                    <div className="flex flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
+                                    <div className="flex min-w-0 flex-col gap-1 md:gap-2 w-[75%] md:w-[80%]">
                                         <h3 className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg tracking-wide uppercase">{item.name}</h3>
                                         <p className="font-['Cormorant_Garamond'] text-[rgba(140,136,128,1)] text-base md:text-lg italic">{item.description || item.desc}</p>
                                     </div>
-                                    <span className="font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg">₹{item.price_inr}</span>
+                                    <span className="shrink-0 font-dmsans text-[rgba(28,28,26,1)] group-hover:text-[#8C6D46] transition-colors duration-300 text-base md:text-lg">₹{item.price_inr}</span>
                                     </>
                                     )}
                                 </div>

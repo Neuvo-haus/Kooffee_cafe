@@ -56,19 +56,19 @@ const TheCafe = () => {
     const founderImages = [cafeFounderMalhar, cafeFounderPuja];
 
     return (
-        <div className="w-full relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
+        <div className="w-full min-w-0 relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
             
             {/* SECTION 1: Editorial Hero / Our Story */}
             <div className="w-full flex justify-center px-6 md:px-0 mb-20 md:mb-32">
-                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row items-center relative gap-10 md:gap-0">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col lg:flex-row items-center relative gap-10 lg:gap-0">
                     {/* Left: Atmospheric Image */}
-                    <div className="w-full md:w-[55%] h-[400px] md:h-[650px] relative rounded-2xl overflow-hidden shadow-lg group">
+                    <div className="w-full lg:w-[55%] h-[360px] sm:h-[460px] lg:h-[650px] relative rounded-2xl overflow-hidden shadow-lg group">
                         <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeHero}')` }}></div>
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-1000"></div>
                     </div>
                     
                     {/* Right: Glassmorphism Story Card overlapping the image on desktop */}
-                    <div className="w-full md:w-[55%] md:-ml-[10%] relative z-10 p-8 md:p-14 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.92)] backdrop-blur-md shadow-xl flex flex-col gap-6 md:gap-8 hover:shadow-2xl transition-shadow duration-500">
+                    <div className="w-full lg:w-[55%] lg:-ml-[10%] relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.92)] backdrop-blur-md shadow-xl flex flex-col gap-6 md:gap-8 hover:shadow-2xl transition-shadow duration-500">
                         <div className="flex flex-col gap-3">
                             <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">{story.eyebrow || "Our Story"}</h6>
                             <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic leading-tight">
@@ -99,9 +99,9 @@ const TheCafe = () => {
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic">{founders.title || "Founded on Friendship"}</h1>
                     </div>
                     
-                    <div className="flex flex-col md:flex-row gap-8 md:gap-16 w-full justify-center">
+                    <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row gap-8 md:gap-10 lg:gap-16 w-full justify-center">
                         {founderPeople.slice(0, 2).map((person, index) => (
-                        <div key={person.name} className={`w-full md:w-[45%] lg:w-[40%] flex flex-col group select-none cursor-pointer relative ${index === 1 ? "md:mt-20" : ""}`}>
+                        <div key={person.name} className={`w-full lg:w-[40%] flex flex-col group select-none cursor-pointer relative ${index === 1 ? "lg:mt-20" : ""}`}>
                             <div className="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-md relative">
                                 <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('${founderImages[index]}')` }}></div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -125,10 +125,10 @@ const TheCafe = () => {
 
             {/* SECTION 3: Interior Philosophy (Staggered Masonry Layout) */}
             <div className="w-full flex flex-col items-center justify-center py-16 md:py-32 px-6 md:px-0 bg-[#f8f6f2] border-t border-[rgba(226,221,213,0.5)]">
-                <div className="w-full md:w-[85%] lg:w-[80%] flex flex-col md:flex-row items-center gap-12 md:gap-20">
+                <div className="w-full md:w-[85%] lg:w-[80%] flex flex-col lg:flex-row items-center gap-12 md:gap-16 lg:gap-20">
                     
                     {/* Left: Text Content */}
-                    <div className="w-full md:w-[45%] flex flex-col items-start gap-6 md:gap-8">
+                    <div className="w-full lg:w-[45%] flex flex-col items-start gap-6 md:gap-8">
                         <div className="flex flex-col gap-3">
                             <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Interior Philosophy</h6>
                             <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-6xl italic leading-tight mb-2">{interior.title || "The Space Itself"}</h1>
@@ -141,7 +141,7 @@ const TheCafe = () => {
                     </div>
 
                     {/* Right: Staggered Image Composition */}
-                    <div className="w-full md:w-[55%] flex gap-4 md:gap-6 h-[500px] md:h-[700px]">
+                    <div className="w-full lg:w-[55%] flex gap-4 md:gap-6 h-[420px] sm:h-[560px] lg:h-[700px]">
                         {/* Tall Image */}
                         <div className="w-1/2 h-[90%] mt-[10%] rounded-2xl overflow-hidden shadow-lg relative group">
                             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${cafeInteriorCeramics}')` }}></div>
@@ -213,7 +213,7 @@ const TheCafe = () => {
                         DOWNLOAD MEDIA KIT
                     </Motion.a>
 
-                    <div className="flex items-center justify-center gap-6 mt-8 w-[80%] pt-8 border-t border-[rgba(226,221,213,0.6)]">
+                    <div className="flex w-full flex-col items-center justify-center gap-4 mt-8 pt-8 border-t border-[rgba(226,221,213,0.6)] sm:w-[80%] sm:flex-row sm:gap-6">
                         <a href={CONTACT_LINKS.brandAssets} className="flex items-center gap-2 font-dmsans text-[rgba(140,136,128,1)] hover:text-[#C4A882] text-[11px] md:text-xs tracking-widest transition-colors duration-300 uppercase font-bold">
                             <FaExternalLinkAlt className="text-[10px] mb-[1px]" /> Brand Assets
                         </a>

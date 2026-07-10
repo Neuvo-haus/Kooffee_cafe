@@ -85,7 +85,7 @@ const Moments = () => {
     );
 
     return (
-        <div className="w-full relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
+        <div className="w-full min-w-0 relative flex items-center flex-col pb-20 pt-28 md:pt-32 bg-[rgba(245,240,232,1)]">
             
             {/* SECTION 1: Header */}
             <div className="w-full flex flex-col items-center justify-center pt-6 md:pt-10 pb-12 md:pb-16 px-6 md:px-0">
@@ -106,12 +106,12 @@ const Moments = () => {
 
             {/* SECTION 2: Filters */}
             <div className="w-full flex justify-center py-6 md:py-10">
-                <div className="w-[90%] md:w-[70%] flex justify-center flex-wrap gap-3 md:gap-4">
+                <div className="w-[90%] md:w-[78%] lg:w-[70%] flex justify-center flex-wrap gap-3 md:gap-4">
                     {categories.map((cat) => (
                         <button 
                             key={cat}
                             onClick={() => setFilter(cat)}
-                            className={`select-none font-dmsans text-[10px] md:text-xs tracking-[0.1em] md:tracking-[0.2em] py-3 px-6 md:px-8 rounded-full border transition-colors duration-300 font-bold uppercase ${
+                            className={`select-none font-dmsans text-[10px] md:text-xs tracking-[0.08em] sm:tracking-[0.1em] md:tracking-[0.2em] py-3 px-4 sm:px-6 md:px-8 rounded-full border transition-colors duration-300 font-bold uppercase ${
                                 filter === cat 
                                 ? "bg-[rgba(28,28,26,1)] text-white border-[rgba(28,28,26,1)] shadow-md" 
                                 : "bg-[rgba(245,240,232,0.5)] text-[rgba(100,96,88,1)] border-[rgba(226,221,213,0.8)] hover:border-[rgba(28,28,26,0.5)]"
@@ -125,7 +125,7 @@ const Moments = () => {
 
             {/* SECTION 3: Masonry Gallery Grid */}
             {/* Mobile: 2 columns */}
-            <div className="w-[90%] md:hidden flex items-start justify-center gap-4 mb-20 mt-4">
+            <div className="w-[92%] md:hidden flex items-start justify-center gap-3 sm:gap-4 mb-20 mt-4">
                 <div className="flex flex-col gap-4 w-1/2">
                     {mobileCol1.map(renderImageCard)}
                 </div>
@@ -135,7 +135,7 @@ const Moments = () => {
             </div>
 
             {/* Desktop: 3 columns */}
-            <div className="hidden md:flex w-[85%] lg:w-[75%] items-start justify-center gap-6 mb-32 mt-4">
+            <div className="hidden md:flex w-[88%] lg:w-[75%] items-start justify-center gap-5 lg:gap-6 mb-32 mt-4">
                 <div className="flex flex-col gap-6 w-1/3">
                     {col1.map(renderImageCard)}
                 </div>

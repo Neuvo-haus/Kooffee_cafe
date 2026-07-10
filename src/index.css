@@ -1,4 +1,24 @@
 @import "tailwindcss";
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
+  html,
+  body,
+  #root {
+    overflow-x: hidden;
+  }
+}
+
 /* Hide scrollbar for Chrome, Safari */
 ::-webkit-scrollbar {
   display: none;

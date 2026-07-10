@@ -31,12 +31,12 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed z-40 w-full h-20 flex items-center justify-between border-b border-[rgba(226,221,213,0.5)] px-6 md:px-16 lg:px-40 select-none backdrop-blur-2xl">
+      <div className="fixed z-40 w-full h-20 flex items-center justify-between border-b border-[rgba(226,221,213,0.5)] px-5 sm:px-8 md:px-12 lg:px-40 select-none backdrop-blur-2xl">
         <Link 
             to="/" 
             onClick={handleLogoClick}
         >
-          <Logo className="w-28 h-28 md:w-32 md:h-32 " color="currentColor" />
+          <Logo className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 " color="currentColor" />
         </Link>
 
         {/* Desktop Nav */}
@@ -98,7 +98,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-50 bg-[rgba(245,240,232,1)] flex flex-col items-center justify-center"
+            className="fixed inset-0 z-50 bg-[rgba(245,240,232,1)] flex flex-col items-center justify-center px-6"
           >
             <button
               className="absolute top-6 right-6 text-3xl text-[rgba(28,28,26,1)]"
@@ -115,7 +115,7 @@ const Navbar = () => {
               <Logo className="w-24 h-24" color="currentColor" />
             </Link>
 
-            <nav className="flex flex-col items-center gap-8">
+            <nav className="flex flex-col items-center gap-7 sm:gap-8">
               {navItems.map((item, index) => (
                 <NavLink
                   key={index}
@@ -126,7 +126,7 @@ const Navbar = () => {
                 >
                   {({ isActive }) => (
                     <span
-                      className={`font-dmsans text-lg tracking-[0.2em] uppercase transition-all duration-300 ${
+                      className={`font-dmsans text-base tracking-[0.16em] uppercase transition-all duration-300 sm:text-lg sm:tracking-[0.2em] ${
                         isActive
                           ? "text-[rgba(28,28,26,1)] border-b border-[rgba(200,169,110,1)] pb-1"
                           : "text-[rgba(140,136,128,1)]"

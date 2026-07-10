@@ -8,7 +8,7 @@ import { CONTACT, CONTACT_LINKS, SITE_HOURS } from "./config/site";
 
 const Visits = () => {
     return (
-        <div className="w-full relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
+        <div className="w-full min-w-0 relative flex items-center flex-col pb-20 pt-24 md:pt-32 bg-[rgba(245,240,232,1)]">
              
             {/* SECTION 1: Editorial Hero / First Time Here */}
             <div className="w-full flex justify-center px-6 md:px-0 mb-16 md:mb-24">
@@ -23,15 +23,15 @@ const Visits = () => {
                         </p>
                     </div>
 
-                    <div className="w-full flex flex-col md:flex-row items-center gap-10 mt-6">
+                    <div className="w-full flex flex-col lg:flex-row items-center gap-10 mt-6">
                         {/* Left: Atmospheric Image */}
-                        <div className="w-full md:w-[50%] h-[400px] md:h-[600px] relative rounded-2xl overflow-hidden shadow-lg group">
+                        <div className="w-full lg:w-[50%] h-[340px] sm:h-[460px] lg:h-[600px] relative rounded-2xl overflow-hidden shadow-lg group">
                             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop')" }}></div>
                             <div className="absolute inset-0 bg-black/10 transition-colors duration-1000"></div>
                         </div>
                         
                         {/* Right: What to Expect & Where to Sit */}
-                        <div className="w-full md:w-[50%] flex flex-col gap-10 md:pl-8">
+                        <div className="w-full lg:w-[50%] flex flex-col gap-10 lg:pl-8">
                             <div className="flex flex-col gap-6 font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[15px] leading-loose">
                                 <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">The Flow</h3>
                                 <p>Walk in, find a table you like, and settle in. No host stand, no rush. Order at the counter or flag us down when you're ready. Everything on the menu is made fresh, so some things take a few extra minutes — that's the point.</p>
@@ -64,10 +64,10 @@ const Visits = () => {
 
             {/* SECTION 2: Location & Atmosphere (Split Card Design) */}
             <div className="w-full flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-0">
-                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row gap-6 md:gap-8">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col lg:flex-row gap-6 md:gap-8">
                     
                     {/* Location Card */}
-                    <div className="w-full md:w-3/5 p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.6)] shadow-sm flex flex-col md:flex-row justify-between gap-8 md:gap-4 hover:shadow-md transition-shadow">
+                    <div className="w-full lg:w-3/5 p-6 sm:p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[rgba(250,247,242,0.6)] shadow-sm flex flex-col md:flex-row justify-between gap-8 md:gap-6 lg:gap-4 hover:shadow-md transition-shadow">
                         <div className="flex flex-col gap-6 md:w-1/2">
                             <div className="flex flex-col gap-2">
                                 <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">Location</h6>
@@ -92,7 +92,7 @@ const Visits = () => {
                             href={CONTACT_LINKS.map}
                             target="_blank"
                             rel="noreferrer"
-                            className="w-full md:w-[45%] h-[200px] md:h-auto rounded-xl overflow-hidden relative group select-none cursor-pointer border border-[rgba(226,221,213,0.8)] block"
+                            className="w-full md:w-[45%] h-[220px] md:h-auto rounded-xl overflow-hidden relative group select-none cursor-pointer border border-[rgba(226,221,213,0.8)] block"
                         >
                             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop')" }}></div>
                             <div className="absolute inset-0 bg-[#A68F6E]/20 group-hover:bg-transparent transition-colors duration-500"></div>
@@ -104,7 +104,7 @@ const Visits = () => {
                     </div>
 
                     {/* Atmosphere Cues Card */}
-                    <div className="w-full md:w-2/5 p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[#2C2A28] shadow-sm flex flex-col justify-center text-center items-center gap-8 relative overflow-hidden group">
+                    <div className="w-full lg:w-2/5 p-6 sm:p-8 md:p-12 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-[#2C2A28] shadow-sm flex flex-col justify-center text-center items-center gap-8 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-700" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600&auto=format&fit=crop')" }}></div>
                         
                         <div className="relative z-10 flex flex-col gap-2 w-full">
@@ -144,9 +144,9 @@ const Visits = () => {
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic">The Daily Rhythm</h1>
                     </div>
 
-                    <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8 w-full">
+                    <div className="flex flex-col md:grid md:grid-cols-3 lg:flex lg:flex-row justify-center gap-6 md:gap-8 w-full">
                         {/* Hour Card 1 */}
-                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
+                        <div className="w-full lg:w-1/3 p-7 md:p-8 lg:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 text-[rgba(140,136,128,1)]"><FiSunrise /></div>
                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Golden Hour</h3>
                             <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">{SITE_HOURS.goldenHour}</span>
@@ -155,7 +155,7 @@ const Visits = () => {
                             </p>
                         </div>
                         {/* Hour Card 2 */}
-                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(200,169,110,0.4)] bg-[rgba(250,247,242,1)] shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group relative md:-translate-y-4">
+                        <div className="w-full lg:w-1/3 p-7 md:p-8 lg:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(200,169,110,0.4)] bg-[rgba(250,247,242,1)] shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group relative lg:-translate-y-4">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#C4A882] text-white text-[9px] font-dmsans uppercase tracking-widest px-3 py-1 font-bold rounded-b-md">Peak Time</div>
                             <div className="w-16 h-16 rounded-full bg-white border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 mt-2 text-[#C4A882]"><FiCoffee /></div>
                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">The Midday Buzz</h3>
@@ -165,7 +165,7 @@ const Visits = () => {
                             </p>
                         </div>
                         {/* Hour Card 3 */}
-                        <div className="w-full md:w-1/3 p-8 md:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
+                        <div className="w-full lg:w-1/3 p-7 md:p-8 lg:p-10 flex flex-col items-center text-center gap-5 rounded-2xl border border-[rgba(226,221,213,0.8)] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-[rgba(250,247,242,1)] border border-[rgba(226,221,213,0.8)] flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform duration-500 text-[rgba(140,136,128,1)]"><FiMoon /></div>
                             <h3 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-3xl italic">Quiet Evening</h3>
                             <span className="font-dmsans tracking-[0.2em] text-[rgba(200,169,110,1)] text-[11px] uppercase font-bold border-t border-b border-[rgba(200,169,110,0.3)] py-1 px-4">6 PM – 9 PM</span>
@@ -175,7 +175,7 @@ const Visits = () => {
                         </div>
                     </div>
 
-                    <div className="font-dmsans text-[rgba(100,96,88,1)] text-[12px] flex items-center gap-2 border border-[rgba(226,221,213,1)] bg-white rounded-full px-6 py-3 text-center shadow-sm">
+                    <div className="font-dmsans text-[rgba(100,96,88,1)] text-[12px] flex flex-col items-center gap-2 border border-[rgba(226,221,213,1)] bg-white rounded-2xl px-5 py-3 text-center shadow-sm sm:flex-row sm:rounded-full sm:px-6">
                         <IoTimeOutline className="text-sm flex-shrink-0 text-[#C4A882]" /> 
                         Standard hours: Monday-Sunday, <strong className="font-bold text-[rgba(28,28,26,0.9)]">{SITE_HOURS.standard}</strong>
                     </div>
@@ -184,10 +184,10 @@ const Visits = () => {
 
             {/* SECTION 4: Practical Info Menu Style Layout */}
             <div className="w-full flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-0">
-                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col md:flex-row gap-12 md:gap-20">
+                <div className="w-full md:w-[85%] lg:w-[75%] flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-20">
                     
                     {/* Left: Title & Intro */}
-                    <div className="w-full md:w-1/3 flex flex-col gap-6">
+                    <div className="w-full lg:w-1/3 flex flex-col gap-6">
                         <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-xs uppercase">The Details</h6>
                         <h1 className="font-['Cormorant_Garamond'] text-[rgba(28,28,26,1)] text-4xl md:text-5xl italic leading-tight">Practical Information</h1>
                         <p className="font-dmsans text-[rgba(140,136,128,1)] text-[14px] leading-relaxed mt-2">
@@ -203,9 +203,9 @@ const Visits = () => {
                     </div>
 
                     {/* Right: Info List */}
-                    <div className="w-full md:w-2/3 flex flex-col">
+                    <div className="w-full lg:w-2/3 flex flex-col">
                         {/* Info 1 */}
-                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                        <div className="flex gap-4 sm:gap-6 p-4 sm:p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
                             <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><IoCarOutline className="text-[18px]" /></div>
                             <div className="flex flex-col gap-2 w-[85%]">
                                 <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Parking</h4>
@@ -215,7 +215,7 @@ const Visits = () => {
                             </div>
                         </div>
                         {/* Info 2 */}
-                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                        <div className="flex gap-4 sm:gap-6 p-4 sm:p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
                             <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><FiWifi className="text-[16px]" /></div>
                             <div className="flex flex-col gap-2 w-[85%]">
                                 <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Internet Connection</h4>
@@ -225,7 +225,7 @@ const Visits = () => {
                             </div>
                         </div>
                         {/* Info 3 */}
-                        <div className="flex gap-6 p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                        <div className="flex gap-4 sm:gap-6 p-4 sm:p-6 border-b border-[rgba(226,221,213,0.8)] hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
                             <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><FiZap className="text-[16px]" /></div>
                             <div className="flex flex-col gap-2 w-[85%]">
                                 <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Power & Charging</h4>
@@ -235,7 +235,7 @@ const Visits = () => {
                             </div>
                         </div>
                         {/* Info 4 */}
-                        <div className="flex gap-6 p-6 hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
+                        <div className="flex gap-4 sm:gap-6 p-4 sm:p-6 hover:bg-[rgba(250,247,242,0.5)] transition-colors group relative">
                             <div className="w-10 h-10 rounded-full border border-[rgba(226,221,213,0.8)] bg-white flex shrink-0 items-center justify-center text-[rgba(140,136,128,1)] mt-1 group-hover:text-[rgba(28,28,26,1)] group-hover:border-[rgba(28,28,26,0.3)] transition-colors"><IoPawOutline className="text-[18px]" /></div>
                             <div className="flex flex-col gap-2 w-[85%]">
                                 <h4 className="font-dmsans font-bold text-[rgba(28,28,26,1)] text-[14px] uppercase tracking-wide">Pet Policy</h4>

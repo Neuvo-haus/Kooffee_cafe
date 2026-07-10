@@ -5,24 +5,24 @@ import { CONTACT, CONTACT_LINKS, SITE_HOURS } from "../config/site";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative flex flex-col items-center pt-24 md:pt-32 pb-8 md:pb-12 border-t border-[rgba(226,221,213,0.5)] overflow-hidden">
+    <footer className="w-full min-w-0 relative flex flex-col items-center pt-20 md:pt-32 pb-8 md:pb-12 border-t border-[rgba(226,221,213,0.5)] overflow-hidden">
       
       {/* Decorative large background text */}
       <div className="hidden md:block absolute top-10 left-1/2 -translate-x-1/2 text-[15vw] font-['Cormorant_Garamond'] italic text-[rgba(226,221,213,0.3)] whitespace-nowrap pointer-events-none select-none z-0">
         Slow down.
       </div>
 
-      <div className="w-[90%] md:w-[85%] lg:w-[75%] grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16 md:mb-24 relative z-10">
+      <div className="w-[90%] md:w-[85%] lg:w-[75%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-8 mb-16 md:mb-24 relative z-10">
         
         {/* Brand Column (Larger) */}
-        <div className="col-span-1 md:col-span-5 flex flex-col gap-6 md:gap-8 md:pr-10">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-5 flex flex-col gap-6 md:gap-8 lg:pr-10">
           <Link to="/" className="flex flex-col gap-2 w-fit group">
             <h1 className="text-5xl md:text-6xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] group-hover:text-[#C4A882] transition-colors duration-500">
               Kooffee
             </h1>
             <div className="w-8 h-[1px] bg-[rgba(28,28,26,1)] group-hover:w-16 transition-all duration-500"></div>
           </Link>
-          <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[15px] leading-relaxed max-w-[90%]">
+          <p className="font-dmsans text-[rgba(100,96,88,1)] text-[14px] md:text-[15px] leading-relaxed max-w-full sm:max-w-[90%]">
             Specialty coffee, slow mornings, and mindful spaces in the heart of Ahmedabad. We built a place for time to stand still.
           </p>
           <div className="flex gap-4 mt-2">
@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
 
         {/* Navigation Column */}
-        <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
+        <div className="col-span-1 lg:col-span-2 flex flex-col gap-6">
           <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
             Explore
           </h6>
@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
 
         {/* Info Column */}
-        <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
+        <div className="col-span-1 lg:col-span-2 flex flex-col gap-6">
           <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
             Info
           </h6>
@@ -86,7 +86,7 @@ const Footer = () => {
         </div>
 
         {/* Location & Hours Column */}
-        <div className="col-span-1 md:col-span-3 flex flex-col gap-6">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col gap-6">
           <h6 className="font-dmsans tracking-[0.2em] text-[rgba(140,136,128,1)] text-[10px] uppercase font-bold">
             Visit
           </h6>
@@ -107,9 +107,9 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="w-[90%] md:w-[85%] lg:w-[75%] pt-6 md:pt-8 border-t border-[rgba(226,221,213,1)] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 font-dmsans text-[11px] md:text-xs text-[rgba(140,136,128,1)] relative z-10">
-        <p className="tracking-wide">© {new Date().getFullYear()} Kooffee Cafe. All rights reserved.</p>
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8 tracking-wide">
+      <div className="w-[90%] md:w-[85%] lg:w-[75%] pt-6 md:pt-8 border-t border-[rgba(226,221,213,1)] flex flex-col lg:flex-row justify-between items-center gap-6 md:gap-4 font-dmsans text-[11px] md:text-xs text-[rgba(140,136,128,1)] relative z-10">
+        <p className="text-center tracking-wide lg:text-left">© {new Date().getFullYear()} Kooffee Cafe. All rights reserved.</p>
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 tracking-wide text-center">
           <span className="uppercase text-[rgba(140,136,128,0.8)]">Privacy (Coming Soon)</span>
           <span className="uppercase text-[rgba(140,136,128,0.8)]">Terms (Coming Soon)</span>
           <span className="uppercase text-[rgba(140,136,128,0.8)]">Cookies (Coming Soon)</span>

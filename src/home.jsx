@@ -38,11 +38,12 @@ import TestimonialSection from "./components/TestimonialSection";
 import { fetchPublishedSections } from "./services/publicCms";
 
 const getSection = (sections, key) => sections.find((section) => section.key === key) || {};
+export const STICKY_HERO_MEDIA_QUERY = "(min-width: 640px)";
 
 // Home page main component
 const Home = () => {
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isStickyHero = useMediaQuery(STICKY_HERO_MEDIA_QUERY);
   // Ref for scroll container
   const containerRef = useRef(null);
 
@@ -178,29 +179,30 @@ const Home = () => {
   ];
 
   return (
-    <div className="w-full relative flex items-center flex-col pb-20">
+    <div className="w-full min-w-0 relative flex items-center flex-col pb-20">
       {/* ===== MOBILE HERO: Static background image, no scroll animation ===== */}
-      {!isDesktop && (
-      <div className="w-full h-screen relative flex items-center justify-center">
+      {!isStickyHero && (
+      <div className="w-full min-h-[100svh] relative flex items-center justify-center overflow-hidden px-5 pb-12 pt-24 sm:px-10 lg:px-16">
         <img
           src={cafeInteriorMorningLight}
           alt="Morning light inside Kooffee Cafe"
           className="absolute inset-0 h-full w-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(245,240,232,0.94)] via-[rgba(245,240,232,0.76)] to-[rgba(245,240,232,0.24)]" />
 
         {/* Text content */}
-        <div className="relative z-10 w-[85%] flex flex-col justify-center gap-4 pt-10">
+        <div className="relative z-10 flex w-full max-w-2xl flex-col justify-center gap-4">
           <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">{heroContent.eyebrow}</h6>
-          <h1 className="text-4xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] leading-tight">
+          <h1 className="font-['Cormorant_Garamond'] text-[clamp(3rem,8vw,5.75rem)] italic leading-[0.95] text-[rgba(28,28,26,1)]">
             {heroContent.title}
           </h1>
-          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs">{heroContent.subtitle}</h6>
-          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs flex items-center gap-2 flex-wrap">
+          <h6 className="max-w-sm font-dmsans italic text-[rgba(100,96,88,1)] text-sm">{heroContent.subtitle}</h6>
+          <h6 className="font-dmsans italic text-[rgba(100,96,88,1)] text-xs flex items-center gap-2 flex-wrap sm:text-sm">
             <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-2">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
           </h6>
-          <div className="flex items-center gap-4 pt-4 mt-2 flex-wrap">
-            <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
-              <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
+          <div className="flex w-full flex-col items-stretch gap-3 pt-4 mt-2 sm:w-auto sm:flex-row sm:items-center sm:flex-wrap">
+            <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-flex select-none cursor-pointer justify-center px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm">
+              <span className="flex items-center justify-center gap-2 text-xs tracking-[0.14em] font-dmsans uppercase pb-1 sm:tracking-[0.2em]">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
               <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
             </Motion.div>
             <Motion.a
@@ -210,9 +212,9 @@ const Home = () => {
               initial="rest"
               whileHover="hover"
               animate="rest"
-              className="relative inline-block select-none cursor-pointer px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm"
+              className="relative inline-flex select-none cursor-pointer justify-center px-4 py-3 border border-[rgba(28,28,26,0.3)] rounded-full bg-[rgba(245,240,232,0.5)] backdrop-blur-sm"
             >
-              <span className="flex items-center gap-2 text-xs tracking-[0.2em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
+              <span className="flex items-center justify-center gap-2 text-xs tracking-[0.14em] font-dmsans uppercase pb-1 sm:tracking-[0.2em]">GET DIRECTIONS <FaArrowRight /></span>
               <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 bottom-2 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
             </Motion.a>
           </div>
@@ -220,26 +222,26 @@ const Home = () => {
       </div>
       )}
 
-      {/* ===== DESKTOP HERO: Original scroll-driven expanding image animation ===== */}
-      {isDesktop && (
+      {/* ===== TABLET/DESKTOP HERO: Original scroll-driven expanding image animation ===== */}
+      {isStickyHero && (
       <div ref={containerRef} className="w-full h-[300vh] relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {/* Intro Text Section */}
-          <Motion.div style={{ opacity: textOpacity }} className="w-[60%] h-[70%] flex z-10">
-            <div className="w-1/2 h-full flex items-center">
-              <div className="w-full flex flex-col justify-center gap-6">
-                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">{heroContent.eyebrow}</h6>
-                <h1 className="text-6xl lg:text-7xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] leading-tight">
+          <Motion.div style={{ opacity: textOpacity }} className="w-[86%] xl:w-[60%] h-[70%] flex z-10">
+            <div className="w-[48%] xl:w-1/2 h-full flex items-center">
+              <div className="w-full max-w-[26rem] xl:max-w-none flex flex-col items-start justify-center gap-4 xl:gap-6">
+                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-xs xl:text-sm">{heroContent.eyebrow}</h6>
+                <h1 className="font-['Cormorant_Garamond'] text-[clamp(3rem,5.6vw,4.75rem)] xl:text-7xl italic text-[rgba(28,28,26,1)] leading-[0.95] xl:leading-tight">
                   {heroContent.title}
                 </h1>
-                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm">{heroContent.subtitle}</h6>
-                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-sm flex items-center gap-2">
-                  <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-4">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
+                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-xs xl:text-sm">{heroContent.subtitle}</h6>
+                <h6 className="font-dmsans italic text-[rgba(140,136,128,1)] text-xs xl:text-sm flex flex-wrap items-center gap-2">
+                  <CiLocationOn /> Ahmedabad, Gujarat <span className="mx-1 xl:mx-4">|</span> <IoTimeOutline /> {SITE_HOURS.openClose}
                 </h6>
-                <div className="flex items-center gap-10 pt-4 mt-4">
-                  <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
-                    <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
-                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+                <div className="flex flex-col items-start gap-3 pt-2 mt-2 lg:flex-row lg:items-center lg:gap-6 xl:gap-10 xl:pt-4 xl:mt-4">
+                  <Motion.div onClick={() => navigate(heroContent.primaryButtonPath)} initial="rest" whileHover="hover" animate="rest" className="relative inline-flex select-none cursor-pointer justify-center px-4 py-3 xl:px-6 xl:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors">
+                    <span className="flex items-center justify-center gap-2 text-xs xl:text-sm tracking-[0.16em] xl:tracking-[0.3em] font-dmsans uppercase pb-1">{heroContent.primaryButtonLabel} <FaArrowRight /></span>
+                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 xl:left-6 xl:right-6 bottom-2 xl:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
                   </Motion.div>
                   <Motion.a
                     href={CONTACT_LINKS.directions}
@@ -248,10 +250,10 @@ const Home = () => {
                     initial="rest"
                     whileHover="hover"
                     animate="rest"
-                    className="relative inline-block select-none cursor-pointer px-6 py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors"
+                    className="relative inline-flex select-none cursor-pointer justify-center px-4 py-3 xl:px-6 xl:py-4 border border-[rgba(226,221,213,0.8)] rounded-full hover:border-[rgba(200,169,110,0.5)] transition-colors"
                   >
-                    <span className="flex items-center gap-2 text-sm tracking-[0.3em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
-                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-6 right-6 bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
+                    <span className="flex items-center justify-center gap-2 text-xs xl:text-sm tracking-[0.16em] xl:tracking-[0.3em] font-dmsans uppercase pb-1">GET DIRECTIONS <FaArrowRight /></span>
+                    <Motion.div variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="absolute left-4 right-4 xl:left-6 xl:right-6 bottom-2 xl:bottom-3 h-[1px] bg-[rgba(200,169,110,1)] origin-left" />
                   </Motion.a>
                 </div>
               </div>
@@ -291,7 +293,7 @@ const Home = () => {
       {/* SECTION 2: Why People Stay Longer */}
       <div className="w-full h-fit mt-16 md:mt-30 flex gap-6 md:gap-10 flex-col items-center justify-center relative z-30 px-6 md:px-0">
         <h1 className="text-black text-3xl md:text-5xl font-['Cormorant_Garamond'] italic text-center">Why People Stay Longer</h1>
-        <div className="flex flex-col md:flex-row gap-10 md:gap-40 mt-10 md:mt-20">
+        <div className="flex w-full flex-col items-center justify-center gap-10 sm:grid sm:grid-cols-3 md:flex md:flex-row md:justify-center md:gap-16 lg:gap-40 mt-10 md:mt-20">
           {stayCards.map((card) => (
             <div key={card.title} className="h-auto md:h-60 w-full md:w-80 flex gap-3 flex-col items-center relative">
               <div className="h-20 w-20 rounded-full bg-cover bg-center relative overflow-hidden" style={{ backgroundImage: `url(${card.img})` }}>
@@ -340,9 +342,9 @@ const Home = () => {
       <div className="w-full flex items-center relative flex-col gap-5 mt-10 px-6 md:px-0">
         <h6 className="font-dmsans text-[rgba(140,136,128,1)] font-light text-1xl">DAILY RITUAL</h6>
         <h1 className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-3xl md:text-5xl text-center">The Rhythm of the Day</h1>
-        <div className="w-full md:w-[70%] flex flex-col md:flex-row items-center justify-between p-3 gap-4 md:gap-3">
+        <div className="w-full md:w-[85%] lg:w-[70%] flex flex-col sm:grid sm:grid-cols-3 md:flex md:flex-row items-stretch md:items-center justify-between p-0 sm:p-3 gap-4 md:gap-3">
           {dailyBlocks.map((block) => (
-            <div key={block.title} className="w-full md:w-100 h-auto md:h-80 rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-6 md:px-10 text-start">
+            <div key={block.title} className="w-full md:w-100 h-full md:h-80 rounded-2xl border border-[rgba(226,221,213,1)] flex flex-col justify-center gap-3 p-5 px-6 md:px-8 lg:px-10 text-start">
               {block.icon}
               <h2 className="text-start text-[rgba(28,28,26,1)] font-medium">{block.title}</h2>
               <h6 className="text-sm md:text-base">{block.desc}</h6>
@@ -358,10 +360,10 @@ const Home = () => {
       <div className="w-[90%] md:w-[80%] flex items-center relative flex-col gap-5 mt-10">
         <div className="font-dmsans text-[rgba(140,136,128,1)] font-light text-1xl">{signatureSection.eyebrow || "SIGNATURE OFFERING"}</div>
         <div className="font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] font-medium text-3xl md:text-5xl text-center">{signatureSection.title || "What We Serve"}</div>
-        <div className="w-full h-fit grid grid-cols-2 md:grid-cols-4 gap-5 p-2 md:p-5">
+        <div className="w-full h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 p-2 md:p-5">
           {menuCards.map((card, i) => (
             <div key={i} className="w-full h-full flex justify-around items-center flex-col gap-4 p-3 md:p-5">
-              <div className="w-full h-40 md:h-70 bg-black rounded-2xl bg-cover bg-center" style={{ backgroundImage: `url(${card.img})` }}></div>
+              <div className="w-full h-56 sm:h-48 md:h-60 lg:h-70 bg-black rounded-2xl bg-cover bg-center" style={{ backgroundImage: `url(${card.img})` }}></div>
               <div className="flex flex-col justify-around gap-2 md:gap-3 w-full">
                 <h1 className="text-[rgba(28,28,26,1)] font-medium font-['Cormorant_Garamond'] italic text-2xl md:text-3xl">{card.title}</h1>
                 <h6 className="text-[rgba(140,136,128,1)] text-xs md:text-base">{card.desc}</h6>
@@ -379,19 +381,19 @@ const Home = () => {
 
       {/* SECTION 5: Our Space */}
       <div className="w-full py-16 md:py-32 flex flex-col items-center px-6 md:px-0">
-        <div className="w-full md:w-[80%] flex flex-col md:flex-row justify-between items-start gap-6">
+        <div className="w-full md:w-[85%] lg:w-[80%] flex flex-col lg:flex-row justify-between items-start gap-6">
           <div className="flex flex-col gap-4">
             <h6 className="font-dmsans tracking-[0.3em] text-xs md:text-sm text-[rgba(140,136,128,1)]">OUR SPACE</h6>
             <h1 className="text-4xl md:text-7xl font-['Cormorant_Garamond'] italic text-[rgba(28,28,26,1)] leading-tight">Modern Local Kitchen</h1>
           </div>
-          <p className="max-w-full md:max-w-125 text-sm md:text-lg leading-relaxed text-[rgba(140,136,128,1)] mt-0 md:mt-10">
+          <p className="max-w-full lg:max-w-125 text-sm md:text-lg leading-relaxed text-[rgba(140,136,128,1)] mt-0 lg:mt-10">
             We operate at the intersection of tradition and innovation. Using heritage techniques to celebrate local Gujarat produce, we craft visions that nourish both the palate and the spirit.
           </p>
         </div>
-        <div className="w-full md:w-[80%] mt-12 md:mt-24 grid grid-cols-2 md:grid-cols-3 grid-rows-auto md:grid-rows-3 gap-4 md:gap-8">
+        <div className="w-full md:w-[85%] lg:w-[80%] mt-12 md:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-auto lg:grid-rows-3 gap-4 md:gap-8">
           {spaceImages.map((img, i) => (
             <div key={i} className={`rounded-2xl overflow-hidden ${img.className || ""}`}>
-              <div className={img.className?.includes("row-span-2") ? "w-full h-full min-h-[200px] md:min-h-0 bg-cover bg-center" : "w-full h-36 md:h-52 bg-cover bg-center"} style={{ backgroundImage: `url(${img.img})` }} />
+              <div className={img.className?.includes("row-span-2") ? "w-full h-64 sm:h-full min-h-[220px] lg:min-h-0 bg-cover bg-center" : "w-full h-56 sm:h-44 md:h-52 bg-cover bg-center"} style={{ backgroundImage: `url(${img.img})` }} />
             </div>
           ))}
         </div>
@@ -432,7 +434,7 @@ const Home = () => {
               Ahmedabad, Gujarat 380001
             </div>
 
-            <div className="grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8 font-dmsans text-[12px] md:text-[13px] text-[rgba(140,136,128,1)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8 font-dmsans text-[12px] md:text-[13px] text-[rgba(140,136,128,1)]">
               <div className="flex items-center gap-3">
                 <div className="w-5 h-5 bg-[#4285F4] text-white flex items-center justify-center rounded-sm text-[10px] font-bold">P</div>
                 Street parking available

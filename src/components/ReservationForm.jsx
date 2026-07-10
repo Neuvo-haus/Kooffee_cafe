@@ -17,7 +17,7 @@ const createInitialValues = () => ({
 });
 
 const fieldClass =
-  "w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-[rgba(250,247,242,0.7)] px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
+  "w-full min-w-0 rounded-2xl border border-[rgba(226,221,213,0.9)] bg-[rgba(250,247,242,0.7)] px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
 
 const labelClass =
   "font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]";
@@ -80,7 +80,7 @@ const ReservationForm = ({ compact = false }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`w-full rounded-3xl border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.75)] p-5 shadow-[0_20px_80px_rgba(28,28,26,0.05)] backdrop-blur md:p-8 ${
+      className={`w-full min-w-0 rounded-3xl border border-[rgba(226,221,213,0.9)] bg-[rgba(245,240,232,0.75)] p-4 shadow-[0_20px_80px_rgba(28,28,26,0.05)] backdrop-blur sm:p-5 md:p-8 ${
         compact ? "max-w-4xl" : ""
       }`}
     >
@@ -201,7 +201,7 @@ const ReservationForm = ({ compact = false }) => {
           initial="rest"
           whileHover={isSubmitting ? "rest" : "hover"}
           animate="rest"
-          className="cursor-pointer relative inline-flex w-fit select-none items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
+          className="cursor-pointer relative inline-flex w-full select-none items-center justify-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-5 py-4 font-dmsans text-xs uppercase tracking-[0.16em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit sm:px-6 sm:tracking-[0.25em]"
         >
           <span className="flex items-center gap-3 pb-1">
             {isSubmitting ? "Sending" : "Request Table"} <FaArrowRight />

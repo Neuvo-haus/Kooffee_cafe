@@ -19,10 +19,10 @@ function App() {
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-[rgba(245,240,232,1)]">
+    <div className="min-h-screen w-full min-w-0 flex flex-col bg-[rgba(245,240,232,1)]">
       <ScrollToTop />
       {!isAdminRoute && <Navbar className="absolute top-0 left-0 right-0 z-50" />}
-      <div className={`flex-1 flex justify-center w-full ${isAdminRoute ? "block" : ""}`}>
+      <div className={`flex-1 flex min-w-0 justify-center w-full ${isAdminRoute ? "block" : ""}`}>
         <AnimatePresence mode="wait"> 
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />

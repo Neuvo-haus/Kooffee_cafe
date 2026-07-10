@@ -11,7 +11,7 @@ import {
 import { startTestimonialAutoplay } from "./testimonialCarouselAutoplay";
 
 const testimonialFieldClass =
-  "mt-2 w-full rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
+  "mt-2 w-full min-w-0 rounded-2xl border border-[rgba(226,221,213,0.9)] bg-white/70 px-4 py-3 font-dmsans text-sm font-medium leading-6 text-[rgba(28,28,26,0.9)] outline-none transition placeholder:text-[rgba(140,136,128,0.72)] focus:border-[#C4A882] focus:bg-white";
 const testimonialLabelClass =
   "font-dmsans text-xs font-semibold uppercase tracking-[0.12em] text-[rgba(100,96,88,0.92)]";
 
@@ -151,7 +151,7 @@ const TestimonialSection = () => {
   const scrollTo = (index) => emblaApi?.scrollTo(index);
 
   return (
-    <section className="w-full border-y border-[rgba(226,221,213,0.65)] bg-[rgba(250,247,242,0.42)] px-5 py-16 md:px-8 md:py-24">
+    <section className="w-full min-w-0 border-y border-[rgba(226,221,213,0.65)] bg-[rgba(250,247,242,0.42)] px-4 py-16 sm:px-6 md:px-8 md:py-24">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 md:gap-14">
         <div className="mx-auto flex max-w-3xl flex-col gap-4 text-center">
           <h6 className="font-dmsans text-xs uppercase tracking-[0.24em] text-[#8C6D46]">
@@ -167,7 +167,7 @@ const TestimonialSection = () => {
 
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-4">
-            <div className="font-dmsans text-[10px] font-bold uppercase tracking-[0.24em] text-[#8C6D46]">
+            <div className="font-dmsans text-[10px] font-bold uppercase tracking-[0.16em] text-[#8C6D46] sm:tracking-[0.24em]">
               Testimonials carousel
             </div>
             <div className="hidden items-center gap-2 sm:flex">
@@ -206,7 +206,7 @@ const TestimonialSection = () => {
               {testimonials.map((review) => (
                 <div key={review.id} className="min-w-0 flex-[0_0_100%] pl-4 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
                   <article
-                    className="flex h-full min-h-72 flex-col justify-between rounded-lg border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.82)] p-6 shadow-[0_18px_60px_rgba(28,28,26,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(196,168,130,0.65)] hover:bg-[rgba(250,247,242,0.96)] md:min-h-80 md:p-8"
+                    className="flex h-full min-h-72 min-w-0 flex-col justify-between rounded-lg border border-[rgba(196,168,130,0.32)] bg-[rgba(245,240,232,0.82)] p-5 shadow-[0_18px_60px_rgba(28,28,26,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(196,168,130,0.65)] hover:bg-[rgba(250,247,242,0.96)] sm:p-6 md:min-h-80 md:p-8"
                   >
                     <div className="flex flex-col gap-5">
                       <div className="flex gap-1 text-sm text-[#C4A882]">
@@ -221,8 +221,8 @@ const TestimonialSection = () => {
                     <div className="mt-8">
                       <div className="mb-4 h-px w-full bg-[rgba(196,168,130,0.32)]" />
                       <div className="flex flex-col gap-1 font-dmsans text-xs text-[rgba(100,96,88,1)] sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                        <span className="font-bold uppercase tracking-[0.16em] text-[rgba(28,28,26,0.82)]">{review.customer_name}</span>
-                        <span className="uppercase tracking-[0.14em] text-[rgba(140,136,128,1)]">{review.source}</span>
+                        <span className="min-w-0 break-words font-bold uppercase tracking-[0.12em] text-[rgba(28,28,26,0.82)] sm:tracking-[0.16em]">{review.customer_name}</span>
+                        <span className="min-w-0 break-words uppercase tracking-[0.1em] text-[rgba(140,136,128,1)] sm:tracking-[0.14em]">{review.source}</span>
                       </div>
                     </div>
                   </article>
@@ -250,7 +250,7 @@ const TestimonialSection = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 gap-6 rounded-lg border border-[rgba(196,168,130,0.38)] bg-[rgba(237,233,225,0.82)] p-5 shadow-[0_22px_80px_rgba(28,28,26,0.055)] md:grid-cols-[0.78fr_1.22fr] md:p-8"
+          className="grid min-w-0 grid-cols-1 gap-6 rounded-lg border border-[rgba(196,168,130,0.38)] bg-[rgba(237,233,225,0.82)] p-4 shadow-[0_22px_80px_rgba(28,28,26,0.055)] sm:p-5 md:grid-cols-[0.78fr_1.22fr] md:p-8"
         >
           <div className="flex flex-col gap-4">
             <p className="font-dmsans text-xs uppercase tracking-[0.25em] text-[#8C6D46]">
@@ -360,7 +360,7 @@ const TestimonialSection = () => {
                 initial="rest"
                 whileHover={isSubmitting ? "rest" : "hover"}
                 animate="rest"
-                className="cursor-pointer relative inline-flex w-fit select-none items-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-6 py-4 font-dmsans text-xs uppercase tracking-[0.25em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60"
+                className="cursor-pointer relative inline-flex w-full select-none items-center justify-center gap-3 rounded-full border border-[rgba(28,28,26,0.25)] px-5 py-4 font-dmsans text-xs uppercase tracking-[0.16em] transition hover:border-[#C4A882] disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit sm:px-6 sm:tracking-[0.25em]"
               >
                 <span className="flex items-center gap-3 pb-1">
                   {isSubmitting ? "Sending" : "Send Words"} <FaArrowRight />
