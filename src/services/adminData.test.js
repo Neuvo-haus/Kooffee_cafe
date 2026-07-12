@@ -8,6 +8,7 @@ import {
   saveMenuItem,
   saveAdminProfile,
   saveDashboardPriorities,
+  updateReservation,
   uploadMediaFile,
 } from "./adminData";
 
@@ -316,5 +317,72 @@ describe("admin data services", () => {
     expect(remove).toHaveBeenCalled();
     expect(select).toHaveBeenCalledWith("id");
     expect(client.from).toHaveBeenCalledWith("testimonials");
+  });
+
+  it("updates full reservation details and sends status email on status changes", async () => {
+    const single = vi.fn(async () => ({
+      data: {
+        id: "reservation-1",
+        customer_name: "Aarav Shah",
+        email: "aarav@example.com",
+        status: "confirmed",
+      },
+      error: null,
+    }));
+    const select = vi.fn(() => ({ single }));
+    const eq = vi.fn(() => ({ select }));
+    const update = vi.fn(() => ({ eq }));
+    const auditInsert = vi.fn(async () => ({ data: null, error: null }));
+    const client = {
+      from: vi.fn((table) => (
+        table === "audit_log"
+          ? { insert: auditInsert }
+          : { update }
+      )),
+    };
+    const emailClient = {
+      sendReservationStatusEmail: vi.fn().mockResolvedValue({ skipped: false }),
+    };
+
+    const updated = await updateReservation(
+      {
+        id: "reservation-1",
+        customer_name: "Aarav Shah",
+        email: "aarav@example.com",
+        status: "pending",
+      },
+      {
+        customer_name: " Aarav Shah ",
+        email: " AARAV@EXAMPLE.COM ",
+        phone: " +91 98765 43210 ",
+        party_size: "4",
+        requested_date: "2026-07-20",
+        requested_time: "10:30",
+        occasion: " Birthday ",
+        notes: " Window table ",
+        status: "confirmed",
+        staff_notes: " Deposit received ",
+      },
+      { client, emailClient },
+    );
+
+    expect(updated).toMatchObject({ id: "reservation-1", status: "confirmed" });
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        customer_name: "Aarav Shah",
+        email: "aarav@example.com",
+        phone: "+91 98765 43210",
+        party_size: 4,
+        requested_date: "2026-07-20",
+        requested_time: "10:30",
+        occasion: "Birthday",
+        notes: "Window table",
+        status: "confirmed",
+        staff_notes: "Deposit received",
+      }),
+    );
+    expect(emailClient.sendReservationStatusEmail).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "confirmed" }),
+    );
   });
 });

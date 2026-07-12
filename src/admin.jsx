@@ -715,19 +715,43 @@ const ReservationsAdmin = () => {
     listRows("reservations", (request) => request.select("*").order("requested_date", { ascending: true })),
   );
   const [selected, setSelected] = useState(null);
-  const [status, setStatus] = useState("pending");
-  const [notes, setNotes] = useState("");
+  const [form, setForm] = useState({});
+  const [actionError, setActionError] = useState("");
+
+  const updateForm = (field) => (event) => {
+    setForm((current) => ({
+      ...current,
+      [field]: event.target.value,
+    }));
+  };
 
   const open = (row) => {
     setSelected(row);
-    setStatus(row.status);
-    setNotes(row.staff_notes || "");
+    setActionError("");
+    setForm({
+      customer_name: row.customer_name || "",
+      email: row.email || "",
+      phone: row.phone || "",
+      party_size: String(row.party_size ?? "2"),
+      requested_date: row.requested_date || "",
+      requested_time: String(row.requested_time || "").slice(0, 5),
+      occasion: row.occasion || "",
+      notes: row.notes || "",
+      status: row.status || "pending",
+      staff_notes: row.staff_notes || "",
+    });
   };
 
   const save = async () => {
-    await updateReservation(selected, { status, staff_notes: notes });
-    setSelected(null);
-    reload();
+    setActionError("");
+
+    try {
+      await updateReservation(selected, form);
+      setSelected(null);
+      reload();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Could not save reservation.");
+    }
   };
 
   return (
@@ -745,12 +769,24 @@ const ReservationsAdmin = () => {
       {selected && (
         <Drawer title="Reservation detail" onClose={() => setSelected(null)}>
           <div className="grid gap-4">
-            <p className="text-sm text-[rgba(100,96,88,1)]">{selected.notes || "No guest notes."}</p>
-            <SelectField label="Status" value={status} onChange={(event) => setStatus(event.target.value)}>
+            {actionError && (
+              <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{actionError}</p>
+            )}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField label="Guest name" value={form.customer_name || ""} onChange={updateForm("customer_name")} />
+              <TextField label="Email" type="email" value={form.email || ""} onChange={updateForm("email")} />
+              <TextField label="Phone" value={form.phone || ""} onChange={updateForm("phone")} />
+              <TextField label="Guests" type="number" min="1" max="12" value={form.party_size || ""} onChange={updateForm("party_size")} />
+              <TextField label="Date" type="date" value={form.requested_date || ""} onChange={updateForm("requested_date")} />
+              <TextField label="Time" type="time" value={form.requested_time || ""} onChange={updateForm("requested_time")} />
+            </div>
+            <TextField label="Occasion" value={form.occasion || ""} onChange={updateForm("occasion")} />
+            <TextField label="Guest notes" as="textarea" rows="4" value={form.notes || ""} onChange={updateForm("notes")} />
+            <SelectField label="Status" value={form.status || "pending"} onChange={updateForm("status")}>
               {["pending", "confirmed", "declined", "cancelled"].map((value) => <option key={value}>{value}</option>)}
             </SelectField>
-            <TextField label="Staff notes" as="textarea" rows="5" value={notes} onChange={(event) => setNotes(event.target.value)} />
-            <button className={primaryButton} onClick={save}><FiCheckCircle /> Save status</button>
+            <TextField label="Staff notes" as="textarea" rows="5" value={form.staff_notes || ""} onChange={updateForm("staff_notes")} />
+            <button className={primaryButton} onClick={save}><FiCheckCircle /> Save reservation</button>
           </div>
         </Drawer>
       )}

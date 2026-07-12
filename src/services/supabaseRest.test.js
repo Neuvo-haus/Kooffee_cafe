@@ -101,4 +101,65 @@ describe("createSupabaseRestClient", () => {
       }),
     );
   });
+
+  it("selects rows with additional request headers", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => JSON.stringify([{ id: "reservation-1" }]),
+    });
+    const client = createSupabaseRestClient({
+      url: "https://example.supabase.co",
+      anonKey: "anon-key",
+      fetchImpl: fetchMock,
+    });
+
+    const rows = await client.select(
+      "reservations",
+      "select=*&id=eq.reservation-1",
+      { headers: { "x-reservation-edit-token": "private-token" } },
+    );
+
+    expect(rows).toEqual([{ id: "reservation-1" }]);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://example.supabase.co/rest/v1/reservations?select=*&id=eq.reservation-1",
+      expect.objectContaining({
+        method: "GET",
+        headers: expect.objectContaining({
+          "x-reservation-edit-token": "private-token",
+        }),
+      }),
+    );
+  });
+
+  it("patches rows with additional request headers", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => JSON.stringify([{ id: "reservation-1", status: "cancelled" }]),
+    });
+    const client = createSupabaseRestClient({
+      url: "https://example.supabase.co",
+      anonKey: "anon-key",
+      fetchImpl: fetchMock,
+    });
+
+    const rows = await client.update(
+      "reservations",
+      "id=eq.reservation-1",
+      { status: "cancelled" },
+      { headers: { "x-reservation-edit-token": "private-token" } },
+    );
+
+    expect(rows).toEqual([{ id: "reservation-1", status: "cancelled" }]);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://example.supabase.co/rest/v1/reservations?id=eq.reservation-1",
+      expect.objectContaining({
+        method: "PATCH",
+        headers: expect.objectContaining({
+          Prefer: "return=representation",
+          "x-reservation-edit-token": "private-token",
+        }),
+        body: JSON.stringify({ status: "cancelled" }),
+      }),
+    );
+  });
 });

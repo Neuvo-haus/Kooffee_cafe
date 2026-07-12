@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  validateEditableReservation,
   validateReservation,
   validateTestimonial,
 } from "./validation";
@@ -80,6 +81,33 @@ describe("validateReservation", () => {
 
     expect(result.isValid).toBe(false);
     expect(result.errors.form).toBe("We could not accept this request. Please try again.");
+  });
+
+  it("normalizes customer reservation edits without identity fields", () => {
+    const result = validateEditableReservation(
+      {
+        customerName: "Changed Name",
+        email: "changed@example.com",
+        phone: " +91 90000 00000 ",
+        partySize: "3",
+        requestedDate: "2026-07-21",
+        requestedTime: "11:30",
+        occasion: " Team coffee ",
+        notes: " Please keep the corner table. ",
+        status: "confirmed",
+      },
+      { today: "2026-07-07" },
+    );
+
+    expect(result.isValid).toBe(true);
+    expect(result.values).toEqual({
+      phone: "+91 90000 00000",
+      party_size: 3,
+      requested_date: "2026-07-21",
+      requested_time: "11:30",
+      occasion: "Team coffee",
+      notes: "Please keep the corner table.",
+    });
   });
 });
 

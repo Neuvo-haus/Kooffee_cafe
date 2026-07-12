@@ -121,6 +121,57 @@ export const validateReservation = (input, options = {}) => {
   };
 };
 
+export const validateEditableReservation = (input, options = {}) => {
+  const today = options.today ?? getTodayIso();
+  const maxDate = addUtcDays(today, RESERVATION_LIMITS.maxDaysAhead);
+  const partySize = Number.parseInt(input.partySize, 10);
+  const requestedDate = trimValue(input.requestedDate);
+  const requestedTime = trimValue(input.requestedTime);
+  const requestedMinutes = timeToMinutes(requestedTime);
+
+  const values = {
+    phone: trimValue(input.phone),
+    party_size: partySize,
+    requested_date: requestedDate,
+    requested_time: requestedTime,
+    occasion: trimValue(input.occasion),
+    notes: trimValue(input.notes),
+  };
+
+  const errors = {};
+
+  if (!values.phone) {
+    errors.phone = "Please enter a phone number.";
+  }
+
+  if (
+    !Number.isInteger(partySize) ||
+    partySize < RESERVATION_LIMITS.minPartySize ||
+    partySize > RESERVATION_LIMITS.maxPartySize
+  ) {
+    errors.partySize = "Reservations can be requested for 1 to 12 guests.";
+  }
+
+  if (!requestedDate || requestedDate < today || requestedDate > maxDate) {
+    errors.requestedDate = "Please choose a date within the next 30 days.";
+  }
+
+  if (
+    !requestedTime ||
+    Number.isNaN(requestedMinutes) ||
+    requestedMinutes < RESERVATION_LIMITS.minMinutes ||
+    requestedMinutes > RESERVATION_LIMITS.maxMinutes
+  ) {
+    errors.requestedTime = "Please choose a time between 7:00 AM and 9:00 PM.";
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+    values,
+  };
+};
+
 export const validateTestimonial = (input, options = {}) => {
   const rating = Number.parseInt(input.rating, 10);
   const values = {

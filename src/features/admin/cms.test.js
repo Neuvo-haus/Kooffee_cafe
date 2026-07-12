@@ -145,12 +145,28 @@ describe("admin cms helpers", () => {
   it("normalizes reservation status updates", () => {
     expect(
       normalizeReservationUpdate({
+        customer_name: " Aarav Shah ",
+        email: " AARAV@EXAMPLE.COM ",
+        phone: " +91 98765 43210 ",
+        party_size: "4",
+        requested_date: "2026-07-20",
+        requested_time: "10:30",
+        occasion: " Birthday ",
+        notes: " Window table ",
         status: "confirmed",
-        staff_notes: " Window table ",
+        staff_notes: " Deposit received ",
       }),
     ).toEqual({
+      customer_name: "Aarav Shah",
+      email: "aarav@example.com",
+      phone: "+91 98765 43210",
+      party_size: 4,
+      requested_date: "2026-07-20",
+      requested_time: "10:30",
+      occasion: "Birthday",
+      notes: "Window table",
       status: "confirmed",
-      staff_notes: "Window table",
+      staff_notes: "Deposit received",
     });
   });
 

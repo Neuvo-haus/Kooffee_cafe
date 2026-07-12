@@ -23,6 +23,14 @@ const ensureOneOf = (value, values, message) => {
 };
 
 export const normalizeReservationUpdate = (input) => ({
+  customer_name: trim(input.customer_name),
+  email: trim(input.email).toLowerCase(),
+  phone: trim(input.phone),
+  party_size: parseInteger(input.party_size),
+  requested_date: trim(input.requested_date),
+  requested_time: trim(input.requested_time),
+  occasion: trim(input.occasion),
+  notes: trim(input.notes),
   status: ensureOneOf(
     input.status,
     RESERVATION_STATUSES,

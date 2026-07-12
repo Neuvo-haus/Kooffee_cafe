@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createEmailJsClient } from "./emailJs";
 
 const reservation = {
+  id: "reservation-1",
   customer_name: "Aarav Shah",
   email: "aarav@example.com",
   phone: "+91 98765 43210",
@@ -10,6 +11,8 @@ const reservation = {
   requested_time: "09:30",
   occasion: "Birthday",
   notes: "Window table if possible",
+  status: "pending",
+  edit_url: "https://kooffee.example/reservations/edit/reservation-1?token=private-token",
 };
 
 describe("createEmailJsClient", () => {
@@ -62,6 +65,7 @@ describe("createEmailJsClient", () => {
       user_id: "public_key",
       template_params: {
         to_email: "hey.neuvo@gmail.com",
+        notification_type: "New request",
         customer_name: "Aarav Shah",
         customer_email: "aarav@example.com",
       },
@@ -74,6 +78,7 @@ describe("createEmailJsClient", () => {
         to_email: "aarav@example.com",
         customer_name: "Aarav Shah",
         customer_email: "aarav@example.com",
+        edit_url: "https://kooffee.example/reservations/edit/reservation-1?token=private-token",
       },
     });
   });
@@ -96,5 +101,38 @@ describe("createEmailJsClient", () => {
 
     const adminRequest = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(adminRequest.template_params.to_email).toBe("bookings@kooffee.test");
+  });
+
+  it("reuses the admin template for edit and cancellation notifications", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => "OK",
+    });
+    const client = createEmailJsClient({
+      serviceId: "service_kooffee",
+      publicKey: "public_key",
+      adminTemplateId: "template_admin",
+      customerTemplateId: "template_customer",
+      fetchImpl: fetchMock,
+    });
+
+    await client.sendReservationAdminNotification(reservation, {
+      type: "Customer cancellation",
+      message: "A customer cancelled their pending reservation.",
+    });
+
+    const request = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(request).toMatchObject({
+      service_id: "service_kooffee",
+      template_id: "template_admin",
+      template_params: {
+        to_email: "hey.neuvo@gmail.com",
+        notification_type: "Customer cancellation",
+        notification_message: "A customer cancelled their pending reservation.",
+        reservation_status: "pending",
+        customer_email: "aarav@example.com",
+      },
+    });
   });
 });

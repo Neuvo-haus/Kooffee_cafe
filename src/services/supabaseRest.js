@@ -81,11 +81,24 @@ export const createSupabaseRestClient = ({
         body: JSON.stringify(row),
       });
     },
-    select(table, query = "") {
+    select(table, query = "", { headers = {} } = {}) {
       const suffix = query ? `?${query}` : "";
 
       return request(`${table}${suffix}`, {
         method: "GET",
+        headers,
+      });
+    },
+    update(table, query, row, { headers = {}, returnRepresentation = true } = {}) {
+      const suffix = query ? `?${query}` : "";
+
+      return request(`${table}${suffix}`, {
+        method: "PATCH",
+        headers: {
+          Prefer: returnRepresentation ? "return=representation" : "return=minimal",
+          ...headers,
+        },
+        body: JSON.stringify(row),
       });
     },
     invoke(functionName, body) {

@@ -5,7 +5,8 @@ import Menu from "./menu";
 import TheCafe from "./the_cafe";
 import Visits from "./visits";  
 import Moments from "./moments";  
-import Reservations from "./reservations";   
+import Reservations from "./reservations";  
+import ReservationEdit from "./reservation_edit";
 import AdminApp from "./admin"; 
 import { Routes, Route, useLocation } from "react-router-dom"; 
 import Footer from "./components/fotter"; 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/moments" element={<PageTransition><Moments /></PageTransition>} />
             <Route path="/visits" element={<PageTransition><Visits /></PageTransition>} />
             <Route path="/reservations" element={<PageTransition><Reservations /></PageTransition>} />
+            <Route path="/reservations/edit/:id" element={<PageTransition><ReservationEdit /></PageTransition>} />
             <Route path="/admin/*" element={<AdminApp />} />
           </Routes>
         </AnimatePresence>

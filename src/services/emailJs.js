@@ -21,6 +21,8 @@ const toReservationTemplateParams = (reservation) => ({
   requested_time: reservation.requested_time,
   occasion: reservation.occasion || "-",
   notes: reservation.notes || "-",
+  reservation_status: reservation.status || "pending",
+  edit_url: reservation.edit_url || "",
 });
 
 export const createEmailJsClient = (options) => {
@@ -80,6 +82,28 @@ export const createEmailJsClient = (options) => {
 
   return {
     isConfigured,
+    sendReservationAdminNotification: async (
+      reservation,
+      {
+        type = "New request",
+        message = "A new reservation request has been received.",
+        title = "Kooffee reservation update",
+      } = {},
+    ) => {
+      if (!isConfigured) {
+        return { skipped: true };
+      }
+
+      const templateParams = toReservationTemplateParams(reservation);
+
+      return sendTemplate(config.adminTemplateId, {
+        ...templateParams,
+        to_email: config.reservationAdminEmail,
+        notification_type: type,
+        notification_title: title,
+        notification_message: message,
+      });
+    },
     sendReservationEmails: async (reservation) => {
       if (!isConfigured) {
         return { skipped: true };
@@ -90,6 +114,9 @@ export const createEmailJsClient = (options) => {
       const adminEmail = await sendTemplate(config.adminTemplateId, {
         ...templateParams,
         to_email: config.reservationAdminEmail,
+        notification_type: "New request",
+        notification_title: "New reservation request",
+        notification_message: "A new reservation request has been received.",
       });
 
       const customerEmail = await sendTemplate(
