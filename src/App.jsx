@@ -3,7 +3,7 @@ import Navbar from "./components/navbar";
 import Home from "./home";
 import Menu from "./menu";
 import TheCafe from "./the_cafe";
-import Visits from "./visits";  
+import Visits from "./visits";   
 import Moments from "./moments";  
 import Reservations from "./reservations";  
 import ReservationEdit from "./reservation_edit";
