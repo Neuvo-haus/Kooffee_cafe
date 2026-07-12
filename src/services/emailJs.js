@@ -1,4 +1,5 @@
 const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+const DEFAULT_RESERVATION_ADMIN_EMAIL = "hey.neuvo@gmail.com";
 
 const getViteEnv = () => {
   if (typeof import.meta === "undefined" || !import.meta.env) {
@@ -30,6 +31,7 @@ export const createEmailJsClient = (options) => {
     adminTemplateId = env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
     customerTemplateId = env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID,
     statusTemplateId = env.VITE_EMAILJS_STATUS_TEMPLATE_ID,
+    reservationAdminEmail = env.VITE_RESERVATION_ADMIN_EMAIL,
     fetchImpl = globalThis.fetch,
   } = options ?? {};
   const config = {
@@ -38,6 +40,8 @@ export const createEmailJsClient = (options) => {
     adminTemplateId: trimValue(adminTemplateId),
     customerTemplateId: trimValue(customerTemplateId),
     statusTemplateId: trimValue(statusTemplateId),
+    reservationAdminEmail:
+      trimValue(reservationAdminEmail) || DEFAULT_RESERVATION_ADMIN_EMAIL,
   };
   const hasBaseConfig = Boolean(config.serviceId && config.publicKey);
   const isConfigured = Boolean(
@@ -85,7 +89,7 @@ export const createEmailJsClient = (options) => {
 
       const adminEmail = await sendTemplate(config.adminTemplateId, {
         ...templateParams,
-        to_email: "rshivam993909@gmail.com",
+        to_email: config.reservationAdminEmail,
       });
 
       const customerEmail = await sendTemplate(

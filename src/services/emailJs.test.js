@@ -61,7 +61,7 @@ describe("createEmailJsClient", () => {
       template_id: "template_admin",
       user_id: "public_key",
       template_params: {
-        to_email: "rshivam993909@gmail.com",
+        to_email: "hey.neuvo@gmail.com",
         customer_name: "Aarav Shah",
         customer_email: "aarav@example.com",
       },
@@ -76,5 +76,25 @@ describe("createEmailJsClient", () => {
         customer_email: "aarav@example.com",
       },
     });
+  });
+
+  it("uses the configured reservation admin email", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => "OK",
+    });
+    const client = createEmailJsClient({
+      serviceId: "service_kooffee",
+      publicKey: "public_key",
+      adminTemplateId: "template_admin",
+      customerTemplateId: "template_customer",
+      reservationAdminEmail: "bookings@kooffee.test",
+      fetchImpl: fetchMock,
+    });
+
+    await client.sendReservationEmails(reservation);
+
+    const adminRequest = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(adminRequest.template_params.to_email).toBe("bookings@kooffee.test");
   });
 });
